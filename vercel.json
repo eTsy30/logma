@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd front && npm run build",
+  "buildCommand": "npm run build --prefix ./front",
   "outputDirectory": "front/.next",
   "framework": "nextjs"
 }
