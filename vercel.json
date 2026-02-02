@@ -1,5 +1,9 @@
 {
-  "buildCommand": "npm run build --prefix ./front",
-  "outputDirectory": "front/.next",
-  "framework": "nextjs"
+  "builds": [
+    {
+      "src": "front/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": []
 }
