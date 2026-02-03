@@ -18,7 +18,7 @@ async function bootstrap() {
   // Локальный запуск
   if (process.env.NODE_ENV !== 'production') {
     const port = process.env.PORT || 3001;
-    await app.listen(port);
+    // await app.listen(port);
     console.log(`🚀 Server running locally on http://localhost:${port}`);
   }
 }
