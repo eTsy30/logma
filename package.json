@@ -9,6 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
-  
+  "type": "commonjs",
+  "dependencies": {
+    "@nestjs/mapped-types": "*",
+    "nestjs-config": "^1.4.11"
+  }
 }

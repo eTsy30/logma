@@ -96,3 +96,85 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+LOGMA — ШПАРГАЛКА ПО BACK (NestJS + Prisma)
+🔹 Prisma — 90% повседневной жизни
+🔹 Проверить, что Prisma жив
+npx prisma -v
+
+🔹 Создать миграцию + применить к БД (ОСНОВНАЯ)
+npx prisma migrate dev --name init
+
+
+Используй когда:
+
+добавил / изменил модели
+
+работаешь локально
+
+🔹 Применить миграции БЕЗ интерактива (prod / CI)
+npx prisma migrate deploy
+
+🔹 Сгенерировать Prisma Client вручную
+npx prisma generate
+
+
+Обычно не нужно — migrate dev делает сам.
+
+🔹 Посмотреть БД визуально (очень полезно)
+npx prisma studio
+
+🔹 Подтянуть существующую БД в schema.prisma
+npx prisma db pull
+
+
+Используй ТОЛЬКО если база уже существует.
+
+🔹 Проверить подключение к БД
+npx prisma db execute --stdin < test.sql
+
+
+(редко, но полезно для дебага)
+
+🔹 NestJS — генерация кода
+🔹 Сервис
+nest g service users
+
+🔹 Контроллер
+nest g controller users
+
+🔹 Модуль
+nest g module users
+
+🔹 Resource (CRUD-скелет)
+nest g resource entries
+
+
+💡 Можно отключить тесты:
+
+nest g resource entries --no-spec
+
+🔹 Запуск backend
+🔹 Dev режим
+npm run start:dev
+
+🔹 Production build
+npm run build
+npm run start:prod
+
+🔹 Проверка, что backend ОК
+curl http://localhost:3000
+
+
+или просто открыть в браузере:
+
+http://localhost:3000
+
+🔹 ENV и конфиги
+.env (НЕ коммитится)
+DATABASE_URL=postgresql://...
+PORT=3000
+
+🔹 Git (минимум)
+git status
+git add .
+git commit -m "feat: add initial prisma schema"
