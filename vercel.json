@@ -1,15 +1,18 @@
 {
-  "version": 3,
+  "version": 2,
   "builds": [
     {
-      "src": "back/src/main.ts",
+      "src": "back/dist/src/main.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "front/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "front/dist" }
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "back/src/main.ts"
-    }
+    { "src": "/api/(.*)", "dest": "back/dist/src/main.js" },
+    { "src": "/(.*)", "dest": "front/dist/$1" }
   ]
 }
