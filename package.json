@@ -12,6 +12,7 @@
   "type": "commonjs",
   "dependencies": {
     "@nestjs/mapped-types": "*",
-    "nestjs-config": "^1.4.11"
+    "nestjs-config": "^1.4.11",
+    "serverless-http": "^4.0.0"
   }
 }
