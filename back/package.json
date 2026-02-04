@@ -2,12 +2,14 @@
   "name": "back",
   "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "start": "node dist/src/main.js",
-    "start:dev": "nest start --watch",
-    "postinstall": "prisma generate"
-  },
+ "scripts": {
+  "build": "tsc -p tsconfig.build.json",
+  "start": "node dist/src/main.js",
+  "start:dev": "nest start --watch",
+  "migrate:local": "export LOCAL_DATABASE_URL=$(grep LOCAL_DATABASE_URL .env.local | cut -d '=' -f2) && npx prisma migrate dev --name init",
+  "migrate:neon": "export NEON_DATABASE_URL=$(grep NEON_DATABASE_URL .env.prod | cut -d '=' -f2) && npx prisma migrate dev --name init",
+  "generate": "npx prisma generate"
+},
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",

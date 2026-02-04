@@ -1,17 +1,22 @@
-version: "3.9"
-
 services:
   postgres:
-    image: postgres:16
-    container_name: logma-postgres
-    ports:
-      - "5432:5432"
+    container_name: logma_postgres
+    image: postgres:latest
+    restart: always
     environment:
-      POSTGRES_DB: logma
-      POSTGRES_USER: logma
-      POSTGRES_PASSWORD: logma
+      POSTGRES_USER: logma_user # убедись, что переменные определены в .env
+      POSTGRES_PASSWORD: logma_pass
+      POSTGRES_DB: logma_db # например, nest_course
+    ports:
+      - '5433:5432' # локально 5433, внутри контейнера 5432
     volumes:
-      - logma_pg:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - nestjs-course
 
 volumes:
-  logma_pg:
+  postgres_data:
+
+networks:
+  nestjs-course:
+    driver: bridge

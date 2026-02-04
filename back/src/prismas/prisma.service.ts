@@ -10,9 +10,15 @@ export class PrismaService
   implements OnModuleInit, OnModuleDestroy
 {
   constructor() {
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? process.env.NEON_DATABASE_URL
+        : process.env.LOCAL_DATABASE_URL;
+    console.log('Connecting to DB:', url,process.env.NODE_ENV,process.env.NEON_DATABASE_URL,process.env.LOCAL_DATABASE_URL)
+ 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
+      connectionString: url,
     });
     const adapter = new PrismaPg(pool);
     super({ adapter });
