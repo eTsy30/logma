@@ -4,9 +4,7 @@ import { PrismaService } from './prismas/prisma.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly prisma: PrismaService) {
-    
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   @Get()
   getHello(): string {
@@ -30,10 +28,10 @@ export class AppController {
     }
   }
   @Get('/health-db-test')
-async checkDbTest() {
-  const testUser = await this.prisma.user.create({
-    data: { email: `test_${Date.now()}@local.test` },
-  });
-  return { status: 'ok', created: testUser };
-}
+  async checkDbTest() {
+    const testUser = await this.prisma.user.create({
+      data: { email: `test_${Date.now()}@local.test` },
+    });
+    return { status: 'ok', created: testUser };
+  }
 }

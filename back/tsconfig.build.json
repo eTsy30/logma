@@ -2,13 +2,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": ".",  // теперь весь проект под rootDir
+    "rootDir": ".", // теперь весь проект под rootDir
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "declaration": true,
     "sourceMap": true,
     "removeComments": true
   },
-  "exclude": ["node_modules", "dist","**/*.spec.ts",
-    "**/*.test.ts"]
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"]
 }
