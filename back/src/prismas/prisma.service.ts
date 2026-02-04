@@ -18,7 +18,7 @@ export class PrismaService
  
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const pool = new Pool({
-      connectionString: url,
+      connectionString: process.env.NEON_DATABASE_URL,
     });
     const adapter = new PrismaPg(pool);
     super({ adapter });
