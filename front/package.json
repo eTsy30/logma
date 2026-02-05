@@ -18,8 +18,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "prepare": "if [ \"$NODE_ENV\" != \"production\" ]; then husky install; fi"
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "next": "16.1.6",
