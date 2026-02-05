@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config'; // <- вот это нужно д
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prismas/prisma.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { PrismaModule } from './prismas/prisma.module';
       isGlobal: true, // env доступны везде
     }),
     PrismaModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
