@@ -25,7 +25,7 @@
     "migrate:neon": "export NEON_DATABASE_URL=$(grep NEON_DATABASE_URL .env.production | cut -d '=' -f2) && npx prisma migrate dev --name init",
     "generate": "npx prisma generate",
     "prebuild": "prisma generate",
-    "prepare": "husky",
+    "prepare": "if [ \"$NODE_ENV\" != \"production\" ]; then husky install; fi",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write . && prisma format",
