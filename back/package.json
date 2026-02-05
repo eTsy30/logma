@@ -9,6 +9,9 @@
     ],
     "*.{json,md,yml}": [
       "prettier --write"
+    ],
+    "prisma/schema.prisma": [
+      "prisma format"
     ]
   },
   "scripts": {
@@ -19,28 +22,34 @@
     "prisma:studio": "prisma studio",
     "db:reset": "NODE_ENV=local prisma migrate reset",
     "migrate:local": "export LOCAL_DATABASE_URL=$(grep LOCAL_DATABASE_URL .env.local | cut -d '=' -f2) && npx prisma migrate dev --name init",
-    "migrate:neon": "export NEON_DATABASE_URL=$(grep NEON_DATABASE_URL .env.prod | cut -d '=' -f2) && npx prisma migrate dev --name init",
+    "migrate:neon": "export NEON_DATABASE_URL=$(grep NEON_DATABASE_URL .env.production | cut -d '=' -f2) && npx prisma migrate dev --name init",
     "generate": "npx prisma generate",
     "prebuild": "prisma generate",
     "prepare": "husky",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
+    "format": "prettier --write . && prisma format",
     "format:check": "prettier --check ."
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/jwt": "^11.0.2",
+    "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.6",
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
+    "argon2": "^0.44.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
     "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "helmet": "^8.1.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "pg": "^8.18.0",
     "reflect-metadata": "^0.2.2"
   },
@@ -50,10 +59,13 @@
     "@nestjs/schematics": "^11.0.0",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.7",
+    "@types/passport-jwt": "^4.0.1",
+    "eslint-config-prettier": "^10.1.8",
     "prisma": "^7.3.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.54.0"
+    "typescript-eslint": "^8.54.0",
+    "@types/cookie-parser": "^1.4.10"
   }
 }
