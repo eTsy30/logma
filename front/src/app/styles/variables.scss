@@ -1,0 +1,81 @@
+@use './mixins' as *;
+
+:root {
+  /* ========== Layout ========== */
+  --site-max-width: 1430px;
+  --header-height: 98px;
+  --root-content-padding: 24px;
+
+  /* ========== Spacing ========== */
+  --space-1: 0.4rem;
+  --space-2: 0.8rem;
+  --space-3: 1.2rem;
+  --space-4: 1.6rem;
+  --space-5: 2rem;
+
+  /* ========== Radius ========== */
+  --radius-sm: 0.6rem;
+  --radius-md: 0.8rem;
+  --radius-lg: 1rem;
+  --radius-full: 9999px;
+
+  /* ========== Transitions ========== */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+
+  /* ========== Shadows ========== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-accent: 0 4px 12px rgba(58, 92, 204, 0.25);
+
+  /* ========== Button ========== */
+  --btn-height-sm: 3.2rem;
+  --btn-height-md: 4rem;
+  --btn-height-lg: 4.8rem;
+
+  --btn-padding-sm: 1.2rem;
+  --btn-padding-md: 1.6rem;
+  --btn-padding-lg: 2rem;
+
+  --btn-font-sm: 1.3rem;
+  --btn-font-md: 1.4rem;
+  --btn-font-lg: 1.6rem;
+
+  --btn-radius: var(--radius-md);
+  --btn-gap: 0.8rem;
+  --btn-icon-size: 1.8rem;
+
+  /* ========== Colors (Light) ========== */
+  --color-bg: #f7f6f4;
+  --color-surface: #ffffff;
+  --color-surfaceAlt: #f0efec;
+
+  --color-text: #1c1d20;
+  --color-textMuted: #6e7076;
+  --color-textInverse: #ffffff;
+
+  --color-border: #e2e1dd;
+  --color-borderHover: #d1d0cc;
+
+  --color-accent: #3a5ccc;
+  --color-accentHover: #2f4aa3;
+  --color-accentActive: #243d8a;
+  --color-accentSoft: #e9edff;
+
+  --focus-ring: 0 0 0 3px rgba(58, 92, 204, 0.25);
+
+  /* ========== Status Colors ========== */
+  --color-error: #dc2626;
+  --color-error-light: #fecaca;
+  --color-warning: #ca8a04;
+  --color-warning-light: #fef9c3;
+  --color-success: #16a34a;
+  --color-success-light: #dcfce7;
+
+  /* ========== Password Strength Colors ========== */
+  --color-strength-0: #dc2626;
+  --color-strength-1: #ea580c;
+  --color-strength-2: #ca8a04;
+  --color-strength-3: #16a34a;
+  --color-strength-4: #15803d;
+}

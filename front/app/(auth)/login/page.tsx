@@ -1,0 +1,16 @@
+import { type Metadata } from 'next';
+
+import { getMetadata } from 'shared/lib/metadata';
+import { routes } from 'shared/router/paths';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return getMetadata({
+    title: 'Вход в личный кабинет',
+    description: 'Вход в личный кабинет',
+    url: routes.login,
+  });
+}
+
+export default async function Login() {
+  return '<LoginView />1';
+}

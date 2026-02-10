@@ -1,0 +1,291 @@
+@use './mixins' as *;
+
+// ============================================
+// CineLog Typography System
+// ============================================
+
+// Font Families
+:root {
+  --font-primary:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --font-serif: Georgia, serif;
+  --inter: 'Inter', sans-serif;
+}
+
+// Base Unit (rem) — CineLog система
+:root {
+  --text-10: 1rem; // 10px
+  --text-12: 1.2rem; // 12px
+  --text-14: 1.4rem; // 14px
+  --text-15: 1.5rem; // 15px
+  --text-16: 1.6rem; // 16px
+  --text-18: 1.8rem; // 18px
+  --text-20: 2rem; // 20px
+  --text-24: 2.4rem; // 24px
+  --text-28: 2.8rem; // 28px
+  --text-32: 3.2rem; // 32px
+  --text-36: 3.6rem; // 36px
+  --text-44: 4.4rem; // 44px
+
+  // Алиасы для совместимости с компонентами
+  --text-xs: var(--text-12);
+  --text-sm: var(--text-14);
+  --text-base: var(--text-15);
+  --text-md: var(--text-16);
+  --text-lg: var(--text-18);
+  --text-xl: var(--text-20);
+  --text-2xl: var(--text-24);
+  --text-3xl: var(--text-28);
+  --text-4xl: var(--text-32);
+
+  // Line heights
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+
+  // Font weights
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+}
+
+// ============================================
+// Inter Mixin
+// ============================================
+
+@mixin inter(
+  $size: var(--text-16),
+  $weight: 400,
+  $line-height: calc(1em + 6px),
+  $letter-spacing: 0
+) {
+  font-family: var(--inter);
+  font-size: $size;
+  font-feature-settings: 'ss03', 'cv11';
+  font-weight: $weight;
+  line-height: $line-height;
+  letter-spacing: $letter-spacing;
+}
+
+// ============================================
+// Headings
+// ============================================
+
+@mixin h1-44 {
+  @include inter(var(--text-44), 800, 1.2, -0.02em);
+}
+
+@mixin h2-32 {
+  @include inter(var(--text-32), 800, 1.2, -0.02em);
+}
+
+@mixin h3-24 {
+  @include inter(var(--text-24), 700, 1.3, -0.01em);
+}
+
+@mixin h4-20 {
+  @include inter(var(--text-20), 700, 1.4, 0);
+}
+
+@mixin h5-18 {
+  @include inter(var(--text-18), 700, 1.4, 0);
+}
+
+@mixin h6-16 {
+  @include inter(var(--text-16), 700, 1.5, 0);
+}
+
+// ============================================
+// Body Text
+// ============================================
+
+@mixin body-large {
+  @include inter(var(--text-18), 400, 1.6, 0);
+}
+
+@mixin body {
+  @include inter(var(--text-16), 400, 1.6, 0);
+}
+
+@mixin body-small {
+  @include inter(var(--text-14), 400, 1.5, 0);
+}
+
+// ============================================
+// UI Elements
+// ============================================
+
+@mixin button-text {
+  @include inter(var(--text-15), 600, 1, 0);
+}
+
+@mixin button-small-text {
+  @include inter(var(--text-14), 600, 1, 0);
+}
+
+@mixin caption {
+  @include inter(var(--text-12), 500, 1.4, 0.05em);
+  text-transform: uppercase;
+}
+
+@mixin label {
+  @include inter(var(--text-14), 500, 1.4, 0);
+}
+
+@mixin input-text {
+  @include inter(var(--text-15), 400, 1.5, 0);
+}
+
+@mixin helper-text {
+  @include inter(var(--text-12), 400, 1.4, 0);
+}
+
+@mixin error-text {
+  @include inter(var(--text-12), 500, 1.4, 0);
+}
+
+// ============================================
+// Special
+// ============================================
+
+@mixin logo-text {
+  @include inter(var(--text-24), 700, 1, -0.01em);
+}
+
+@mixin tagline {
+  @include inter(var(--text-15), 400, 1.6, 0);
+  font-style: italic;
+}
+
+@mixin stat-number {
+  @include inter(var(--text-36), 800, 1, -0.02em);
+}
+
+@mixin stat-label {
+  @include inter(var(--text-12), 500, 1.4, 0.05em);
+  text-transform: uppercase;
+}
+
+@mixin movie-title {
+  @include inter(var(--text-14), 700, 1.3, 0);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin movie-meta {
+  @include inter(var(--text-12), 500, 1.4, 0);
+}
+
+@mixin rating {
+  @include inter(var(--text-14), 700, 1, 0);
+}
+
+@mixin year-badge {
+  @include inter(var(--text-12), 700, 1, 0);
+}
+
+// ============================================
+// Component Specific
+// ============================================
+
+@mixin nav-link {
+  @include inter(var(--text-15), 500, 1, 0);
+}
+
+@mixin footer-text {
+  @include inter(var(--text-14), 400, 1.5, 0);
+}
+
+@mixin feature-title {
+  @include inter(var(--text-14), 600, 1.4, 0);
+}
+
+@mixin section-title {
+  @include inter(var(--text-12), 700, 1, 0.05em);
+  text-transform: uppercase;
+}
+
+@mixin hover-note {
+  @include inter(var(--text-14), 400, 1.5, 0);
+  font-style: italic;
+}
+
+@mixin hover-tag {
+  @include inter(var(--text-10), 600, 1, 0.03em);
+  text-transform: uppercase;
+}
+
+// ============================================
+// Responsive (Mobile)
+// ============================================
+
+@mixin h1-44-mobile {
+  @include inter(var(--text-32), 800, 1.2, -0.02em);
+}
+
+@mixin h2-32-mobile {
+  @include inter(var(--text-24), 800, 1.2, -0.01em);
+}
+
+@mixin body-large-mobile {
+  @include inter(var(--text-16), 400, 1.6, 0);
+}
+
+// ============================================
+// Utility Classes
+// ============================================
+
+.text-h1 {
+  @include h1-44;
+}
+.text-h2 {
+  @include h2-32;
+}
+.text-h3 {
+  @include h3-24;
+}
+.text-h4 {
+  @include h4-20;
+}
+.text-h5 {
+  @include h5-18;
+}
+.text-h6 {
+  @include h6-16;
+}
+
+.text-body-lg {
+  @include body-large;
+}
+.text-body {
+  @include body;
+}
+.text-body-sm {
+  @include body-small;
+}
+
+.text-button {
+  @include button-text;
+}
+.text-caption {
+  @include caption;
+}
+.text-label {
+  @include label;
+}
+
+// Responsive utilities
+@include screen-size(mobile) {
+  .text-h1 {
+    @include h1-44-mobile;
+  }
+  .text-h2 {
+    @include h2-32-mobile;
+  }
+  .text-body-lg {
+    @include body-large-mobile;
+  }
+}

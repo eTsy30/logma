@@ -1,0 +1,225 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+}
+
+.label {
+  font-size: var(--btn-font-sm);
+  font-weight: 500;
+  color: var(--color-textMuted);
+
+  &[data-required='true']::after {
+    content: ' *';
+    color: var(--color-accent);
+  }
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  height: var(--btn-height-md);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--btn-font-md);
+  transition:
+    border var(--transition-base),
+    box-shadow var(--transition-base);
+
+  &::placeholder {
+    color: var(--color-textMuted);
+    opacity: 0.7;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: var(--focus-ring);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--color-surfaceAlt);
+  }
+
+  .field[data-size='sm'] & {
+    height: var(--btn-height-sm);
+    padding: 0 var(--btn-padding-sm);
+    font-size: var(--btn-font-sm);
+  }
+
+  .field[data-size='md'] & {
+    height: var(--btn-height-md);
+    padding: 0 var(--btn-padding-md);
+    font-size: var(--btn-font-md);
+  }
+
+  .field[data-size='lg'] & {
+    height: var(--btn-height-lg);
+    padding: 0 var(--btn-padding-lg);
+    font-size: var(--btn-font-lg);
+  }
+}
+
+.icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--btn-icon-size);
+  height: var(--btn-icon-size);
+  color: var(--color-textMuted);
+  pointer-events: none;
+  z-index: 1;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.iconLeft {
+  left: var(--space-2);
+}
+
+.iconRight {
+  right: var(--space-2);
+}
+
+.hasIconLeft {
+  padding-left: calc(var(--space-3) + var(--btn-icon-size) + var(--space-1)) !important;
+}
+
+.hasIconRight {
+  padding-right: calc(var(--space-3) + var(--btn-icon-size) + var(--space-1)) !important;
+}
+
+.togglePassword {
+  position: absolute;
+  right: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--btn-height-md) - var(--space-2));
+  height: calc(var(--btn-height-md) - var(--space-2));
+  border: none;
+  background: transparent;
+  color: var(--color-textMuted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  z-index: 2;
+
+  &:hover {
+    color: var(--color-text);
+    background: var(--color-surfaceAlt);
+  }
+
+  svg {
+    width: var(--btn-icon-size);
+    height: var(--btn-icon-size);
+  }
+}
+
+.passwordInput {
+  padding-right: calc(var(--space-3) + var(--btn-icon-size) + var(--space-2)) !important;
+}
+
+.textarea {
+  height: auto;
+  min-height: 10rem;
+  padding: var(--space-2);
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.5;
+
+  &[data-resize='none'] {
+    resize: none;
+  }
+
+  &[data-resize='horizontal'] {
+    resize: horizontal;
+  }
+
+  &[data-resize='both'] {
+    resize: both;
+  }
+}
+
+.helper {
+  font-size: var(--btn-font-sm);
+  color: var(--color-textMuted);
+  line-height: 1.4;
+  margin-top: var(--space-1);
+}
+
+.error {
+  font-size: var(--btn-font-sm);
+  color: var(--color-error, #dc2626);
+  line-height: 1.4;
+  margin-top: var(--space-1);
+}
+
+.strengthMeter {
+  margin-top: var(--space-1);
+}
+
+.strengthBar {
+  height: 4px;
+  border-radius: var(--radius-sm);
+  background: var(--color-border);
+  overflow: hidden;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-base);
+  }
+}
+
+.strengthText {
+  display: block;
+  font-size: var(--btn-font-sm);
+  margin-top: var(--space-1);
+  color: var(--color-textMuted);
+}
+
+.strengthMeter[data-strength='0'] .strengthBar::after {
+  width: 20%;
+  background: var(--color-strength-0, #dc2626);
+}
+
+.strengthMeter[data-strength='1'] .strengthBar::after {
+  width: 40%;
+  background: var(--color-strength-1, #ea580c);
+}
+
+.strengthMeter[data-strength='2'] .strengthBar::after {
+  width: 60%;
+  background: var(--color-strength-2, #ca8a04);
+}
+
+.strengthMeter[data-strength='3'] .strengthBar::after {
+  width: 80%;
+  background: var(--color-strength-3, #16a34a);
+}
+
+.strengthMeter[data-strength='4'] .strengthBar::after {
+  width: 100%;
+  background: var(--color-strength-4, #15803d);
+}

@@ -1,0 +1,19 @@
+@use 'styles/index' as *;
+.footer {
+  align-items: center;
+  gap: 3rem;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0 24px 0 16px;
+  height: 5.7rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-textMuted);
+
+  @include screen-size(mobile) {
+    gap: 1.5rem;
+  }
+  &__title {
+    @include body();
+  }
+}

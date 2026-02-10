@@ -1,0 +1,19 @@
+html[data-theme='dark'] {
+  --color-bg: #0f1218;
+  --color-surface: #161a22;
+  --color-surfaceAlt: #1b2030;
+
+  --color-text: #e7e9ed;
+  --color-textMuted: #9aa0ae;
+  --color-textInverse: #0f1218;
+
+  --color-border: #242a38;
+  --color-borderHover: #2f3646;
+
+  --color-accent: #5f7dff;
+  --color-accentHover: #7f9fff;
+  --color-accentActive: #91a7ff;
+  --color-accentSoft: #1f2a4d;
+
+  --focus-ring: 0 0 0 3px rgba(95, 125, 255, 0.35);
+}

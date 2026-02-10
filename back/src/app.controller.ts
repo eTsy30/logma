@@ -22,12 +22,4 @@ export class AppController {
       return { status: 'error', message: error?.message };
     }
   }
-
-  // @Get('/health-db-test')
-  // async checkDbTest() {
-  //   const testUser = await this.prisma.user.create({
-  //     data: { email: `test_${Date.now()}@local.test` },
-  //   });
-  //   return { status: 'ok', created: testUser };
-  // }
 }

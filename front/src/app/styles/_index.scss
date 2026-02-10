@@ -1,0 +1,11 @@
+@forward 'typography';
+@forward 'mixins';
+@forward 'breakpoints';
+@forward 'variables';
+@use 'variables';
+@use 'theme';
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
