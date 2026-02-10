@@ -39,7 +39,7 @@ export function ErrorView({ statusCode = 404, error }: ErrorPageProps) {
     <main className={styles.container}>
       <div className={styles.wrapper}>
         <p className={styles.message}>{text}</p>
-        <button>
+        <button onClick={() => route}>
           <span className={styles['button-content']}>{buttonsText}</span>
         </button>
       </div>
