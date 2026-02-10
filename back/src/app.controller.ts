@@ -11,11 +11,6 @@ export class AppController {
     return 'Hello World!';
   }
 
-  @Get('/health')
-  getHealth(): string {
-    return 'I´m work';
-  }
-
   @Get('/health-db')
   async checkDb() {
     try {
