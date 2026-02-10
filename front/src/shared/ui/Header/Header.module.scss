@@ -1,0 +1,80 @@
+.header {
+  padding: 0 24px 0 16px;
+  height: 5.7rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.idea {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 9px;
+  svg {
+    width: 100%;
+    height: 100%;
+    transition:
+      filter 0.4s ease,
+      transform 0.4s ease;
+    & circle {
+      fill: none;
+    }
+    & path:first-of-type {
+      fill: #f1d36b;
+    }
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -25%;
+    background: radial-gradient(circle, rgba(255, 235, 59, 0.35), transparent 65%);
+    filter: blur(28px);
+    z-index: 1;
+    opacity: 0.8;
+  }
+}
+
+:global(html[data-theme='dark']) {
+  .idea svg {
+    animation: glow 2.8s ease-in-out infinite alternate;
+    transform: scale(1.08);
+
+    filter: drop-shadow(0 0 10px rgba(255, 235, 59, 0.7))
+      drop-shadow(0 0 22px rgba(255, 235, 59, 0.55)) drop-shadow(0 0 40px rgba(255, 193, 7, 0.45))
+      drop-shadow(0 0 70px rgba(255, 193, 7, 0.25));
+  }
+}
+
+:global(html[data-theme='light']) {
+  .idea svg {
+    filter: none;
+    transform: scale(1);
+    fill: none;
+  }
+}
+@keyframes glow {
+  from {
+    filter: drop-shadow(0 0 8px rgba(255, 235, 59, 0.4))
+      drop-shadow(0 0 18px rgba(255, 235, 59, 0.3)) drop-shadow(0 0 32px rgba(255, 193, 7, 0.2));
+    transform: scale(1.03);
+  }
+
+  to {
+    filter: drop-shadow(0 0 14px rgba(255, 235, 59, 0.8))
+      drop-shadow(0 0 30px rgba(255, 235, 59, 0.6)) drop-shadow(0 0 55px rgba(255, 193, 7, 0.4))
+      drop-shadow(0 0 85px rgba(255, 193, 7, 0.25));
+    transform: scale(1.1);
+  }
+}

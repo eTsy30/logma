@@ -1,0 +1,125 @@
+@use 'breakpoints' as *;
+@use 'sass:map';
+@use 'sass:meta';
+
+// Отображение hover только тогда, когда hover есть на устройстве
+@mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      @content;
+    }
+  }
+}
+
+
+// Убирает контент после превышения его в указанное количество строк
+@mixin line-clamp($rows) {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $rows;
+}
+
+// Убирает контент после превышения его в 1 строку (поддержка больше)
+@mixin text-overflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Для распространения ссылки на весь блок (Используйте position: relative на parent блоке)
+@mixin spread-link() {
+  &::before {
+    content: '';
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+
+// Миксин для медиа-запросов
+@mixin screen-size($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) {
+    @media #{meta.inspect(map.get($breakpoints, $breakpoint))} {
+      @content;
+    }
+  } @else {
+    @warn "No value could be retrieved from `#{$breakpoint}`. Available breakpoints are: #{map.keys($breakpoints)}.";
+  }
+}
+
+// миксин кастомизирует скроллбар
+@mixin popover-scrollbar(
+  $width: 6px,
+  $border-radius: 6px,
+  $background: var(--color-black-20),
+  $background-hover: var(--color-black-40)
+) {
+  &::-webkit-scrollbar {
+    width: $width;
+    border-radius: $border-radius;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: $border-radius;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: $border-radius;
+    background: $background;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: $background-hover;
+  }
+}
+
+@mixin layer($layer-name) {
+  @supports at-rule(@layer) {
+    /* stylelint-disable-next-line */
+    @layer #{$layer-name} {
+      @content;
+    }
+  }
+
+  @supports not at-rule(@layer) {
+    @content;
+  }
+}
+
+@mixin reset-browser-icons {
+  // IE/Edge: крестик "очистить"
+  &::-ms-clear {
+    display: none;
+  }
+
+  // IE/Edge: иконка "показать пароль"
+  &::-ms-reveal {
+    display: none;
+  }
+
+  // Chrome/Safari: встроенные кнопки и спиннеры
+  &::-webkit-clear-button,
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button,
+  &::-webkit-search-cancel-button {
+    display: none;
+    appearance: none;
+  }
+}
+
+@mixin fullscreen-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
