@@ -8,8 +8,6 @@ import { authMiddleware } from './auth/middleware';
 import { api } from './api';
 import { authSlice } from './auth/slice';
 
-//import { authMiddleware } from 'redux/auth/middleware';
-
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,

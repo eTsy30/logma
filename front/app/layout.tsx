@@ -10,6 +10,7 @@ import { Providers } from 'app/providers/Providers';
 import { inter } from 'app/fonts';
 import { Header } from 'shared/ui/Header';
 import { Footer } from 'shared/ui/Footer';
+import { AuthBootstrap } from 'shared/providers/AuthBootstrap';
 
 export async function generateMetadata(): Promise<Metadata> {
   return getMetadata({ url: routes.homepage });
@@ -28,7 +29,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={inter.variable}>
         <Providers>
           <Header />
-          {children}
+          <AuthBootstrap>{children}</AuthBootstrap>
           <Footer />
         </Providers>
       </body>

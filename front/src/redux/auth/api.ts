@@ -37,7 +37,7 @@ export const authApi = api.injectEndpoints({
           const { data } = await queryFulfilled;
           dispatch(setAccessToken(data.accessToken));
         } catch {
-          dispatch(logout());
+          // dispatch(logout());
         }
       },
     }),
@@ -55,7 +55,7 @@ export const authApi = api.injectEndpoints({
           const { data } = await queryFulfilled;
           dispatch(setAccessToken(data.accessToken));
         } catch {
-          dispatch(logout());
+          // dispatch(logout());
         }
       },
     }),
@@ -67,13 +67,6 @@ export const authApi = api.injectEndpoints({
         method: 'GET',
       }),
       providesTags: ['Auth'],
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-        } catch {
-          dispatch(logout());
-        }
-      },
     }),
   }),
 });

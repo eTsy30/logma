@@ -6,12 +6,14 @@ type AuthState = {
   accessToken: string | null;
   isAuthenticated: boolean;
   user: AuthUser | null;
+  isInitialized: boolean;
 };
 
 const initialState: AuthState = {
   accessToken: null,
   isAuthenticated: false,
   user: null,
+  isInitialized: false,
 };
 export type AuthUser = {
   id: string;
@@ -31,22 +33,26 @@ export const authSlice = createSlice({
   reducers: {
     setAccessToken(state, action: PayloadAction<string>) {
       state.accessToken = action.payload;
-      state.isAuthenticated = !!action.payload;
     },
-    logout() {
-      return initialState;
+    logout(state) {
+      state.accessToken = null;
+      state.isAuthenticated = false;
+      state.user = null;
     },
   },
 
   extraReducers: (builder) => {
-    builder.addMatcher(
-      authApi.endpoints.getMe.matchFulfilled,
-      (state, action) => {
-        const user = action.payload;
-
-        state.user = filterMetaFields(user);
-      },
-    );
+    builder
+      .addMatcher(authApi.endpoints.getMe.matchFulfilled, (state, action) => {
+        state.user = filterMetaFields(action.payload);
+        state.isAuthenticated = true;
+        state.isInitialized = true;
+      })
+      .addMatcher(authApi.endpoints.getMe.matchRejected, (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
+        state.isInitialized = true;
+      });
   },
 });
 

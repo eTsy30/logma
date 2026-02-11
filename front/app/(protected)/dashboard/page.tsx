@@ -10,8 +10,6 @@ export async function generateMetadata(): Promise<Metadata> {
     url: routes.homepage,
   });
 }
-
-// Серверный компонент (async function допустима)
-export default async function HomePage() {
+export default async function Dashboard() {
   return <div>Dashboard</div>;
 }

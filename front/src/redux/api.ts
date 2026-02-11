@@ -9,6 +9,7 @@ import { Mutex } from 'async-mutex';
 import { API_URL } from 'shared/config/env';
 import { setAccessToken, logout } from 'redux/auth/slice';
 import { RootState } from './store';
+import { authApi } from './auth/api';
 
 export type QueryWithMeta = {
   meta?: {
@@ -65,7 +66,7 @@ export const baseQueryWithReauth: BaseQueryFn<
           const { accessToken } = refreshResult.data as { accessToken: string };
 
           api.dispatch(setAccessToken(accessToken));
-
+          api.dispatch(authApi.endpoints.getMe.initiate());
           result = await baseQuery(args, api, extraOptions);
         } else {
           api.dispatch(logout());
