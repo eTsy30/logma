@@ -114,7 +114,7 @@ export class AuthService {
       refreshToken,
       new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     );
-    return accessToken;
+    return { accessToken };
   }
 
   private generateToken(id: string) {

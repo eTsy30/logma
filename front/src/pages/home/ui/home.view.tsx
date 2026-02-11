@@ -1,9 +1,12 @@
 'use client';
 
+import { routes } from 'shared/router/paths';
 import s from './home.module.scss';
 import { Button } from 'shared/ui/Button';
+import { useRouter } from 'next/navigation';
 
 export function HomeView() {
+  const router = useRouter();
   return (
     <article className={s.container}>
       <div className={s.content}>
@@ -17,8 +20,15 @@ export function HomeView() {
           </h5>
         </div>
         <div className={s.button_group}>
-          <Button theme="primary">Регистрация </Button>
-          <Button theme="secondary">Вход</Button>
+          <Button
+            theme="primary"
+            onClick={() => router.push(routes.registration)}
+          >
+            Регистрация{' '}
+          </Button>
+          <Button theme="secondary" onClick={() => router.push(routes.login)}>
+            Вход
+          </Button>
         </div>
       </div>
     </article>

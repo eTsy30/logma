@@ -9,49 +9,23 @@ import { Button } from 'shared/ui/Button';
 import s from './RegistrationForm.module.scss';
 import { Link } from 'shared/ui/Link';
 import { routes } from 'shared/router/paths';
+import {
+  useLazyGetMeQuery,
+  useLoginMutation,
+  useRegisterMutation,
+} from 'redux/auth/api';
+import { useRouter } from 'next/navigation';
 
 export interface RegisterRequest {
   name: string;
   email: string;
   password: string;
 }
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-
-export async function registerUser(data: RegisterRequest) {
-  const response = await fetch(`${API_URL}/auth/register`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    const contentType = response.headers.get('content-type');
-    let errorMessage = `Register failed with status ${response.status}`;
-
-    if (contentType && contentType.includes('application/json')) {
-      try {
-        const error = await response.json();
-        errorMessage = error?.message || errorMessage;
-      } catch {
-        // Ignore JSON parse errors
-      }
-    }
-
-    throw new Error(errorMessage);
-  }
-
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
-    return response.json();
-  }
-  return null;
-}
-
 export function RegistrationForm() {
+  const [register] = useRegisterMutation();
+  const [login] = useLoginMutation();
+  const [getMe] = useLazyGetMeQuery();
+  const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
 
   const methods = useForm<RegistrationData>({
@@ -63,8 +37,17 @@ export function RegistrationForm() {
     setServerError(null);
 
     try {
-      await registerUser(data);
-      // TODO: redirect or set auth state
+      await register({
+        email: data.email,
+        password: data.password,
+        name: data.name,
+      }).unwrap();
+      await login({
+        email: data.email,
+        password: data.password,
+      }).unwrap();
+      await getMe().unwrap();
+      router.push(routes.dashboard);
     } catch (error) {
       const message =
         error instanceof Error
@@ -74,6 +57,9 @@ export function RegistrationForm() {
       methods.setError('root', { message });
     }
   };
+  const {
+    formState: { isValid, isSubmitting },
+  } = methods;
 
   return (
     <div className={s.wrapper}>
@@ -111,7 +97,8 @@ export function RegistrationForm() {
               type="submit"
               className={s.button}
               fullWidth
-              disabled={methods.formState.isSubmitting}
+              disabled={isSubmitting || !isValid}
+              loading={isSubmitting}
             >
               {methods.formState.isSubmitting
                 ? 'Регистрация...'

@@ -8,14 +8,38 @@ import { Button } from 'shared/ui/Button';
 import { FormProvider, useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { routes } from 'shared/router/paths';
+import { useLazyGetMeQuery, useLoginMutation } from 'redux/auth/api';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export const LoginForm = () => {
+  const [login] = useLoginMutation();
+  const [getMe] = useLazyGetMeQuery();
+  const router = useRouter();
+  const [serverError, setServerError] = useState<string | null>(null);
+
   const methods = useForm<LoginFormData>({
     mode: 'onTouched',
     resolver: zodResolver(LoginSchema),
   });
+  const {
+    formState: { isDirty, isSubmitting },
+  } = methods;
+
   const onSubmit = async (data: LoginFormData) => {
-    console.log(data, 'data');
+    try {
+      await login({ email: data.email, password: data.password }).unwrap();
+      await getMe().unwrap();
+    
+      router.push(routes.dashboard);
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Произошла ошибка при регистрации';
+      setServerError(message);
+      methods.setError('root', { message });
+    }
   };
   return (
     <div className={s.wrapper}>
@@ -33,8 +57,14 @@ export const LoginForm = () => {
             />
 
             <PasswordInput name="password" label="Пароль" size="md" />
-
-            <Button type="submit" className={s.button} fullWidth>
+            {serverError && <span className={s.error}>{serverError}</span>}
+            <Button
+              type="submit"
+              className={s.button}
+              fullWidth
+              disabled={isSubmitting}
+              loading={isSubmitting}
+            >
               Войти
             </Button>
             <Link className={s.footer_text} href={routes.registration}>
