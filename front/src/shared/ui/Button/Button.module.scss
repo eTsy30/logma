@@ -3,9 +3,10 @@
   padding: 0 var(--btn-padding-md);
   border-radius: var(--btn-radius);
   border: 1px solid transparent;
-
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: var(--btn-gap);
 
   font-size: var(--btn-font-md);

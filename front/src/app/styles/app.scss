@@ -33,10 +33,11 @@ html {
 body {
   overflow-x: hidden;
   display: grid;
-  grid-template-rows: 1fr auto;
   background: var(--color-bg);
   min-height: 100vh;
   margin: 0 auto;
+  min-height: 100dvh;
+  grid-template-rows: auto 1fr auto;
 
   @include inter;
 

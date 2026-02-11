@@ -1,0 +1,72 @@
+@use 'styles/mixins' as *;
+
+.link {
+  transition:
+    color 0.3s ease-in-out,
+    background-color 0.3s ease-in-out;
+
+  // @include hover {
+  //   &:not(:disabled) {
+  //     color: var(--color-green-500);
+  //   }
+  // }
+}
+
+.green {
+  color: var(--color-green-500);
+
+  &[aria-disabled='true'] {
+    color: var(--color-green-200);
+    pointer-events: none;
+  }
+
+  @include hover {
+    &:not([aria-disabled='true']) {
+      color: var(--color-green-600);
+    }
+  }
+}
+
+.underline {
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform-origin: bottom center;
+    transform: scaleX(0);
+
+    width: 100%;
+    height: 2px;
+
+    background-color: var(--color-green-500);
+
+    transition: transform 0.3s ease-out;
+  }
+
+  @include hover {
+    &:not([aria-disabled='true']) {
+      transform-origin: bottom center;
+
+      &::after {
+        transform-origin: bottom center;
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  &:focus {
+    &:not([aria-disabled='true']) {
+      transform-origin: bottom center;
+
+      &::after {
+        transform-origin: bottom center;
+        transform: scaleX(1);
+      }
+    }
+  }
+}

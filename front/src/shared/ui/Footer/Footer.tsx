@@ -1,3 +1,4 @@
+'use client';
 import { useTheme } from 'next-themes';
 import OffIcon from 'public/icons/off.svg';
 import s from './Footer.module.scss';

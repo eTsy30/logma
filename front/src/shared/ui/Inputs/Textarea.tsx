@@ -1,66 +1,100 @@
-import clsx from 'clsx';
+'use client';
+
 import { forwardRef } from 'react';
-import s from './Input.module.scss';
-import { TextareaProps } from './type/types';
 import {
   useFormContext,
-  FormError as AriakitFormError,
-  FormLabel as AriakitFormLabel,
-  FormInput as AriakitFormInput,
-} from '@ariakit/react';
-export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
-  {
-    size = 'md',
-    name,
-    id,
-    label,
-    placeholder,
-    helperText,
-    disabled,
-    required,
-    rows = 4,
-    resize = 'vertical',
-    value,
-    error: errorProp,
-    ...props
-  },
-  ref,
-) {
-  const store = useFormContext();
-  const storeError = store?.useState((state) => state.errors[name]);
-  const hasError = !!errorProp || !!storeError;
-  const error = errorProp ?? storeError;
-  const errorMessage = typeof error === 'object' && error !== null ? JSON.stringify(error) : error;
+  Controller,
+  RegisterOptions,
+  FieldValues,
+} from 'react-hook-form';
+import { FormLabel, FormError } from '@ariakit/react';
+import clsx from 'clsx';
+import s from './Input.module.scss';
+import { TextareaProps } from './type/types';
 
-  return (
-    <div className={s.field} data-size={size}>
-      {label && (
-        <AriakitFormLabel name={name} className={s.label} data-required={required}>
-          {label}
-        </AriakitFormLabel>
-      )}
+// Функция для объединения refs
+function mergeRefs<T>(
+  ref1: ((instance: T | null) => void) | RefObject<T> | null | undefined,
+  ref2: ((instance: T | null) => void) | RefObject<T> | null | undefined,
+): (instance: T | null) => void {
+  return (instance: T | null) => {
+    if (typeof ref1 === 'function') {
+      ref1(instance);
+    } else if (ref1 && 'current' in ref1) {
+      ref1.current = instance;
+    }
+    if (typeof ref2 === 'function') {
+      ref2(instance);
+    } else if (ref2 && 'current' in ref2) {
+      ref2.current = instance;
+    }
+  };
+}
 
-      <AriakitFormInput
-        ref={ref as React.Ref<HTMLInputElement>}
+type RefObject<T> = { current: T | null };
+
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+  function Textarea(
+    {
+      name,
+      size = 'md',
+      label,
+      placeholder,
+      rows = 4,
+      resize = 'vertical',
+      disabled,
+      required,
+      rules,
+    },
+    ref,
+  ) {
+    const { control } = useFormContext();
+
+    const finalRules: RegisterOptions<FieldValues, string> = {
+      ...rules,
+      ...(required && { required: 'Обязательное поле' }),
+    };
+
+    return (
+      <Controller
         name={name}
-        id={id}
-        render={<textarea rows={rows} />}
-        placeholder={placeholder}
-        disabled={disabled}
-        required={required}
-        value={value}
-        className={clsx(s.input, s.textarea)}
-        data-resize={resize}
-        {...props}
+        control={control}
+        rules={finalRules}
+        render={({ field, fieldState }) => {
+          const textareaRef = mergeRefs(field.ref, ref);
+
+          return (
+            <div className={s.field} data-size={size}>
+              {label && (
+                <label
+                  htmlFor={name}
+                  className={s.label}
+                  data-required={required}
+                >
+                  {label}
+                </label>
+              )}
+
+              <textarea
+                {...field}
+                ref={textareaRef}
+                id={name}
+                rows={rows}
+                placeholder={placeholder}
+                disabled={disabled}
+                required={required}
+                value={field.value ?? ''}
+                className={clsx(s.input, s.textarea)}
+                data-resize={resize}
+              />
+
+              {fieldState.error && (
+                <span className={s.error}>{fieldState.error.message}</span>
+              )}
+            </div>
+          );
+        }}
       />
-
-      {helperText && !hasError && <span className={s.helper}>{helperText}</span>}
-
-      {hasError && (
-        <AriakitFormError name={name} className={s.error}>
-          {errorMessage}
-        </AriakitFormError>
-      )}
-    </div>
-  );
-});
+    );
+  },
+);

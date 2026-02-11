@@ -8,6 +8,8 @@ import { getMetadata } from 'shared/lib/metadata';
 import { routes } from 'shared/router/paths';
 import { Providers } from 'app/providers/Providers';
 import { inter } from 'app/fonts';
+import { Header } from 'shared/ui/Header';
+import { Footer } from 'shared/ui/Footer';
 
 export async function generateMetadata(): Promise<Metadata> {
   return getMetadata({ url: routes.homepage });
@@ -24,7 +26,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth">
       <body className={inter.variable}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

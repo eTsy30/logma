@@ -1,4 +1,5 @@
 import { type Metadata } from 'next';
+import { LoginView } from 'pages/login';
 
 import { getMetadata } from 'shared/lib/metadata';
 import { routes } from 'shared/router/paths';
@@ -12,5 +13,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Login() {
-  return '<LoginView />1';
+  return <LoginView />;
 }
