@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import s from './Button.module.scss';
 
 type ButtonSize = 'sm' | 'md' | 'lg';
-type ButtonTheme = 'primary' | 'secondary' | 'light' | 'link';
+type ButtonTheme = 'primary' | 'secondary' | 'light' | 'link' | 'ghost';
 
 interface ButtonProps extends React.ComponentProps<typeof AriakitButton> {
   size?: ButtonSize;
@@ -26,6 +26,16 @@ export function Button({
   disabled,
   ...props
 }: ButtonProps) {
+  const content = loading ? (
+    <span className={s.spinner} />
+  ) : (
+    <>
+      {iconLeft && <span className={s.icon}>{iconLeft}</span>}
+      {children}
+      {iconRight && <span className={s.icon}>{iconRight}</span>}
+    </>
+  );
+
   return (
     <AriakitButton
       {...props}
@@ -36,9 +46,7 @@ export function Button({
       data-fullwidth={fullWidth}
       className={clsx(s.button, className)}
     >
-      {iconLeft && <span className={s.icon}>{iconLeft}</span>}
-      {children}
-      {iconRight && <span className={s.icon}>{iconRight}</span>}
+      {content}
     </AriakitButton>
   );
 }

@@ -1,35 +1,29 @@
 @use 'styles/index' as *;
+
 .container {
-  align-items: center;
-  text-align: center;
+  overflow: hidden;
   display: grid;
   place-items: center;
-}
-
-.title_wrapper {
-  max-width: 600px;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  background-color: var(--canvas-primary);
 }
 
 .title {
-  @include h1-44();
-  margin-bottom: 16px;
+  @include h1;
+  color: var(--brand-default);
 }
+
 .sub_title {
-  @include h5-18();
-  color: var(--color-textMuted);
-  margin-bottom: 48px;
+  @include h2;
+  color: var(--ink-primary);
 }
 
-.title_orange {
-  color: var(--color-accent);
-}
-.button_group {
-  display: inline-flex;
-  gap: 16px;
-}
-
-.themeToggle {
-  position: fixed;
-  top: var(--space-3);
-  right: var(--space-3);
+.text {
+  @include body-bold;
+  color: var(--ink-tertiary);
+  margin-bottom: var(--space-lg);
+  margin-top: var(--space-xs);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }

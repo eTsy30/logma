@@ -21,12 +21,12 @@ export interface RegisterRequest {
   email: string;
   password: string;
 }
+
 export function RegistrationForm() {
   const [register] = useRegisterMutation();
   const [login] = useLoginMutation();
   const [getMe] = useLazyGetMeQuery();
   const router = useRouter();
-  const [serverError, setServerError] = useState<string | null>(null);
 
   const methods = useForm<RegistrationData>({
     mode: 'onTouched',
@@ -34,8 +34,6 @@ export function RegistrationForm() {
   });
 
   const onSubmit = async (data: RegistrationData) => {
-    setServerError(null);
-
     try {
       await register({
         email: data.email,
@@ -53,10 +51,10 @@ export function RegistrationForm() {
         error instanceof Error
           ? error.message
           : 'Произошла ошибка при регистрации';
-      setServerError(message);
       methods.setError('root', { message });
     }
   };
+
   const {
     formState: { isValid, isSubmitting },
   } = methods;
@@ -64,11 +62,19 @@ export function RegistrationForm() {
   return (
     <div className={s.wrapper}>
       <AuthCard>
-        <h2 className={s.title}>Создать аккаунт</h2>
-        <h4 className={s.sub_title}>Начните вести свой кинодневник</h4>
+        <div className={s.header}>
+          <h2 className={s.title}>Создать аккаунт</h2>
+          <p className={s.subTitle}>Начните вести свой кинодневник</p>
+        </div>
+
         <FormProvider {...methods}>
           <form className={s.form} onSubmit={methods.handleSubmit(onSubmit)}>
-            <Input name="name" label="Имя" size="md" />
+            <Input
+              name="name"
+              label="Имя"
+              placeholder="Как вас зовут?"
+              size="md"
+            />
 
             <Input
               name="email"
@@ -85,28 +91,24 @@ export function RegistrationForm() {
               showStrength
             />
 
-            {methods.formState.errors.root && (
-              <span className={s.error}>
-                {methods.formState.errors.root.message}
-              </span>
-            )}
-
-            {serverError && <span className={s.error}>{serverError}</span>}
-
             <Button
               type="submit"
               className={s.button}
               fullWidth
+              size="lg"
               disabled={isSubmitting || !isValid}
               loading={isSubmitting}
+              theme="ghost"
             >
-              {methods.formState.isSubmitting
-                ? 'Регистрация...'
-                : 'Зарегистрироваться'}
+              {isSubmitting ? 'Создаём аккаунт...' : 'Зарегистрироваться'}
             </Button>
-            <Link className={s.footer_text} href={routes.login}>
-              Уже есть аккаунт? <span className={s.link}>Войти</span>
-            </Link>
+
+            <div className={s.footer}>
+              <span className={s.footerText}>Уже есть аккаунт?</span>
+              <Link className={s.link} href={routes.login}>
+                Войти
+              </Link>
+            </div>
           </form>
         </FormProvider>
       </AuthCard>

@@ -1,8 +1,18 @@
+@use 'styles/index' as *;
+
 .wrapper {
-  max-width: 40rem;
   width: 100%;
-  border-radius: var(--radius-md);
-  padding: 4rem;
-  background-color: var(--color-surface);
-  box-shadow: 0 0 100px 0 rgba(204, 212, 182, 0.15);
+  max-width: 42rem;
+  padding: var(--space-xl);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-default);
+
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+
+  @include screen-size(mobile) {
+    padding: var(--space-lg);
+    max-width: 100%;
+  }
 }

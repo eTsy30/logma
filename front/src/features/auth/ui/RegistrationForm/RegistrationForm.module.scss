@@ -1,34 +1,81 @@
 @use 'styles/index' as *;
+
 .wrapper {
   display: grid;
   place-items: center;
-  height: 100%;
+  min-height: 100vh;
+  padding: var(--space-lg);
 }
+
+// === КАРТОЧКА ===
+:global(.AuthCard_wrapper) {
+  width: 100%;
+  max-width: 42rem;
+  padding: var(--space-xl) !important;
+  border: 1px solid var(--border-default) !important;
+  border-radius: var(--radius-xl) !important;
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  box-shadow: var(--glass-shadow) !important;
+
+  @include screen-size(mobile) {
+    padding: var(--space-lg) !important;
+  }
+}
+
+// === ХЕДЕР ===
+.header {
+  margin-bottom: var(--space-lg);
+  text-align: center;
+}
+
 .title {
-  margin-bottom: 1rem;
-  text-align: center;
-  color: var(--color-accent);
+  @include h3;
+  margin-bottom: var(--space-sm);
+  color: var(--ink-primary);
 }
-.sub_title {
-  text-align: center;
-  color: var(--color-textMuted);
-  margin-bottom: 1rem;
+
+.subTitle {
+  @include body-bold;
+  color: var(--brand-default);
 }
+
+// === ФОРМА ===
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-md);
 }
 
 .button {
-  margin: 15px 0 10px;
+  margin-top: var(--space-sm);
 }
-.footer_text {
-  @include body();
-  color: var(--color-textMuted);
+
+// === ФУТЕР ===
+.footer {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  justify-content: center;
+  padding-top: var(--space-md);
 }
+
+.footerText {
+  @include body;
+  color: var(--ink-tertiary);
+  @include screen-size(mobile) {
+    @include body-sm;
+  }
+}
+
 .link {
-  margin: 0 auto;
-  color: var(--color-accent);
-  @include nav-link();
+  @include body;
+  font-weight: var(--fw-semibold);
+  color: var(--brand-default);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--brand-hover);
+    text-decoration: underline;
+  }
 }
