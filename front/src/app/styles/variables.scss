@@ -1,82 +1,74 @@
-@use './mixins' as *;
+:root,
+[data-theme='light'] {
+  /* ========== Core Colors (семантические) ========== */
 
-:root {
-  /* ========== Layout ========== */
-  --site-max-width: 1430px;
-  --header-height: 98px;
-  --site-max-height: calc(100vh - var(--header-height));
-  --root-content-padding: 24px;
+  /* Text - серый ряд */
+  --ink-primary: #1a1d23; /* Основной текст, заголовки */
+  --ink-secondary: #4a5568; /* Вторичный текст, описания */
+  --ink-tertiary: #718096; /* Третичный, подписи, метки */
+  --ink-quaternary: #a0aec0; /* Плейсхолдеры, неактивное */
 
-  /* ========== Spacing ========== */
-  --space-1: 0.4rem;
-  --space-2: 0.8rem;
-  --space-3: 1.2rem;
-  --space-4: 1.6rem;
-  --space-5: 2rem;
+  /* Background - фоны */
+  --canvas-primary: #ffffff; /* Основной фон */
+  --canvas-secondary: #f7fafc; /* Карточки, секции */
+  --canvas-tertiary: #edf2f7; /* Ховеры, разделители */
 
-  /* ========== Radius ========== */
-  --radius-sm: 0.6rem;
-  --radius-md: 0.8rem;
-  --radius-lg: 1rem;
-  --radius-full: 9999px;
+  /* Brand - акцентный синий из референса */
+  --brand-default: #3b82f6; /* Кнопки, ссылки */
+  --brand-hover: #2563eb; /* Ховер бренда */
+  --brand-active: #1d4ed8; /* Нажатие */
+  --brand-soft: #dbeafe; /* Фон для бейджей, тегов */
 
-  /* ========== Transitions ========== */
-  --transition-fast: 0.15s ease;
-  --transition-base: 0.2s ease;
+  /* Functional - функциональные */
+  --success: #10b981; /* Успех, онлайн */
+  --success-soft: #d1fae5; /* Фон успеха */
+  --warning: #f59e0b; /* Предупреждение */
+  --warning-soft: #fef3c7; /* Фон предупреждения */
+  --error: #ef4444; /* Ошибка, критичное */
+  --error-soft: #fee2e2; /* Фон ошибки */
+  --info: #06b6d4; /* Информация */
+  --info-soft: #cffafe; /* Фон инфо */
 
-  /* ========== Shadows ========== */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-accent: 0 4px 12px rgba(58, 92, 204, 0.25);
+  /* Borders - границы */
+  --border-default: #e2e8f0; /* Обычные бордеры */
+  --border-hover: #cbd5e0; /* Ховер бордера */
+  --border-focus: #3b82f6; /* Фокус кольцо */
 
-  /* ========== Button ========== */
-  --btn-height-sm: 3.2rem;
-  --btn-height-md: 4rem;
-  --btn-height-lg: 4.8rem;
+  /* Glass - эффекты из референса */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-blur: blur(20px);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
-  --btn-padding-sm: 1.2rem;
-  --btn-padding-md: 1.6rem;
-  --btn-padding-lg: 2rem;
+  /* Spacing - минимум */
+  --space-xs: 0.4rem; /* 4px */
+  --space-sm: 0.8rem; /* 8px */
+  --space-md: 1.6rem; /* 16px */
+  --space-lg: 2.4rem; /* 24px */
+  --space-xl: 3.2rem; /* 32px */
 
-  --btn-font-sm: 1.3rem;
-  --btn-font-md: 1.4rem;
-  --btn-font-lg: 1.6rem;
+  /* Radius */
+  --radius-sm: 0.8rem; /* Маленькие элементы */
+  --radius-md: 1.2rem; /* Кнопки, инпуты */
+  --radius-lg: 1.6rem; /* Карточки */
+  --radius-xl: 2.4rem; /* Модалки */
+  --radius-full: 9999px; /* Пилюли */
 
-  --btn-radius: var(--radius-md);
-  --btn-gap: 0.8rem;
-  --btn-icon-size: 1.8rem;
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
 
-  /* ========== Colors (Light) ========== */
-  --color-bg: #f7f6f4;
-  --color-surface: #ffffff;
-  --color-surfaceAlt: #f0efec;
-
-  --color-text: #1c1d20;
-  --color-textMuted: #6e7076;
-  --color-textInverse: #ffffff;
-
-  --color-border: #e2e1dd;
-  --color-borderHover: #d1d0cc;
-
-  --color-accent: #3a5ccc;
-  --color-accentHover: #2f4aa3;
-  --color-accentActive: #243d8a;
-  --color-accentSoft: #e9edff;
-
-  --focus-ring: 0 0 0 3px rgba(58, 92, 204, 0.25);
-
-  /* ========== Status Colors ========== */
-  --color-error: #dc2626;
-  --color-error-light: #fecaca;
-  --color-warning: #ca8a04;
-  --color-warning-light: #fef9c3;
-  --color-success: #16a34a;
-  --color-success-light: #dcfce7;
-
-  /* ========== Password Strength Colors ========== */
-  --color-strength-0: #dc2626;
-  --color-strength-1: #ea580c;
-  --color-strength-2: #ca8a04;
-  --color-strength-3: #16a34a;
-  --color-strength-4: #15803d;
+  /* Legacy Fallbacks (for compatibility during migration) */
+  --color-text: var(--ink-primary);
+  --color-textMuted: var(--ink-tertiary);
+  --color-border: var(--border-default);
+  --color-surface: var(--canvas-secondary);
+  --color-primary: var(--brand-default);
+  --color-accent: var(--brand-default);
+  --color-accentHover: var(--brand-hover);
+  --color-accentSoft: var(--brand-soft);
+  --color-error: var(--error);
+  --color-error-light: var(--error-soft);
+  --color-success: var(--success);
+  --color-nature: var(--success);
 }

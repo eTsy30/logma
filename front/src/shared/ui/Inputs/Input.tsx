@@ -8,47 +8,9 @@ import {
   RegisterOptions,
   FieldValues,
 } from 'react-hook-form';
-import { FormLabel, FormError } from '@ariakit/react';
+import { Search, AlertCircle } from 'lucide-react';
 import s from './Input.module.scss';
 import { InputProps } from './type/types';
-
-// Иконка по умолчанию для поиска
-const SearchIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    width="20"
-    height="20"
-  >
-    <circle cx="11" cy="11" r="8" />
-    <path d="m21 21-4.35-4.35" />
-  </svg>
-);
-
-// Функция для объединения refs
-function mergeRefs<T>(
-  ref1: ((instance: T | null) => void) | RefObject<T> | null | undefined,
-  ref2: ((instance: T | null) => void) | RefObject<T> | null | undefined,
-): (instance: T | null) => void {
-  return (instance: T | null) => {
-    // Вызываем field.ref
-    if (typeof ref1 === 'function') {
-      ref1(instance);
-    } else if (ref1 && 'current' in ref1) {
-      ref1.current = instance;
-    }
-    // Вызываем forwarded ref
-    if (typeof ref2 === 'function') {
-      ref2(instance);
-    } else if (ref2 && 'current' in ref2) {
-      ref2.current = instance;
-    }
-  };
-}
-
-type RefObject<T> = { current: T | null };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   {
@@ -67,72 +29,108 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   },
   ref,
 ) {
-  const { control } = useFormContext();
-  const leftIcon = type === 'search' && !iconLeft ? <SearchIcon /> : iconLeft;
+  const formContext = useFormContext();
+  const leftIcon =
+    type === 'search' && !iconLeft ? <Search size={20} /> : iconLeft;
 
-  // Объединяем required с rules
   const finalRules: RegisterOptions<FieldValues, string> = {
     ...rules,
     ...(required && { required: 'Обязательное поле' }),
   };
 
+  if (!formContext) {
+    return (
+      <div className={s.field} data-size={size}>
+        {label && (
+          <label htmlFor={name} className={s.label} data-required={required}>
+            {label}
+          </label>
+        )}
+        <div className={s.inputWrapper}>
+          {leftIcon && (
+            <span className={clsx(s.icon, s.iconLeft)} aria-hidden="true">
+              {leftIcon}
+            </span>
+          )}
+          <input
+            ref={ref}
+            id={name}
+            name={name}
+            type={type}
+            placeholder={placeholder}
+            autoFocus={autoFocus}
+            autoComplete={autoComplete}
+            disabled={disabled}
+            required={required}
+            className={clsx(
+              s.input,
+              leftIcon && s.hasIconLeft,
+              iconRight && s.hasIconRight,
+            )}
+          />
+          {iconRight && (
+            <span className={clsx(s.icon, s.iconRight)} aria-hidden="true">
+              {iconRight}
+            </span>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Controller
       name={name}
-      control={control}
+      control={formContext.control}
       rules={finalRules}
-      render={({ field, fieldState }) => {
-        const inputRef = mergeRefs(field.ref, ref);
-
-        return (
-          <div className={s.field} data-size={size}>
-            {label && (
-              <label
-                htmlFor={name}
-                className={s.label}
-                data-required={required}
-              >
-                {label}
-              </label>
+      render={({ field, fieldState }) => (
+        <div className={s.field} data-size={size}>
+          {label && (
+            <label htmlFor={name} className={s.label} data-required={required}>
+              {label}
+            </label>
+          )}
+          <div className={s.inputWrapper}>
+            {leftIcon && (
+              <span className={clsx(s.icon, s.iconLeft)} aria-hidden="true">
+                {leftIcon}
+              </span>
             )}
-            <div className={s.inputWrapper}>
-              {leftIcon && (
-                <span className={clsx(s.icon, s.iconLeft)} aria-hidden="true">
-                  {leftIcon}
-                </span>
+            <input
+              {...field}
+              ref={(instance) => {
+                field.ref(instance);
+                if (typeof ref === 'function') ref(instance);
+                else if (ref) ref.current = instance;
+              }}
+              id={name}
+              type={type}
+              placeholder={placeholder}
+              autoFocus={autoFocus}
+              autoComplete={autoComplete}
+              disabled={disabled}
+              required={required}
+              value={field.value ?? ''}
+              className={clsx(
+                s.input,
+                leftIcon && s.hasIconLeft,
+                iconRight && s.hasIconRight,
               )}
-
-              <input
-                {...field}
-                ref={inputRef}
-                id={name}
-                type={type}
-                placeholder={placeholder}
-                autoFocus={autoFocus}
-                autoComplete={autoComplete}
-                disabled={disabled}
-                required={required}
-                value={field.value ?? ''}
-                className={clsx(
-                  s.input,
-                  leftIcon && s.hasIconLeft,
-                  iconRight && s.hasIconRight,
-                )}
-              />
-
-              {iconRight && (
-                <span className={clsx(s.icon, s.iconRight)} aria-hidden="true">
-                  {iconRight}
-                </span>
-              )}
-            </div>
-
-            {fieldState.error && (
-              <span className={s.error}>{fieldState.error.message}</span>
+            />
+            {iconRight && (
+              <span className={clsx(s.icon, s.iconRight)} aria-hidden="true">
+                {iconRight}
+              </span>
             )}
           </div>
-        );
-      }}
+          {fieldState.error && (
+            <span className={s.error}>
+              <AlertCircle size={14} />
+              {fieldState.error.message}
+            </span>
+          )}
+        </div>
+      )}
     />
   );
 });

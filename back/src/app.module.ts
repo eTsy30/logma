@@ -4,6 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prismas/prisma.module';
 import { AuthModule } from './auth/auth.module';
+import { KinopoiskModule } from './kinopoisk/kinopoisk.module';
+import { MoviesModule } from './movie/movie.module';
 
 @Module({
   imports: [
@@ -12,6 +14,8 @@ import { AuthModule } from './auth/auth.module';
     }),
     PrismaModule,
     AuthModule,
+    KinopoiskModule,
+    MoviesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

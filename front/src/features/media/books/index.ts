@@ -1,0 +1,1 @@
+export { BooksTabs } from './BooksTabs';

@@ -1,35 +1,42 @@
+// Input.module.scss
 @use 'styles/index' as *;
+
 .field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: var(--space-xs);
   width: 100%;
 
   &[data-size='sm'] {
-    --input-height: var(--btn-height-sm);
-    --input-padding: var(--btn-padding-sm);
-    --input-font: var(--btn-font-sm);
+    --input-height: 3.6rem;
+    --input-padding: var(--space-md);
+    --input-font: var(--body-sm);
+    --icon-size: 1.6rem;
   }
+
   &[data-size='md'] {
-    --input-height: var(--btn-height-md);
-    --input-padding: var(--btn-padding-md);
-    --input-font: var(--btn-font-md);
+    --input-height: 4.4rem;
+    --input-padding: var(--space-lg);
+    --input-font: var(--body);
+    --icon-size: 2rem;
   }
+
   &[data-size='lg'] {
-    --input-height: var(--btn-height-lg);
-    --input-padding: var(--btn-padding-lg);
-    --input-font: var(--btn-font-lg);
+    --input-height: 5.2rem;
+    --input-padding: var(--space-xl);
+    --input-font: var(--body);
+    --icon-size: 2.4rem;
   }
 }
 
 .label {
-  font-size: var(--btn-font-sm);
-  font-weight: 500;
-  color: var(--color-textMuted);
+  @include body-sm;
+  font-weight: var(--fw-medium);
+  color: var(--ink-secondary);
 
   &[data-required='true']::after {
     content: ' *';
-    color: var(--color-accent);
+    color: var(--brand-default);
   }
 }
 
@@ -43,51 +50,42 @@
   width: 100%;
   height: var(--input-height);
   padding: 0 var(--input-padding);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
-  border: 1.5px solid var(--color-border);
-  background: var(--color-surface);
-  color: var(--color-text);
   font-size: var(--input-font);
-  transition:
-    border var(--transition-base),
-    box-shadow var(--transition-base);
+  color: var(--ink-primary);
+  background: var(--canvas-primary);
+  transition: all var(--transition-fast);
 
   &::placeholder {
-    color: var(--color-textMuted);
-    opacity: 0.7;
+    color: var(--ink-quaternary);
   }
+
+  &:hover:not(:disabled) {
+    border-color: var(--border-hover);
+  }
+
   &:focus {
+    border-color: var(--brand-default);
     outline: none;
-    border-color: var(--color-accent);
-    box-shadow: var(--focus-ring);
+    box-shadow: 0 0 0 3px var(--brand-soft);
   }
+
   &:disabled {
+    cursor: not-allowed;
     opacity: 0.5;
-    background: var(--color-surfaceAlt);
-  }
-  @include reset-browser-icons();
-
-  &:-webkit-autofill,
-  &:-webkit-autofill:hover,
-  &:-webkit-autofill:focus,
-  &:-webkit-autofill:active {
-    background-clip: text;
-    box-shadow: inset 0 0 20px 20px var(--color-black-0);
-    transition: background-color 9999s ease-in-out 0s;
-
-    &.input--valid {
-      box-shadow: inset 0 0 20px 20px var(--color-white);
-    }
+    background: var(--canvas-tertiary);
   }
 }
 
 .icon {
   position: absolute;
-  width: var(--btn-icon-size);
-  height: var(--btn-icon-size);
-  color: var(--color-textMuted);
-  pointer-events: none;
-  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  color: var(--ink-tertiary);
 
   svg {
     width: 100%;
@@ -96,81 +94,89 @@
 }
 
 .iconLeft {
-  left: var(--space-2);
+  left: var(--space-md);
 }
+
 .iconRight {
-  right: var(--space-2);
+  right: var(--space-md);
 }
 
 .hasIconLeft {
-  padding-left: calc(var(--input-padding) + var(--btn-icon-size) + var(--space-1)) !important;
+  padding-left: calc(var(--input-padding) + var(--icon-size) + var(--space-sm));
 }
+
 .hasIconRight {
-  padding-right: calc(var(--input-padding) + var(--btn-icon-size) + var(--space-1)) !important;
+  padding-right: calc(
+    var(--input-padding) + var(--icon-size) + var(--space-sm)
+  );
 }
 
 .togglePassword {
   position: absolute;
-  right: var(--space-1);
+  right: var(--space-sm);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
   border: none;
-  background: transparent;
-  color: var(--color-textMuted);
-  cursor: pointer;
   border-radius: var(--radius-sm);
-  z-index: 2;
+  color: var(--ink-tertiary);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
 
   &:hover {
-    color: var(--color-text);
+    color: var(--ink-primary);
+    background: var(--canvas-tertiary);
   }
 }
 
 .passwordInput {
-  padding-right: calc(var(--input-padding) + var(--btn-icon-size) + var(--space-2)) !important;
+  padding-right: 4rem;
 }
 
 .textarea {
   height: auto;
   min-height: 10rem;
-  padding: var(--space-2);
+  padding: var(--space-md);
+  line-height: 1.6;
   resize: vertical;
-  line-height: 1.5;
 
   &[data-resize='none'] {
     resize: none;
   }
+
   &[data-resize='horizontal'] {
     resize: horizontal;
-  }
-  &[data-resize='both'] {
-    resize: both;
   }
 }
 
 .error {
-  font-size: var(--btn-font-sm);
-  color: var(--color-error, #dc2626);
-  line-height: 1.4;
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+  @include body-sm;
+  color: var(--error);
+
+  svg {
+    flex-shrink: 0;
+  }
 }
 
 .strengthMeter {
-  margin-top: var(--space-1);
+  margin-top: var(--space-xs);
 }
 
 .strengthBar {
   height: 4px;
   border-radius: var(--radius-sm);
-  background: var(--color-border);
+  background: var(--canvas-tertiary);
   overflow: hidden;
-  position: relative;
 
   &::after {
     content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
+    display: block;
     height: 100%;
     border-radius: var(--radius-sm);
     transition: all var(--transition-base);
@@ -178,28 +184,32 @@
 }
 
 .strengthText {
-  font-size: var(--btn-font-sm);
-  color: var(--color-textMuted);
-  margin-top: var(--space-1);
+  @include body-sm;
+  color: var(--ink-tertiary);
+  margin-top: var(--space-xs);
 }
 
 .strengthMeter[data-strength='0'] .strengthBar::after {
   width: 20%;
-  background: #dc2626;
+  background: var(--error);
 }
+
 .strengthMeter[data-strength='1'] .strengthBar::after {
   width: 40%;
-  background: #ea580c;
+  background: var(--warning);
 }
+
 .strengthMeter[data-strength='2'] .strengthBar::after {
   width: 60%;
-  background: #ca8a04;
+  background: var(--warning);
 }
+
 .strengthMeter[data-strength='3'] .strengthBar::after {
   width: 80%;
-  background: #16a34a;
+  background: var(--success);
 }
+
 .strengthMeter[data-strength='4'] .strengthBar::after {
   width: 100%;
-  background: #15803d;
+  background: var(--success);
 }

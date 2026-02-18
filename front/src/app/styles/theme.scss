@@ -1,19 +1,53 @@
-html[data-theme='dark'] {
-  --color-bg: #0f1218;
-  --color-surface: #161a22;
-  --color-surfaceAlt: #1b2030;
+/* ========== Dark Theme (контраст 3:1) ========== */
+[data-theme='dark'] {
+  /* Text - светлеем */
+  --ink-primary: #f1f5f9; /* ~93% lightness */
+  --ink-secondary: #cbd5e1; /* ~81% lightness */
+  --ink-tertiary: #94a3b8; /* ~65% lightness */
+  --ink-quaternary: #64748b; /* ~52% lightness */
 
-  --color-text: #e7e9ed;
-  --color-textMuted: #9aa0ae;
-  --color-textInverse: #0f1218;
+  /* Background - темнеем */
+  --canvas-primary: #0f172a; /* ~12% lightness */
+  --canvas-secondary: #1e293b; /* ~20% lightness */
+  --canvas-tertiary: #334155; /* ~30% lightness */
 
-  --color-border: #242a38;
-  --color-borderHover: #2f3646;
+  /* Brand - ярче для контраста */
+  --brand-default: #60a5fa; /* Светлее на 20% */
+  --brand-hover: #3b82f6;
+  --brand-active: #2563eb;
+  --brand-soft: rgba(59, 130, 246, 0.2);
 
-  --color-accent: #5f7dff;
-  --color-accentHover: #7f9fff;
-  --color-accentActive: #91a7ff;
-  --color-accentSoft: #1f2a4d;
+  /* Functional - ярче */
+  --success: #34d399;
+  --success-soft: rgba(16, 185, 129, 0.2);
+  --warning: #fbbf24;
+  --warning-soft: rgba(245, 158, 11, 0.2);
+  --error: #f87171;
+  --error-soft: rgba(239, 68, 68, 0.2);
+  --info: #22d3ee;
+  --info-soft: rgba(6, 182, 212, 0.2);
 
-  --focus-ring: 0 0 0 3px rgba(95, 125, 255, 0.35);
+  /* Borders */
+  --border-default: #334155;
+  --border-hover: #475569;
+  --border-focus: #60a5fa;
+
+  /* Glass - темная версия */
+  --glass-bg: rgba(15, 23, 42, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+  /* Legacy Fallbacks for Dark Theme */
+  --color-text: var(--ink-primary);
+  --color-textMuted: var(--ink-tertiary);
+  --color-border: var(--border-default);
+  --color-surface: var(--canvas-secondary);
+  --color-primary: var(--brand-default);
+  --color-accent: var(--brand-default);
+  --color-accentHover: var(--brand-hover);
+  --color-accentSoft: var(--brand-soft);
+  --color-error: var(--error);
+  --color-error-light: var(--error-soft);
+  --color-success: var(--success);
+  --color-nature: var(--success);
 }

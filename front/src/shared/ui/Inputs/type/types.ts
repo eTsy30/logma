@@ -13,6 +13,7 @@ export interface BaseInputProps {
 
 export interface InputProps extends BaseInputProps {
   type?: 'text' | 'email' | 'password' | 'search' | 'tel' | 'url' | 'number';
+  variant?: 'default' | 'ghost';
   iconLeft?: ReactNode;
   iconRight?: ReactNode;
   autoFocus?: boolean;

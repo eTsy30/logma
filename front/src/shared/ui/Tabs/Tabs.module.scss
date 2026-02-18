@@ -1,0 +1,238 @@
+@use 'styles/index' as *;
+// ============================================
+// FLOATING VERTICAL TABS (как на картинке)
+// ============================================
+
+.floatingTabs {
+  position: fixed;
+  z-index: 100;
+  top: 50%;
+  left: var(--space-md);
+  transform: translateY(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+
+  padding: var(--space-sm);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+
+  @media (max-width: 768px) {
+    left: var(--space-xs);
+    padding: var(--space-xs);
+  }
+}
+
+.floatingTab {
+  cursor: pointer;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: var(--radius-full);
+
+  color: var(--ink-tertiary);
+
+  background: transparent;
+
+  transition: all var(--transition-fast);
+
+  &:hover:not(:disabled) {
+    color: var(--ink-secondary);
+    background: var(--canvas-tertiary);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
+
+.floatingTabActive {
+  color: var(--brand-default);
+  background: var(--brand-soft);
+
+  &:hover {
+    background: var(--brand-soft);
+  }
+}
+
+.floatingTabIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  height: 20px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    stroke-width: 2;
+  }
+}
+
+.floatingTabIndicator {
+  pointer-events: none;
+
+  position: absolute;
+  inset: 0;
+
+  border: 2px solid var(--brand-default);
+  border-radius: var(--radius-full);
+}
+
+// Аватар внизу
+.floatingTabAvatar {
+  cursor: pointer;
+
+  overflow: hidden;
+
+  width: 36px;
+  height: 36px;
+  margin-top: var(--space-xs);
+  border: 2px solid var(--border-default);
+  border-radius: var(--radius-full);
+
+  transition: all var(--transition-fast);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    border-color: var(--brand-default);
+  }
+}
+
+// Контент при floating tabs
+.floatingContent {
+  min-height: 100vh;
+  margin-left: 90px;
+  padding: var(--space-lg);
+
+  @media (max-width: 768px) {
+    margin-left: 70px;
+    padding: var(--space-md);
+  }
+}
+
+.floatingPanel {
+  min-height: calc(100vh - var(--space-xl) * 2);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+
+  background: var(--canvas-secondary);
+  box-shadow: var(--glass-shadow);
+}
+
+// ============================================
+// HORIZONTAL TABS (классика)
+// ============================================
+
+.wrapper {
+  display: flex;
+
+  &Horizontal {
+    overflow: auto;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-sm);
+  }
+}
+
+.list {
+  display: flex;
+
+  &Horizontal {
+    flex-direction: row;
+    gap: var(--space-lg);
+
+    width: 100%;
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-default);
+  }
+}
+
+.tab {
+  cursor: pointer;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  margin: 0;
+  border: none;
+
+  text-align: left;
+
+  background: transparent;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--brand-soft);
+    border-radius: var(--radius-sm);
+  }
+
+  &Horizontal {
+    gap: var(--space-sm);
+
+    padding: var(--space-xs) 0;
+
+    @include h5;
+    color: var(--ink-tertiary);
+
+    transition: color var(--transition-fast);
+
+    &:hover:not(:disabled) {
+      color: var(--ink-secondary);
+    }
+  }
+
+  &Active {
+    color: var(--brand-default);
+  }
+}
+
+.tabIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 18px;
+  height: 18px;
+}
+
+.content {
+  &Horizontal {
+    margin-top: var(--space-md);
+  }
+}
+
+.panel {
+  height: 100%;
+  border-radius: var(--radius-md);
+  background-color: var(--canvas-secondary);
+}

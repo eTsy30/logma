@@ -10,3 +10,5 @@ authMiddleware.startListening({
     api.dispatch(authApi.util.resetApiState());
   },
 });
+
+export const { middleware } = authMiddleware;

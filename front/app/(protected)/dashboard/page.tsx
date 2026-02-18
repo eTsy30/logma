@@ -1,4 +1,5 @@
 import { type Metadata } from 'next';
+import { DashboardView } from 'pages/dash-board/ui';
 import { getMetadata } from 'shared/lib/metadata';
 import { routes } from 'shared/router/paths';
 
@@ -11,5 +12,5 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 export default async function Dashboard() {
-  return <div>Dashboard</div>;
+  return <DashboardView />;
 }

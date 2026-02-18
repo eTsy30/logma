@@ -1,16 +1,15 @@
-import '../src/app/styles/variables.scss';
-import '../src/app/styles/app.scss';
-import '../src/app/styles/theme.scss';
 import '../src/app/styles/normalize.css';
+import '../src/app/styles/variables.scss';
+import '../src/app/styles/theme.scss';
+import '../src/app/styles/app.scss';
 import { type ReactNode } from 'react';
 import { type Metadata, type Viewport } from 'next';
 import { getMetadata } from 'shared/lib/metadata';
 import { routes } from 'shared/router/paths';
 import { Providers } from 'app/providers/Providers';
 import { inter } from 'app/fonts';
-import { Header } from 'shared/ui/Header';
-import { Footer } from 'shared/ui/Footer';
-import { AuthBootstrap } from 'shared/providers/AuthBootstrap';
+import { AuthGuard } from 'shared/providers/AuthGuard';
+import { Sidebar } from 'shared/ui/Sidebar';
 
 export async function generateMetadata(): Promise<Metadata> {
   return getMetadata({ url: routes.homepage });
@@ -28,9 +27,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth">
       <body className={inter.variable}>
         <Providers>
-          <Header />
-          <AuthBootstrap>{children}</AuthBootstrap>
-          <Footer />
+          <Sidebar />
+          <AuthGuard>{children}</AuthGuard>
         </Providers>
       </body>
     </html>

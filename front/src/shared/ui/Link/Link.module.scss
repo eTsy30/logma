@@ -10,8 +10,8 @@
   color: var(--color-green-500);
 
   &[aria-disabled='true'] {
-    color: var(--color-green-200);
     pointer-events: none;
+    color: var(--color-green-200);
   }
 
   @include hover {

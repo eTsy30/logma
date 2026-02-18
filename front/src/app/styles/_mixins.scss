@@ -17,7 +17,6 @@
   }
 }
 
-
 // Убирает контент после превышения его в указанное количество строк
 @mixin line-clamp($rows) {
   overflow: hidden;
@@ -46,7 +45,6 @@
   }
 }
 
-
 // Миксин для медиа-запросов
 @mixin screen-size($breakpoint) {
   @if map.has-key($breakpoints, $breakpoint) {
@@ -59,11 +57,11 @@
 }
 
 // миксин кастомизирует скроллбар
-@mixin popover-scrollbar(
+@mixin scrollbar(
   $width: 6px,
   $border-radius: 6px,
-  $background: var(--color-black-20),
-  $background-hover: var(--color-black-40)
+  $background: var(--canvas-tertiary),
+  $background-hover: var(--ink-quaternary)
 ) {
   &::-webkit-scrollbar {
     width: $width;

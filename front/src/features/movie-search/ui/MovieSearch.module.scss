@@ -1,0 +1,260 @@
+@use 'styles/index' as *;
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+// === ПОИСК ===
+.searchWrapper {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+
+  &:focus-within {
+    border-color: var(--brand-default);
+    box-shadow: 0 0 0 3px var(--brand-soft);
+  }
+}
+
+.searchIcon {
+  flex-shrink: 0;
+  color: var(--ink-tertiary);
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  font-size: var(--body);
+  color: var(--ink-primary);
+  background: transparent;
+  outline: none;
+
+  &::placeholder {
+    color: var(--ink-quaternary);
+  }
+}
+
+.loader {
+  flex-shrink: 0;
+  color: var(--brand-default);
+  animation: spin 1s linear infinite;
+}
+
+.clearBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  color: var(--ink-tertiary);
+  background: var(--canvas-tertiary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+
+  &:hover {
+    border-color: var(--error);
+    color: var(--error);
+    background: var(--error-soft);
+  }
+}
+
+// === ДРОПДАУН ===
+.dropdown {
+  position: absolute;
+  z-index: 100;
+  top: calc(100% + var(--space-sm));
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-height: 400px;
+  padding: var(--space-sm);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+  @include scrollbar();
+}
+
+.dropdownMessage {
+  padding: var(--space-md);
+  @include body-sm;
+  color: var(--ink-tertiary);
+  text-align: center;
+}
+
+.dropdownMessageError {
+  padding: var(--space-md);
+  @include body-sm;
+  color: var(--error);
+  text-align: center;
+}
+
+.movieItem {
+  position: relative;
+}
+
+.savedBadge {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  @include body-sm;
+  font-weight: var(--fw-semibold);
+  color: white;
+  background: var(--success);
+}
+
+// === ВЫБРАННЫЙ ФИЛЬМ ===
+.selectedMovie {
+  margin-top: var(--space-lg);
+}
+
+.actions {
+  margin-top: var(--space-md);
+}
+
+.alreadySaved {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  @include body;
+  font-weight: var(--fw-semibold);
+  color: var(--success);
+  background: var(--success-soft);
+}
+
+.choiceButtons {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+}
+
+// === ФОРМА ПРОСМОТРА ===
+.watchedForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--canvas-secondary);
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+
+  label {
+    @include body-sm;
+    font-weight: var(--fw-semibold);
+    color: var(--ink-secondary);
+  }
+}
+
+.ratingInput {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  span {
+    margin-left: var(--space-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--ink-tertiary);
+  }
+}
+
+.star {
+  color: var(--ink-quaternary);
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: var(--warning);
+  }
+}
+
+.starActive {
+  color: var(--warning);
+}
+
+.dateInput,
+.textarea {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  font-size: var(--body);
+  color: var(--ink-primary);
+  background: var(--canvas-primary);
+
+  &:focus {
+    border-color: var(--brand-default);
+    outline: none;
+  }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 8rem;
+  font-family: inherit;
+}
+
+.checkbox {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  @include body-sm;
+  cursor: pointer;
+
+  input {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+}
+
+.formButtons {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: flex-end;
+  margin-top: var(--space-sm);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
