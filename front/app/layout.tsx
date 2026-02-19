@@ -27,7 +27,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth">
       <body className={inter.variable}>
         <Providers>
-          <Sidebar />
           <AuthGuard>{children}</AuthGuard>
         </Providers>
       </body>

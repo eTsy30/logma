@@ -20,8 +20,6 @@
   border-radius: var(--radius-full);
 
   background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  box-shadow: var(--glass-shadow);
 
   @media (max-width: 768px) {
     left: var(--space-xs);
@@ -123,12 +121,9 @@
 // Контент при floating tabs
 .floatingContent {
   min-height: 100vh;
-  margin-left: 90px;
-  padding: var(--space-lg);
-
+  padding-top: 0px;
   @media (max-width: 768px) {
-    margin-left: 70px;
-    padding: var(--space-md);
+    padding-top: 0px;
   }
 }
 
@@ -136,10 +131,10 @@
   min-height: calc(100vh - var(--space-xl) * 2);
   padding: var(--space-lg);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
+  border-top: none;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 
   background: var(--canvas-secondary);
-  box-shadow: var(--glass-shadow);
 }
 
 // ============================================

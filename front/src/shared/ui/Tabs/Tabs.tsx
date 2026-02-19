@@ -163,7 +163,6 @@ export function Tabs({
             <img src="/avatar.jpg" alt="User" />
           </div>
         </div>
-
         {/* Контент */}
         <div className={cx(s.floatingContent, contentClassName)}>
           <AnimatePresence mode="wait">

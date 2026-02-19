@@ -25,7 +25,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color: var(--canvas-primary);
+  background-color: var(--bg-gradient);
   color: var(--ink-primary);
 }
 
@@ -37,8 +37,6 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   margin: 0 auto;
-
-  background: var(--canvas-primary);
 
   @include body;
 

@@ -3,14 +3,12 @@ import s from './dashboard.module.scss';
 import { Tabs } from 'shared/ui/Tabs';
 
 import { MAIN_TABS } from 'features/media/mainTabs.config';
-import { MovieSearch } from 'features/movie-search';
+import { Sidebar } from 'shared/ui/Sidebar';
 
 export const DashboardView = () => {
   return (
     <div className={s.container}>
-      <div className={s.content}>
-        <MovieSearch />
-      </div>
+      <Sidebar />
       <Tabs
         storageKey="main-category"
         orientation="vertical"

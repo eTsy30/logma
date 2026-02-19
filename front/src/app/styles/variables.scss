@@ -7,7 +7,7 @@
   --ink-secondary: #4a5568; /* Вторичный текст, описания */
   --ink-tertiary: #718096; /* Третичный, подписи, метки */
   --ink-quaternary: #a0aec0; /* Плейсхолдеры, неактивное */
-
+  --bg-gradient: linear-gradient(180deg, #f8fafc 0%, #e9eef5 100%);
   /* Background - фоны */
   --canvas-primary: #ffffff; /* Основной фон */
   --canvas-secondary: #f7fafc; /* Карточки, секции */
@@ -40,6 +40,17 @@
   --glass-blur: blur(20px);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
+  --surface-glass: rgba(255, 255, 255, 0.7);
+
+  --border-glass: rgba(0, 0, 0, 0.06);
+  --glow-primary: rgba(37, 99, 235, 0.2);
+
+  --shadow-elevation: rgba(0, 0, 0, 0.1);
+  --glow-primary: rgba(79, 140, 255, 0.25);
+
+  --shadow-elevation: rgba(0, 0, 0, 0.6);
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
   /* Spacing - минимум */
   --space-xs: 0.4rem; /* 4px */
   --space-sm: 0.8rem; /* 8px */

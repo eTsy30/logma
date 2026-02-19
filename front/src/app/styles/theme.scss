@@ -5,7 +5,7 @@
   --ink-secondary: #cbd5e1; /* ~81% lightness */
   --ink-tertiary: #94a3b8; /* ~65% lightness */
   --ink-quaternary: #64748b; /* ~52% lightness */
-
+  --bg-gradient: rgb(15, 20, 37);
   /* Background - темнеем */
   --canvas-primary: #0f172a; /* ~12% lightness */
   --canvas-secondary: #1e293b; /* ~20% lightness */
@@ -36,6 +36,12 @@
   --glass-bg: rgba(15, 23, 42, 0.8);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --accent: #4f8cff;
+  --accent-hover: #6aa2ff;
+
+  --surface-glass: rgba(255, 255, 255, 0.05);
+
+  --border-glass: rgba(255, 255, 255, 0.08);
 
   /* Legacy Fallbacks for Dark Theme */
   --color-text: var(--ink-primary);

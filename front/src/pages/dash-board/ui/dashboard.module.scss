@@ -1,8 +1,9 @@
+@use 'styles/index' as *;
 .container {
   min-height: 100vh;
-  padding: var(--space-5);
-  padding-left: 120px;
-  background: var(--color-bg);
+  margin: 80px;
+  border-radius: var(--radius-lg);
+  
 }
 
 .wrapper {
