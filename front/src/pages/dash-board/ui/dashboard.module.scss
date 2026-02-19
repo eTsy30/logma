@@ -1,76 +1,18 @@
 @use 'styles/index' as *;
+
 .container {
-  min-height: 100vh;
-  margin: 80px;
-  border-radius: var(--radius-lg);
-  
-}
-
-.wrapper {
-  overflow-y: auto;
-
-  width: 100%;
-  max-width: 600px;
-  height: fit-content;
-  height: 100%;
-  max-height: calc(100vh - 4rem); // не больше экрана минус отступы
-  padding: 2rem;
-}
-
-.some {
-  background-color: red;
-}
-
-.tabs {
-  display: flex;
-  gap: 8px;
-
-  padding: 4px;
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-
-  background: var(--color-surface);
-}
-
-.tab {
-  cursor: pointer;
-
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-textMuted);
-
-  background: transparent;
-
-  transition: all 0.2s ease;
-
-  &:hover {
-    color: var(--color-text);
-  }
-}
-
-.tabActive {
-  color: var(--color-text);
-  background: var(--color-surfaceAlt);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 10%);
-}
-
-.main {
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-.list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  overflow: hidden;
+  height: calc(100vh - 160px);
+  margin: 80px;
+
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
 }
 
-.content {
-  max-width: 600px;
-  margin: 0 auto;
-  padding-top: var(--space-10);
+.tabsWrapper {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }

@@ -157,11 +157,6 @@ export function Tabs({
               </Ariakit.Tab>
             );
           })}
-
-          {/* Аватар внизу как на картинке */}
-          <div className={s.floatingTabAvatar}>
-            <img src="/avatar.jpg" alt="User" />
-          </div>
         </div>
         {/* Контент */}
         <div className={cx(s.floatingContent, contentClassName)}>
@@ -179,6 +174,7 @@ export function Tabs({
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
                       transition={{ duration: 0.2 }}
+                      className={s.content_list}
                     >
                       {shouldRenderTab(tab.id) && tab.content}
                     </motion.div>
@@ -237,6 +233,7 @@ export function Tabs({
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.2 }}
+                      className={s.content_list}
                     >
                       {shouldRenderTab(tab.id) && tab.content}
                     </motion.div>

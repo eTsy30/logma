@@ -1,23 +1,20 @@
 @use 'styles/index' as *;
+
 // ============================================
-// FLOATING VERTICAL TABS (как на картинке)
+// FLOATING VERTICAL TABS
 // ============================================
 
 .floatingTabs {
   position: fixed;
   z-index: 100;
-  top: 50%;
-  left: var(--space-md);
+  top: 242px;
+  left: 35px;
   transform: translateY(-50%);
 
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: var(--space-xs);
-
-  padding: var(--space-sm);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-full);
+  align-items: center;
 
   background: var(--glass-bg);
 
@@ -28,8 +25,6 @@
 }
 
 .floatingTab {
-  cursor: pointer;
-
   position: relative;
 
   display: flex;
@@ -38,13 +33,14 @@
 
   width: 44px;
   height: 44px;
+  padding: 0;
   border: none;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-full) 0 0 var(--radius-full);
 
   color: var(--ink-tertiary);
-
   background: transparent;
 
+  cursor: pointer;
   transition: all var(--transition-fast);
 
   &:hover:not(:disabled) {
@@ -53,8 +49,8 @@
   }
 
   &:disabled {
-    cursor: not-allowed;
     opacity: 0.4;
+    cursor: not-allowed;
   }
 }
 
@@ -83,19 +79,12 @@
 }
 
 .floatingTabIndicator {
-  pointer-events: none;
-
   position: absolute;
   inset: 0;
-
-  border: 2px solid var(--brand-default);
-  border-radius: var(--radius-full);
+  pointer-events: none;
 }
 
-// Аватар внизу
 .floatingTabAvatar {
-  cursor: pointer;
-
   overflow: hidden;
 
   width: 36px;
@@ -104,6 +93,7 @@
   border: 2px solid var(--border-default);
   border-radius: var(--radius-full);
 
+  cursor: pointer;
   transition: all var(--transition-fast);
 
   img {
@@ -113,52 +103,60 @@
   }
 
   &:hover {
-    transform: scale(1.05);
     border-color: var(--brand-default);
+    transform: scale(1.05);
   }
 }
 
-// Контент при floating tabs
 .floatingContent {
-  min-height: 100vh;
-  padding-top: 0px;
-  @media (max-width: 768px) {
-    padding-top: 0px;
-  }
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }
 
 .floatingPanel {
-  min-height: calc(100vh - var(--space-xl) * 2);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
   padding: var(--space-lg);
   border: 1px solid var(--border-default);
   border-top: none;
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-
   background: var(--canvas-secondary);
+  overflow: hidden;
+}
+
+.content_list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+
+  @include scrollbar(6px, 6px, var(--canvas-tertiary), var(--ink-quaternary));
 }
 
 // ============================================
-// HORIZONTAL TABS (классика)
+// HORIZONTAL TABS
 // ============================================
 
 .wrapper {
-  display: flex;
-
   &Horizontal {
-    overflow: auto;
+    display: flex;
     flex-direction: column;
     height: 100%;
+    overflow: hidden;
     padding: var(--space-sm);
   }
 }
 
 .list {
-  display: flex;
-
   &Horizontal {
+    flex-shrink: 0;
+    display: flex;
     flex-direction: row;
     gap: var(--space-lg);
-
     width: 100%;
     padding-bottom: var(--space-md);
     border-bottom: 1px solid var(--border-default);
@@ -166,8 +164,6 @@
 }
 
 .tab {
-  cursor: pointer;
-
   position: relative;
 
   display: flex;
@@ -177,23 +173,23 @@
   border: none;
 
   text-align: left;
-
   background: transparent;
 
+  cursor: pointer;
+
   &:disabled {
-    cursor: not-allowed;
     opacity: 0.5;
+    cursor: not-allowed;
   }
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px var(--brand-soft);
     border-radius: var(--radius-sm);
+    box-shadow: 0 0 0 2px var(--brand-soft);
   }
 
   &Horizontal {
     gap: var(--space-sm);
-
     padding: var(--space-xs) 0;
 
     @include h5;
@@ -222,7 +218,12 @@
 
 .content {
   &Horizontal {
+    flex: 1;
+    min-height: 0;
     margin-top: var(--space-md);
+    overflow-y: auto;
+
+    @include scrollbar(6px, 6px, var(--canvas-tertiary), var(--ink-quaternary));
   }
 }
 

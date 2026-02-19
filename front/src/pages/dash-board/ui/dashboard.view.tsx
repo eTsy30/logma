@@ -9,11 +9,15 @@ export const DashboardView = () => {
   return (
     <div className={s.container}>
       <Sidebar />
-      <Tabs
-        storageKey="main-category"
-        orientation="vertical"
-        tabs={MAIN_TABS}
-      />
+      <div className={s.tabsWrapper}>
+        {' '}
+        {/* ← ДОБАВИТЬ */}
+        <Tabs
+          storageKey="main-category"
+          orientation="vertical"
+          tabs={MAIN_TABS}
+        />
+      </div>
     </div>
   );
 };

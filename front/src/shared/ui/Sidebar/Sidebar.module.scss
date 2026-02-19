@@ -2,19 +2,15 @@
 @use 'styles/index' as *;
 
 .header {
-  padding: var(--space-lg) 0;
+  padding: var(--space-md) 0;
   background-color: var(--canvas-secondary);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   border: 1px solid var(--border-default);
-
-  @media (max-width: 768px) {
-    padding: var(--space-md) 0;
-  }
 }
 
 .container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   max-width: 1200px;
   margin: 0 auto;

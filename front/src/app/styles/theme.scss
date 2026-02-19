@@ -1,59 +1,55 @@
-/* ========== Dark Theme (контраст 3:1) ========== */
 [data-theme='dark'] {
-  /* Text - светлеем */
-  --ink-primary: #f1f5f9; /* ~93% lightness */
-  --ink-secondary: #cbd5e1; /* ~81% lightness */
-  --ink-tertiary: #94a3b8; /* ~65% lightness */
-  --ink-quaternary: #64748b; /* ~52% lightness */
-  --bg-gradient: rgb(15, 20, 37);
-  /* Background - темнеем */
-  --canvas-primary: #0f172a; /* ~12% lightness */
-  --canvas-secondary: #1e293b; /* ~20% lightness */
-  --canvas-tertiary: #334155; /* ~30% lightness */
+  /* ========== ОСНОВНЫЕ ЦВЕТА ========== */
 
-  /* Brand - ярче для контраста */
-  --brand-default: #60a5fa; /* Светлее на 20% */
-  --brand-hover: #3b82f6;
-  --brand-active: #2563eb;
-  --brand-soft: rgba(59, 130, 246, 0.2);
+  /* Text - светлеем для контраста */
+  --ink-primary: #f8fafc; /* Основной текст - почти белый */
+  --ink-secondary: #cbd5e1; /* Вторичный текст */
+  --ink-tertiary: #94a3b8; /* Третичный */
+  --ink-quaternary: #64748b; /* Неактивное */
 
-  /* Functional - ярче */
-  --success: #34d399;
-  --success-soft: rgba(16, 185, 129, 0.2);
-  --warning: #fbbf24;
-  --warning-soft: rgba(245, 158, 11, 0.2);
-  --error: #f87171;
-  --error-soft: rgba(239, 68, 68, 0.2);
-  --info: #22d3ee;
-  --info-soft: rgba(6, 182, 212, 0.2);
+  /* ========== ФОН - ГРАДИЕНТНЫЙ ========== */
+  --bg-gradient: linear-gradient(
+    135deg,
+    #1e3a5f 0%,
+    /* Тёмно-синий */ #2d4a6f 25%,
+    /* Средне-синий */ #3d5a7f 50%,
+    /* Светло-синий центр */ #2d4a6f 75%,
+    /* Средне-синий */ #1e3a5f 100% /* Тёмно-синий */
+  );
 
-  /* Borders */
-  --border-default: #334155;
-  --border-hover: #475569;
+  /* Background - светлее для карточек */
+  --canvas-primary: #1a2744; /* Основной фон */
+  --canvas-secondary: #243552; /* Карточки - светлее! */
+  --canvas-tertiary: #2d4565; /* Ховеры */
+
+  /* ========== БРЕНД - ЯРКИЙ СИНИЙ ========== */
+  --brand-default: #60a5fa; /* Яркий синий */
+  --brand-hover: #3b82f6; /* Ховер */
+  --brand-active: #2563eb; /* Активный */
+  --brand-soft: rgba(96, 165, 250, 0.15); /* Мягкий фон */
+
+  /* ========== ГРАНИЦЫ ========== */
+  --border-default: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.15);
   --border-focus: #60a5fa;
 
-  /* Glass - темная версия */
-  --glass-bg: rgba(15, 23, 42, 0.8);
+  /* ========== GLASS ЭФФЕКТЫ ========== */
+  --glass-bg: rgba(36, 53, 82, 0.7);
   --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --accent: #4f8cff;
-  --accent-hover: #6aa2ff;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 
-  --surface-glass: rgba(255, 255, 255, 0.05);
+  /* ========== СВЕЧЕНИЕ (GLOW) ========== */
+  --surface-glass: rgba(255, 255, 255, 0.06);
+  --border-glass: rgba(255, 255, 255, 0.1);
 
-  --border-glass: rgba(255, 255, 255, 0.08);
+  /* Основное свечение - синее */
+  --glow-primary: rgba(96, 165, 250, 0.4);
+  --glow-soft: rgba(96, 165, 250, 0.2);
 
-  /* Legacy Fallbacks for Dark Theme */
-  --color-text: var(--ink-primary);
-  --color-textMuted: var(--ink-tertiary);
-  --color-border: var(--border-default);
-  --color-surface: var(--canvas-secondary);
-  --color-primary: var(--brand-default);
-  --color-accent: var(--brand-default);
-  --color-accentHover: var(--brand-hover);
-  --color-accentSoft: var(--brand-soft);
-  --color-error: var(--error);
-  --color-error-light: var(--error-soft);
-  --color-success: var(--success);
-  --color-nature: var(--success);
+  /* Тени */
+  --shadow-elevation: rgba(0, 0, 0, 0.4);
+
+  /* Акцент */
+  --accent: #60a5fa;
+  --accent-hover: #3b82f6;
 }

@@ -206,11 +206,231 @@ function InputsSection() {
     </FormProvider>
   );
 }
+// components/Logo/Logo.tsx
+export const Logo = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 140 40"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+      <linearGradient id="bulbGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stopColor="#f9e79f" />
+        <stop offset="50%" stopColor="#f1d36b" />
+        <stop offset="100%" stopColor="#d4a017" />
+      </linearGradient>
+    </defs>
 
+    {/* L */}
+    <text
+      x="8"
+      y="30"
+      fontSize="28"
+      fontWeight="700"
+      fill="currentColor"
+      fontFamily="system-ui, -apple-system, sans-serif"
+    >
+      L
+    </text>
+
+    {/* Лампочка */}
+    <g transform="translate(28, 8)" filter="url(#glow)">
+      {/* Основная колба */}
+      <path
+        d="M12 2C6.48 2 2 6.48 2 12c0 3.5 1.8 6.5 4.5 8.3V22c0 .55.45 1 1 1h9c.55 0 1-.45 1-1v-1.7c2.7-1.8 4.5-4.8 4.5-8.3 0-5.52-4.48-10-10-10z"
+        fill="url(#bulbGradient)"
+      />
+      {/* Ниточка накаливания */}
+      <path
+        d="M8 20h8M9 16l1.5-3M15 16l-1.5-3"
+        stroke="#b8860b"
+        strokeWidth="0.8"
+        strokeLinecap="round"
+        fill="none"
+      />
+      {/* Блик */}
+      <ellipse cx="9" cy="8" rx="3" ry="4" fill="white" opacity="0.4" />
+    </g>
+
+    {/* gma */}
+    <text
+      x="54"
+      y="30"
+      fontSize="28"
+      fontWeight="700"
+      fill="currentColor"
+      fontFamily="system-ui, -apple-system, sans-serif"
+      letterSpacing="-0.02em"
+    >
+      gma
+    </text>
+  </svg>
+);
+export const LogoGeometric = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 140 40"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <linearGradient id="bulbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#ffecd2" />
+        <stop offset="100%" stopColor="#fcb69f" />
+      </linearGradient>
+      <filter id="softGlow">
+        <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+        <feMerge>
+          <feMergeNode in="coloredBlur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+
+    {/* L - геометрическая */}
+    <path d="M8 8h6v20h10v6H8V8z" fill="currentColor" rx="2" />
+
+    {/* Лампочка - стилизованная капля */}
+    <g transform="translate(30, 6)" filter="url(#softGlow)">
+      <path
+        d="M12 0C5.37 0 0 5.37 0 12c0 4.2 2.15 7.9 5.4 10.1L6 26h12l.6-3.9C21.85 19.9 24 16.2 24 12c0-6.63-5.37-12-12-12z"
+        fill="url(#bulbGrad)"
+      />
+      {/* Внутреннее свечение */}
+      <circle cx="8" cy="8" r="4" fill="white" opacity="0.5" />
+      {/* Основание */}
+      <rect x="8" y="24" width="8" height="4" rx="1" fill="#d4a017" />
+    </g>
+
+    {/* gma */}
+    <text
+      x="58"
+      y="30"
+      fontSize="26"
+      fontWeight="600"
+      fill="currentColor"
+      fontFamily="Inter, system-ui, sans-serif"
+    >
+      gma
+    </text>
+  </svg>
+);
+export const LogoNeon = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 140 40"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <linearGradient id="neonGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stopColor="#fff9c4" />
+        <stop offset="50%" stopColor="#ffeb3b" />
+        <stop offset="100%" stopColor="#fbc02d" />
+      </linearGradient>
+      <filter id="neonGlow" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="4" result="blur" />
+        <feFlood floodColor="#ffeb3b" floodOpacity="0.6" />
+        <feComposite in2="blur" operator="in" />
+        <feMerge>
+          <feMergeNode />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+
+    {/* L */}
+    <path d="M6 6h8v20h12v8H6V6z" fill="currentColor" />
+
+    {/* Лампочка - неоновая */}
+    <g transform="translate(32, 4)" filter="url(#neonGlow)">
+      {/* Колба */}
+      <path
+        d="M12 2C6.48 2 2 6.48 2 12c0 3.5 1.8 6.5 4.5 8.3V22c0 .55.45 1 1 1h9c.55 0 1-.45 1-1v-1.7c2.7-1.8 4.5-4.8 4.5-8.3 0-5.52-4.48-10-10-10z"
+        fill="url(#neonGrad)"
+        stroke="#ffeb3b"
+        strokeWidth="0.5"
+      />
+      {/* Молния внутри */}
+      <path d="M11 8l-3 6h3l-1 6 5-8h-3l2-4h-3z" fill="#f57f17" opacity="0.8" />
+    </g>
+
+    {/* gma */}
+    <text
+      x="60"
+      y="30"
+      fontSize="26"
+      fontWeight="700"
+      fill="currentColor"
+      fontFamily="Inter, system-ui, sans-serif"
+      letterSpacing="-0.01em"
+    >
+      gma
+    </text>
+  </svg>
+);
+export const LogoMinimal = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 120 32"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <defs>
+      <linearGradient id="lightGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stopColor="#fffde7" />
+        <stop offset="100%" stopColor="#f1d36b" />
+      </linearGradient>
+    </defs>
+
+    {/* L */}
+    <text
+      x="0"
+      y="24"
+      fontSize="24"
+      fontWeight="700"
+      fill="currentColor"
+      fontFamily="Inter, system-ui, sans-serif"
+    >
+      L
+    </text>
+
+    {/* Лампочка - простая капля */}
+    <g transform="translate(20, 4)">
+      <path
+        d="M10 0C4.48 0 0 4.48 0 10c0 3 1.5 5.5 3.8 7.2L4 20h12l.2-2.8C18.5 15.5 20 13 20 10c0-5.52-4.48-10-10-10z"
+        fill="url(#lightGrad)"
+      />
+      {/* Блик */}
+      <circle cx="6" cy="6" r="3" fill="white" opacity="0.6" />
+      {/* Цоколь */}
+      <rect x="6" y="20" width="8" height="3" rx="1" fill="#d4a017" />
+    </g>
+
+    {/* gma */}
+    <text
+      x="46"
+      y="24"
+      fontSize="24"
+      fontWeight="600"
+      fill="currentColor"
+      fontFamily="Inter, system-ui, sans-serif"
+      letterSpacing="-0.02em"
+    >
+      gma
+    </text>
+  </svg>
+);
 // Главный компонент
 export const Test = () => {
   return (
     <div className={s.pageWrapper}>
+      <LogoNeon />
+
       {/* === КНОПКИ === */}
       <div className={s.page}>
         <div className={s.bgGradient} />

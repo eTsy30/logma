@@ -5,7 +5,35 @@
   min-height: 100vh;
   padding: 48px 24px;
 }
+// Logo.module.scss
+.logo {
+  width: 120px;
+  height: auto;
+  color: var(--ink-primary);
+  
+  // Анимация пульсации лампочки
+  [class*="bulb"] {
+    animation: pulse 3s ease-in-out infinite;
+  }
+}
 
+@keyframes pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(241, 211, 107, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(241, 211, 107, 0.8));
+  }
+}
+
+// Hover эффект
+.logo:hover {
+  [class*="bulb"] {
+    filter: drop-shadow(0 0 16px rgba(241, 211, 107, 1));
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+  }
+}
 // Фон с градиентом (как на 4-й картинке)
 .bgGradient {
   position: fixed;
