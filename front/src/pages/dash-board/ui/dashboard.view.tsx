@@ -4,11 +4,14 @@ import { Tabs } from 'shared/ui/Tabs';
 
 import { MAIN_TABS } from 'features/media/mainTabs.config';
 import { Sidebar } from 'shared/ui/Sidebar';
+import { Logo } from 'shared/ui/Logo/Logo';
 
 export const DashboardView = () => {
   return (
     <div className={s.container}>
       <Sidebar />
+  
+      
       <div className={s.tabsWrapper}>
         {' '}
         {/* ← ДОБАВИТЬ */}

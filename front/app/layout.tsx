@@ -15,6 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return getMetadata({ url: routes.homepage });
 }
 
+export const manifest = '/favicon/site.webmanifest';
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,

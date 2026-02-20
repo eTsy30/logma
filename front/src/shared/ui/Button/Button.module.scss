@@ -1,48 +1,45 @@
 @use 'styles/index' as *;
+
 .button {
   cursor: pointer;
   position: relative;
   overflow: hidden;
   display: inline-flex;
-  gap: var(--space-sm);
+  gap: 8px;
   align-items: center;
   justify-content: center;
 
-  height: var(--btn-height);
-  padding: 0 var(--btn-padding);
+  height: 44px;
+  padding: 0 20px;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
 
-  font-size: var(--body);
-  font-weight: var(--fw-medium);
+  font-size: var(--font-size-meta);
+  font-weight: 600;
   text-align: center;
 
-  backdrop-filter: var(--glass-blur);
-  transition: all var(--transition-base);
-
-  &:hover {
-    @include accent-glow;
-  }
+  backdrop-filter: blur(12px);
+  transition: all var(--transition-fast);
 
   &:disabled,
   &[data-loading='true'] {
     cursor: not-allowed;
-    transform: none !important;
-    opacity: 0.6;
+    opacity: 0.5;
+    backdrop-filter: none;
   }
 
   // Размеры
   &[data-size='sm'] {
-    height: 3.6rem;
-    padding: 0 var(--space-md);
-    font-size: var(--body-sm);
+    height: 36px;
+    padding: 0 16px;
+    font-size: 13px;
     border-radius: var(--radius-sm);
   }
 
   &[data-size='lg'] {
-    height: 5.2rem;
-    padding: 0 var(--space-lg);
-    font-size: var(--body);
+    height: 52px;
+    padding: 0 24px;
+    font-size: 16px;
     border-radius: var(--radius-lg);
   }
 
@@ -50,85 +47,87 @@
     width: 100%;
   }
 
-  // === PRIMARY (brand синий) ===
+  // === PRIMARY ===
   &[data-theme='primary'] {
-    border-color: var(--border-default);
     color: white;
-    background: var(--brand-default);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 20%);
+    background: linear-gradient(
+      135deg,
+      var(--accent) 0%,
+      rgba(99, 102, 241, 0.8) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px var(--accent-soft);
 
     &:hover:not(:disabled) {
       transform: translateY(-1px);
-      background: var(--brand-hover);
-      box-shadow:
-        0 4px 12px var(--brand-soft),
-        inset 0 1px 0 rgb(255 255 255 / 30%);
+      background: var(--accent);
+      box-shadow: 0 6px 16px var(--accent-soft);
     }
 
     &:active:not(:disabled) {
       transform: translateY(0);
-      background: var(--brand-active);
+      filter: brightness(0.9);
     }
   }
 
-  // === SECONDARY (glass + бордер) ===
+  // === SECONDARY ===
   &[data-theme='secondary'] {
-    border-color: var(--border-default);
-    color: var(--ink-primary);
-    background: var(--glass-bg);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+
+    [data-theme='light'] & {
+      background: rgba(0, 0, 0, 0.03);
+    }
 
     &:hover:not(:disabled) {
-      border-color: var(--border-hover);
-      background: var(--canvas-secondary);
-      box-shadow: var(--glass-shadow);
+      background: var(--bg-hover);
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-card);
     }
 
     &:active:not(:disabled) {
-      background: var(--canvas-tertiary);
+      background: var(--bg-elevated);
     }
   }
 
-  // === LIGHT (призрачная) ===
-  &[data-theme='light'] {
-    border-color: transparent;
-    color: var(--ink-tertiary);
-    background: transparent;
+  // === GHOST ===
+  &[data-theme='ghost'] {
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.03);
 
     &:hover:not(:disabled) {
-      color: var(--ink-primary);
-      background: var(--canvas-tertiary);
+      color: var(--text-primary);
+      background: var(--bg-elevated);
+      border-color: var(--border-subtle);
     }
   }
 
-  // === LINK (текстовая) ===
+  // === LIGHT ===
+  &[data-theme='light'] {
+    border-color: transparent;
+    color: var(--text-muted);
+    background: transparent;
+    backdrop-filter: none;
+
+    &:hover:not(:disabled) {
+      color: var(--text-secondary);
+      background: var(--bg-hover);
+      backdrop-filter: blur(8px);
+    }
+  }
+
+  // === LINK ===
   &[data-theme='link'] {
     height: auto;
     padding: 0;
-    color: var(--brand-default);
+    color: var(--accent);
     background: none;
     backdrop-filter: none;
 
     &:hover:not(:disabled) {
       text-decoration: underline;
-      box-shadow: none;
-    }
-  }
-
-  // === GHOST (glass с цветом текста темы) ===
-  &[data-theme='ghost'] {
-    border-color: var(--border-default);
-    color: var(--ink-primary);
-    background: var(--glass-bg);
-
-    [data-theme='dark'] & {
-      color: var(--ink-primary);
-    }
-
-    &:hover:not(:disabled) {
-      border-color: var(--border-hover);
-      background: var(--canvas-secondary);
-      box-shadow: var(--glass-shadow);
     }
   }
 }
@@ -138,12 +137,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
-
-  [data-theme='primary'] & {
-    filter: drop-shadow(0 0 4px rgb(255 255 255 / 30%));
-  }
+  width: 18px;
+  height: 18px;
 }
 
 // Loading spinner

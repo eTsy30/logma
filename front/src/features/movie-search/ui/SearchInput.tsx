@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, X, Loader2 } from 'lucide-react';
+import { Search, X, Loader2, ArrowLeft } from 'lucide-react';
 import s from './MovieSearch.module.scss';
 
 interface Props {
@@ -9,6 +9,7 @@ interface Props {
   onChange: (value: string) => void;
   onFocus: () => void;
   onClear: () => void;
+  onBack?: () => void;
 }
 
 export function SearchInput({
@@ -17,9 +18,15 @@ export function SearchInput({
   onChange,
   onFocus,
   onClear,
+  onBack,
 }: Props) {
   return (
     <div className={s.searchWrapper}>
+      {onBack && (
+        <button className={s.backBtn} onClick={onBack} aria-label="Назад">
+          <ArrowLeft size={20} />
+        </button>
+      )}
       <Search size={20} className={s.searchIcon} />
       <input
         type="text"

@@ -14,7 +14,7 @@ import { SearchInput } from './ui/SearchInput';
 import { SearchResults } from './ui/SearchResults';
 import { MovieFormData } from 'shared/ui/MovieForm/MovieForm';
 
-export function MovieSearch() {
+export function MovieSearch({ onBack }: { onBack?: () => void }) {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -124,6 +124,7 @@ export function MovieSearch() {
         onChange={setQuery}
         onFocus={() => setIsOpen(true)}
         onClear={handleClear}
+        onBack={onBack}
       />
 
       <AnimatePresence>

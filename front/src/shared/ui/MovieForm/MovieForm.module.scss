@@ -1,10 +1,9 @@
-// MovieForm.module.scss
 @use 'styles/index' as *;
 
 .form {
   overflow: hidden;
-  border-top: 1px solid var(--border-default);
-  background: var(--canvas-secondary);
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
 }
 
 .watchedBlock {
@@ -18,6 +17,9 @@
   display: flex;
   align-items: center;
   gap: var(--space-md);
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
 .ratingWrap {
@@ -40,26 +42,26 @@
   height: 28px;
   padding: 0;
   border: none;
-  color: var(--ink-quaternary);
+  color: var(--text-muted);
   background: transparent;
   cursor: pointer;
   transition: all 0.15s ease;
   border-radius: var(--radius-sm);
 
   &:hover {
-    color: var(--warning);
+    color: var(--rating);
     transform: scale(1.1);
   }
 }
 
 .starActive {
-  color: var(--warning);
+  color: var(--rating);
 }
 
 .ratingValue {
   font-size: 13px;
-  font-weight: var(--fw-semibold);
-  color: var(--ink-secondary);
+  font-weight: 600;
+  color: var(--text-secondary);
   min-width: 40px;
 }
 
@@ -69,14 +71,15 @@
 
 .dateInput {
   padding: 6px 10px;
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   font-size: 13px;
-  color: var(--ink-primary);
-  background: var(--canvas-primary);
+  color: var(--text-primary);
+  background: var(--bg-elevated);
 
   &:focus {
-    border-color: var(--brand-default);
+    border-color: var(--accent);
+    background: var(--bg-surface);
     outline: none;
   }
 }
@@ -88,24 +91,24 @@
   width: 32px;
   height: 32px;
   padding: 0;
-  border: 1px dashed var(--border-default);
+  border: 1px dashed var(--border-subtle);
   border-radius: var(--radius-md);
-  color: var(--ink-tertiary);
+  color: var(--text-muted);
   background: transparent;
   cursor: pointer;
   transition: all 0.15s ease;
 
   &:hover {
-    border-color: var(--border-hover);
-    color: var(--ink-secondary);
+    border-color: var(--border-strong);
+    color: var(--text-secondary);
   }
 }
 
 .rewatchActive {
   border-style: solid;
-  border-color: var(--success);
-  color: var(--success);
-  background: rgba(34, 197, 94, 0.1);
+  border-color: #10b981;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
 }
 
 .commentWrap {
@@ -115,18 +118,19 @@
 .commentInput {
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   font-size: 14px;
-  color: var(--ink-primary);
-  background: var(--canvas-primary);
+  color: var(--text-primary);
+  background: var(--bg-elevated);
 
   &::placeholder {
-    color: var(--ink-quaternary);
+    color: var(--text-muted);
   }
 
   &:focus {
-    border-color: var(--brand-default);
+    border-color: var(--accent);
+    background: var(--bg-surface);
     outline: none;
   }
 }
@@ -146,13 +150,13 @@
   height: 28px;
   border: none;
   border-radius: var(--radius-full);
-  color: var(--ink-tertiary);
+  color: var(--text-muted);
   background: transparent;
   cursor: pointer;
 
   &:hover {
-    background: var(--canvas-tertiary);
-    color: var(--ink-primary);
+    background: var(--bg-elevated);
+    color: var(--text-primary);
   }
 }
 

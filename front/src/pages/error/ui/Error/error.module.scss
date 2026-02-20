@@ -1,0 +1,80 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--bg-gradient, var(--bg-main, #f5f7fb));
+  padding: var(--space-lg, 24px);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 500px;
+  gap: var(--space-md, 16px);
+}
+
+.iconWrapper {
+  margin-bottom: var(--space-sm, 8px);
+}
+
+.title {
+  font-size: 72px;
+  font-weight: 800;
+  color: var(--status-color, var(--accent, #4f46e5));
+  margin: 0;
+  text-shadow: var(--shadow-glow, 0 0 10px rgba(79, 70, 229, 0.2));
+  font-family: 'Nunito Sans', sans-serif;
+  line-height: 1;
+}
+
+.message {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary, #0f172a);
+  margin: 0;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.subtext {
+  font-size: 16px;
+  color: var(--text-secondary, #475569);
+  margin: 0;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.button {
+  margin-top: var(--space-md, 16px);
+  padding: 14px 32px;
+  background: linear-gradient(
+    135deg,
+    var(--status-color, var(--accent, #4f46e5)) 0%,
+    var(--status-color, var(--accent, #4f46e5)) 100%
+  );
+  border: none;
+  border-radius: var(--radius-full, 999px);
+  cursor: pointer;
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bg-card, #ffffff);
+  transition:
+    box-shadow var(--transition-base, 250ms ease),
+    transform var(--transition-fast, 150ms ease);
+  box-shadow: var(--shadow-card, 0 4px 16px rgba(15, 23, 42, 0.06));
+
+  &:hover {
+    box-shadow:
+      var(--shadow-hover, 0 8px 28px rgba(15, 23, 42, 0.12)),
+      0 0 20px var(--status-color, var(--accent, #4f46e5));
+  }
+}
+
+.buttonContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--header-bg);
+}

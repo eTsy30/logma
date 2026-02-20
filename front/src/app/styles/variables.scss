@@ -1,85 +1,105 @@
 :root,
 [data-theme='light'] {
-  /* ========== Core Colors (семантические) ========== */
+  /* ========== 1️⃣ БАЗОВАЯ ДИЗАЙН-СИСТЕМА ========== */
 
-  /* Text - серый ряд */
-  --ink-primary: #1a1d23; /* Основной текст, заголовки */
-  --ink-secondary: #4a5568; /* Вторичный текст, описания */
-  --ink-tertiary: #718096; /* Третичный, подписи, метки */
-  --ink-quaternary: #a0aec0; /* Плейсхолдеры, неактивное */
-  --bg-gradient: linear-gradient(180deg, #f8fafc 0%, #e9eef5 100%);
-  /* Background - фоны */
-  --canvas-primary: #ffffff; /* Основной фон */
-  --canvas-secondary: #f7fafc; /* Карточки, секции */
-  --canvas-tertiary: #edf2f7; /* Ховеры, разделители */
+  /* Цвета (Light) */
+  --bg-main: #f5f7fb;
+  --bg-surface: rgba(255, 255, 255, 0.9);
+  --bg-card: #ffffff;
+  --bg-elevated: #f1f4f9;
+  --bg-hover: #f3f6fc;
 
-  /* Brand - акцентный синий из референса */
-  --brand-default: #3b82f6; /* Кнопки, ссылки */
-  --brand-hover: #2563eb; /* Ховер бренда */
-  --brand-active: #1d4ed8; /* Нажатие */
-  --brand-soft: #dbeafe; /* Фон для бейджей, тегов */
+  --border-subtle: #e6eaf2;
+  --border-strong: #d3dae6;
 
-  /* Functional - функциональные */
-  --success: #10b981; /* Успех, онлайн */
-  --success-soft: #d1fae5; /* Фон успеха */
-  --warning: #f59e0b; /* Предупреждение */
-  --warning-soft: #fef3c7; /* Фон предупреждения */
-  --error: #ef4444; /* Ошибка, критичное */
-  --error-soft: #fee2e2; /* Фон ошибки */
-  --info: #06b6d4; /* Информация */
-  --info-soft: #cffafe; /* Фон инфо */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
 
-  /* Borders - границы */
-  --border-default: #e2e8f0; /* Обычные бордеры */
-  --border-hover: #cbd5e0; /* Ховер бордера */
-  --border-focus: #3b82f6; /* Фокус кольцо */
+  --accent: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.12);
 
-  /* Glass - эффекты из референса */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --glass-blur: blur(20px);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --rating: #f59e0b;
+  --header-bg: rgba(255, 255, 255, 0.7);
 
-  --surface-glass: rgba(255, 255, 255, 0.7);
+ --error: #ef4444;
+  --warning: #f59e0b;
+  --success: #10b981;
+  --info: #3b82f6;
 
-  --border-glass: rgba(0, 0, 0, 0.06);
-  --glow-primary: rgba(37, 99, 235, 0.2);
+  /* ========== 2️⃣ ГРАДИЕНТЫ (Light) ========== */
+  --bg-gradient:
+    radial-gradient(
+      1000px 600px at 10% 0%,
+      rgba(79, 70, 229, 0.08),
+      transparent 70%
+    ),
+    radial-gradient(
+      800px 500px at 90% 100%,
+      rgba(59, 130, 246, 0.05),
+      transparent 70%
+    ),
+    #f5f7fb;
 
-  --shadow-elevation: rgba(0, 0, 0, 0.1);
-  --glow-primary: rgba(79, 140, 255, 0.25);
+  /* ========== 3️⃣ BOX-SHADOW (Light) ========== */
+  --shadow-container:
+    0 20px 50px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(15, 23, 42, 0.02);
+  --shadow-card: 0 4px 16px rgba(15, 23, 42, 0.06);
+  --shadow-hover: 0 8px 28px rgba(15, 23, 42, 0.12);
+  --shadow-glow: 0 0 10px rgba(79, 70, 229, 0.2);
 
-  --shadow-elevation: rgba(0, 0, 0, 0.6);
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  /* Spacing - минимум */
-  --space-xs: 0.4rem; /* 4px */
-  --space-sm: 0.8rem; /* 8px */
-  --space-md: 1.6rem; /* 16px */
-  --space-lg: 2.4rem; /* 24px */
-  --space-xl: 3.2rem; /* 32px */
+  /* ========== 4️⃣ РАДИУСЫ ========== */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
 
-  /* Radius */
-  --radius-sm: 0.8rem; /* Маленькие элементы */
-  --radius-md: 1.2rem; /* Кнопки, инпуты */
-  --radius-lg: 1.6rem; /* Карточки */
-  --radius-xl: 2.4rem; /* Модалки */
-  --radius-full: 9999px; /* Пилюли */
+  /* ========== 5️⃣ ОТСТУПЫ ========== */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 40px;
 
-  /* Transitions */
+  --container-padding: 40px;
+  --header-padding: 24px 32px;
+  --header-gap: 24px;
+  --tabs-margin-top: 24px;
+  --tabs-margin-bottom: 32px;
+  --tabs-gap: 16px;
+  --card-padding: 20px 24px;
+  --card-gap: 16px;
+  --card-margin-bottom: 20px;
+  --cards-gap: 20px;
+
+  /* ========== ТИПОГРАФИКА ========== */
+  --font-size-logo: 20px;
+  --font-size-title: 18px;
+  --font-size-meta: 14px;
+  --font-size-mini: 12px;
+  --font-size-rating: 14px;
+
+  --font-weight-logo: 600;
+  --font-weight-title: 600;
+  --font-weight-meta: 400;
+  --font-weight-rating: 500;
+
+  /* Legacy Fallbacks */
+  --ink-primary: var(--text-primary);
+  --ink-secondary: var(--text-secondary);
+  --ink-tertiary: var(--text-muted);
+  --canvas-primary: var(--bg-main);
+  --canvas-secondary: var(--bg-surface);
+  --canvas-tertiary: var(--bg-elevated);
+  --brand-default: var(--accent);
+  --brand-soft: var(--accent-soft);
+  --border-default: var(--border-subtle);
+}
+
+/* Transitions */
+:root {
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
-
-  /* Legacy Fallbacks (for compatibility during migration) */
-  --color-text: var(--ink-primary);
-  --color-textMuted: var(--ink-tertiary);
-  --color-border: var(--border-default);
-  --color-surface: var(--canvas-secondary);
-  --color-primary: var(--brand-default);
-  --color-accent: var(--brand-default);
-  --color-accentHover: var(--brand-hover);
-  --color-accentSoft: var(--brand-soft);
-  --color-error: var(--error);
-  --color-error-light: var(--error-soft);
-  --color-success: var(--success);
-  --color-nature: var(--success);
+  --transition-card: 0.25s ease;
 }

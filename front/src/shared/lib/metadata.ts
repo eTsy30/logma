@@ -59,16 +59,17 @@ export const getMetadata = async ({
       },
       icons: {
         icon: [
-          { url: '/static/icons/favicon.ico', sizes: '256x256' },
-          { url: '/static/icons/icon.svg', type: 'image/svg+xml' },
+          { url: '/favicon/favicon.ico', sizes: '256x256' },
+          { url: '/favicon/favicon.svg', type: 'image/svg+xml' },
+          { url: '/favicon/favicon-96x96.png', sizes: '96x96' },
         ],
         apple: {
-          url: '/static/icons/android-chrome-192x192.png',
+          url: '/favicon/apple-touch-icon.png',
           sizes: '180x180',
           type: 'image/png',
         },
       },
-      manifest: '/static/icons/site.webmanifest',
+      manifest: '/favicon/site.webmanifest',
       ...(noIndex && {
         robots: {
           index: false,

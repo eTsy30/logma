@@ -7,36 +7,23 @@
   padding: var(--space-md);
 }
 
-// === КАРТОЧКА ===
-:global(.AuthCard_wrapper) {
-  width: 100%;
-  max-width: 420px;
-  padding: var(--space-xl) !important;
-  border: 1px solid var(--border-default) !important;
-  border-radius: var(--radius-xl) !important;
-  background: var(--glass-bg) !important;
-  backdrop-filter: var(--glass-blur) !important;
-  box-shadow: var(--glass-shadow) !important;
-
-  @include screen-size(mobile) {
-    padding: var(--space-lg) !important;
-  }
-}
-
 // === ХЕДЕР ===
 .header {
   margin-bottom: var(--space-lg);
   text-align: center;
 }
+
 .title {
-  @include h3;
+  font-size: 24px;
+  font-weight: 700;
   margin-bottom: var(--space-sm);
-  color: var(--ink-primary);
+  color: var(--text-primary);
 }
 
 .subTitle {
-  @include body-bold;
-  color: var(--brand-default);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
 }
 
 // === ФОРМА ===
@@ -60,21 +47,21 @@
 }
 
 .footerText {
-  @include body;
-  color: var(--ink-tertiary);
+  font-size: 14px;
+  color: var(--text-muted);
+
   @include screen-size(mobile) {
-    @include body-sm;
+    font-size: 12px;
   }
 }
 
 .link {
-  @include body;
-  font-weight: var(--fw-semibold);
-  color: var(--brand-default);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
   text-decoration: none;
 
   &:hover {
-    color: var(--brand-hover);
     text-decoration: underline;
   }
 }
@@ -85,14 +72,15 @@
 }
 
 .forgotLink {
-  @include body;
-  color: var(--ink-tertiary);
+  font-size: 14px;
+  color: var(--text-muted);
   text-decoration: none;
 
   &:hover {
-    color: var(--brand-default);
+    color: var(--accent);
   }
+
   @include screen-size(mobile) {
-    @include body-sm;
+    font-size: 12px;
   }
 }

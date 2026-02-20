@@ -1,29 +1,53 @@
 @use 'styles/index' as *;
 
 .container {
-  overflow: hidden;
   display: grid;
   place-items: center;
-  align-items: center;
   min-height: 100vh;
   text-align: center;
-  background-color: var(--canvas-primary);
+  background: transparent;
+  overflow: hidden;
+}
+
+.content {
+  max-width: 800px;
+  padding: var(--container-padding);
+}
+
+.title_wrapper {
+  margin-bottom: var(--space-xl);
 }
 
 .title {
-  @include h1;
-  color: var(--brand-default);
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+  margin-bottom: var(--space-sm);
+
+  @include screen-size(mobile) {
+    font-size: 32px;
+  }
 }
 
 .sub_title {
-  @include h2;
-  color: var(--ink-primary);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+
+  @include screen-size(mobile) {
+    font-size: 18px;
+  }
 }
 
 .text {
-  @include body-bold;
-  color: var(--ink-tertiary);
+  font-size: 18px;
+  color: var(--text-muted);
   margin-bottom: var(--space-lg);
   margin-top: var(--space-xs);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  @include screen-size(mobile) {
+    font-size: 14px;
+  }
 }

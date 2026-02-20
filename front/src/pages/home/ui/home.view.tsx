@@ -4,6 +4,7 @@ import { routes } from 'shared/router/paths';
 import s from './home.module.scss';
 import { Button } from 'shared/ui/Button';
 import { useRouter } from 'next/navigation';
+import { Logo } from 'shared/ui/Logo/Logo';
 
 export function HomeView() {
   const router = useRouter();
@@ -11,6 +12,7 @@ export function HomeView() {
   return (
     <article className={s.container}>
       <div className={s.content}>
+        <Logo size={30} />
         <div className={s.title_wrapper}>
           <h1 className={s.title}>Личный кинодневник</h1>
           <h5 className={s.sub_title}>забудь о хаосе в заметках</h5>

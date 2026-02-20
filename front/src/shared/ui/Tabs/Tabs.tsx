@@ -1,6 +1,7 @@
 // Tabs.tsx
 'use client';
 import { type ReactNode, useEffect, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import * as Ariakit from '@ariakit/react';
 import cx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -123,41 +124,51 @@ export function Tabs({
 
   // === ВЕРТИКАЛЬНЫЕ ТАБЫ КАК НА КАРТИНКЕ ===
   if (isVertical) {
+    const tabsList = (
+      <div className={s.floatingTabs}>
+        {tabs.map((tab) => {
+          const isActive = tab.id === currentSelectedId;
+
+          return (
+            <Ariakit.Tab
+              key={tab.id}
+              id={tab.id}
+              disabled={tab.disabled}
+              className={cx(
+                s.floatingTab,
+                isActive && s.floatingTabActive,
+                tabClassName,
+              )}
+              title={tab.label}
+            >
+              {tab.icon && (
+                <span className={s.floatingTabIcon}>{tab.icon}</span>
+              )}
+              {isActive && (
+                <motion.span
+                  className={s.floatingTabIndicator}
+                  layoutId="activeTab"
+                  transition={{
+                    type: 'spring',
+                    stiffness: 500,
+                    damping: 30,
+                  }}
+                />
+              )}
+            </Ariakit.Tab>
+          );
+        })}
+      </div>
+    );
+
     return (
       <Ariakit.TabProvider
         selectedId={currentSelectedId}
         setSelectedId={handleSelect}
       >
-        <div className={s.floatingTabs}>
-          {tabs.map((tab) => {
-            const isActive = tab.id === currentSelectedId;
-
-            return (
-              <Ariakit.Tab
-                key={tab.id}
-                id={tab.id}
-                disabled={tab.disabled}
-                className={cx(
-                  s.floatingTab,
-                  isActive && s.floatingTabActive,
-                  tabClassName,
-                )}
-                title={tab.label}
-              >
-                {tab.icon && (
-                  <span className={s.floatingTabIcon}>{tab.icon}</span>
-                )}
-                {isActive && (
-                  <motion.span
-                    className={s.floatingTabIndicator}
-                    layoutId="activeTab"
-                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                  />
-                )}
-              </Ariakit.Tab>
-            );
-          })}
-        </div>
+        {typeof document !== 'undefined'
+          ? createPortal(tabsList, document.body)
+          : tabsList}
         {/* Контент */}
         <div className={cx(s.floatingContent, contentClassName)}>
           <AnimatePresence mode="wait">
@@ -212,7 +223,18 @@ export function Tabs({
                 )}
               >
                 {tab.icon && <span className={s.tabIcon}>{tab.icon}</span>}
-                <span>{tab.label}</span>
+                <span className={s.tabLabel}>{tab.label}</span>
+                {isActive && (
+                  <motion.span
+                    className={s.tabIndicator}
+                    layoutId={
+                      storageKey
+                        ? `activeTab-${storageKey}`
+                        : 'activeTab-horizontal'
+                    }
+                    transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                  />
+                )}
               </Ariakit.Tab>
             );
           })}

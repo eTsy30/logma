@@ -5,23 +5,22 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import cx from 'clsx';
-import { ArrowLeft, Moon, Sun, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import OffIcon from 'public/icons/off.svg';
 import Logout from 'public/icons/logout.svg';
 import { useTheme } from 'next-themes';
-import { logout } from 'redux/auth/slice';
 import { useAppDispatch } from 'redux/store';
+import { logout } from 'redux/auth/slice';
+
 import s from './Sidebar.module.scss';
 import { MovieSearch } from 'features/movie-search';
+import { Logo } from '../Logo/Logo';
 
 export const Sidebar = () => {
   const dispatch = useAppDispatch();
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
 
   const isDashboard = pathname === '/dashboard';
   const showSearch = isDashboard;
@@ -30,22 +29,13 @@ export const Sidebar = () => {
     <header className={s.header}>
       <div className={cx(s.container, isSearchOpen && s.searchActive)}>
         {/* Лево */}
-        <div className={s.left}>
-          {isSearchOpen ? (
-            <button
-              className={s.backBtn}
-              onClick={() => setIsSearchOpen(false)}
-              aria-label="Назад"
-            >
-              <ArrowLeft size={24} />
-            </button>
-          ) : (
+        {!isSearchOpen && (
+          <div className={s.left}>
             <Link href="/dashboard" className={s.logo}>
-              <span className={s.dot} />
-              <span className={s.text}>Logma</span>
+              <Logo redrawInterval={300} photoMode={true} size={40} />
             </Link>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Центр: Поиск */}
         <div className={s.center}>
@@ -67,7 +57,7 @@ export const Sidebar = () => {
 
               {isSearchOpen && (
                 <div className={s.searchMobile}>
-                  <MovieSearch />
+                  <MovieSearch onBack={() => setIsSearchOpen(false)} />
                 </div>
               )}
             </>

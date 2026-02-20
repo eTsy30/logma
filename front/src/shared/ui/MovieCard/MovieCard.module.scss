@@ -3,22 +3,26 @@
 
 .card {
   position: relative;
-  background: var(--canvas-secondary);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
   overflow: hidden;
-  transition: border-color 0.2s ease;
+  box-shadow: var(--bg-card);
+  transition: all var(--transition-card);
 
   &:hover {
-    border-color: var(--border-hover);
+    transform: translateY(-4px);
+    background: var(--bg-hover);
+    box-shadow: var(--shadow-hover), var(--shadow-glow);
+    border-color: var(--border-strong);
   }
 }
 
-// Desktop (>768px) - оставляем как есть
 .mainRow {
   display: flex;
-  gap: var(--space-md);
-  padding: var(--space-md);
+  gap: var(--card-gap);
+  padding: var(--card-padding);
   cursor: pointer;
   align-items: center;
 
@@ -30,7 +34,6 @@
   }
 }
 
-// Row 1: Poster + Title/Year/Genre (mobile only)
 .row1 {
   display: contents;
 
@@ -42,7 +45,6 @@
   }
 }
 
-// Row 2: Rating + Date + Rewatch (mobile only)
 .row2 {
   display: contents;
 
@@ -52,7 +54,7 @@
     justify-content: space-between;
     gap: var(--space-sm);
     padding-top: var(--space-sm);
-    border-top: 1px solid var(--border-default);
+    border-top: 1px solid var(--border-subtle);
   }
 }
 
@@ -72,14 +74,14 @@
   flex-shrink: 0;
   width: 60px;
   height: 90px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  background: var(--canvas-tertiary);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
     width: 60px;
     height: 90px;
-    grid-row: span 1;
   }
 }
 
@@ -98,9 +100,9 @@
   inset: 0;
   background: linear-gradient(
     90deg,
-    var(--canvas-tertiary) 25%,
-    var(--canvas-secondary) 50%,
-    var(--canvas-tertiary) 75%
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
@@ -127,17 +129,6 @@
   }
 }
 
-.glow {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    transparent 50%
-  );
-  pointer-events: none;
-}
-
 .info {
   flex: 1;
   display: flex;
@@ -156,9 +147,11 @@
 }
 
 .title {
-  @include h5;
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-title);
+  letter-spacing: -0.01em;
   margin: 0;
-  color: var(--ink-primary);
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -173,38 +166,18 @@
 }
 
 .meta {
-  @include body-sm;
-  color: var(--ink-tertiary);
+  font-size: var(--font-size-meta);
+  font-weight: var(--font-weight-meta);
+  color: var(--text-secondary);
   display: block;
   margin-top: 2px;
-}
-
-.rewatch {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
-  font-size: 11px;
-  font-weight: var(--fw-medium);
-  color: var(--ink-tertiary);
-  background: var(--canvas-tertiary);
-  flex-shrink: 0;
-
-  @media (max-width: 768px) {
-    margin-left: auto;
-  }
-}
-
-.rewatchActive {
-  color: var(--success);
-  background: rgba(34, 197, 94, 0.15);
 }
 
 .rating {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
+  margin-top: 4px;
 }
 
 .stars {
@@ -213,25 +186,26 @@
 }
 
 .star {
-  color: var(--ink-quaternary);
+  color: rgba(255, 255, 255, 0.1);
 }
 
 .starActive {
-  color: var(--warning);
+  color: var(--rating);
+  filter: drop-shadow(0 0 4px var(--rating));
 }
 
 .ratingValue {
-  @include body-sm;
-  font-weight: var(--fw-semibold);
-  color: var(--ink-secondary);
+  font-size: var(--font-size-rating);
+  font-weight: var(--font-weight-rating);
+  color: var(--text-secondary);
 }
 
 .date {
   display: flex;
   align-items: center;
   gap: 4px;
-  @include body-sm;
-  color: var(--ink-tertiary);
+  font-size: var(--font-size-meta);
+  color: var(--text-muted);
   margin-left: auto;
 
   @media (max-width: 768px) {
@@ -240,7 +214,7 @@
 }
 
 .chevron {
-  color: var(--ink-tertiary);
+  color: var(--text-muted);
   transition: transform 0.2s ease;
   flex-shrink: 0;
   margin-left: auto;
@@ -265,73 +239,52 @@
   height: 28px;
   border: none;
   border-radius: var(--radius-full);
-  color: var(--ink-tertiary);
-  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(4px);
   cursor: pointer;
   transition: all 0.15s ease;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.7);
-    color: var(--ink-primary);
-  }
-
-  @media (max-width: 768px) {
-    top: var(--space-md);
-    right: var(--space-md);
+    background: rgba(0, 0, 0, 0.5);
   }
 }
 
-// Actions
 .actions {
   display: flex;
   gap: var(--space-sm);
-  padding: 0 var(--space-md) var(--space-md);
+  padding: 0 var(--card-padding) var(--space-md);
   justify-content: center;
 
   @media (max-width: 768px) {
     padding: var(--space-sm) var(--space-md) var(--space-md);
-    border-top: 1px solid var(--border-default);
+    border-top: 1px solid var(--border-subtle);
   }
 }
 
-.quickActions {
-  display: flex;
-  gap: var(--space-sm);
-  padding: 0 var(--space-md) var(--space-md);
-  justify-content: flex-end;
-
-  @media (max-width: 768px) {
-    padding: var(--space-sm) var(--space-md) var(--space-md);
-    justify-content: flex-start;
-    border-top: 1px solid var(--border-default);
-  }
-}
-
-// Note
 .noteWrap {
   overflow: hidden;
-  border-top: 1px solid var(--border-default);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .note {
   padding: var(--space-md);
-  background: var(--canvas-tertiary);
+  background: rgba(255, 255, 255, 0.02);
   cursor: pointer;
 
   p {
     margin: 0;
-    @include body-sm;
-    color: var(--ink-secondary);
+    font-size: var(--font-size-meta);
+    color: var(--text-secondary);
     line-height: 1.5;
   }
 
   &:hover {
-    background: var(--border-default);
+    background: rgba(255, 255, 255, 0.05);
   }
 }
 
-// Expanded state
 .expanded {
-  border-color: var(--brand-default);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-glow);
 }

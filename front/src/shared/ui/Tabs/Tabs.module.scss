@@ -1,31 +1,47 @@
 @use 'styles/index' as *;
 
 // ============================================
-// FLOATING VERTICAL TABS
+// VERTICAL TABS (Modern Floating Dock)
 // ============================================
 
 .floatingTabs {
   position: fixed;
-  z-index: 100;
-  top: 242px;
-  left: 35px;
+  z-index: 1000;
+  top: 50%;
+  left: 30px;
   transform: translateY(-50%);
 
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
-  align-items: center;
+  gap: 12px;
+  padding: 10px;
 
-  background: var(--glass-bg);
+  // background: rgba(15, 23, 42, 0.2);
+  // backdrop-filter: blur(24px) saturate(180%);
+  // border: 1px solid rgba(255, 255, 255, 0.08);
+  // border-radius: 24px;
+  // box-shadow:
+  //   0 10px 40px rgba(0, 0, 0, 0.3),
+  //   inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+
+  width: 35px;
+  align-items: center;
+  flex-shrink: 0;
+
+  @media (max-width: 1200px) {
+    left: 35px;
+  }
 
   @media (max-width: 768px) {
-    left: var(--space-xs);
-    padding: var(--space-xs);
+    left: 12px;
+    padding: 8px;
+    gap: 8px;
   }
 }
 
 .floatingTab {
   position: relative;
+  z-index: 1;
 
   display: flex;
   align-items: center;
@@ -35,31 +51,63 @@
   height: 44px;
   padding: 0;
   border: none;
-  border-radius: var(--radius-full) 0 0 var(--radius-full);
+  border-radius: 14px;
 
-  color: var(--ink-tertiary);
+  //color: var(--text-muted);
   background: transparent;
 
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-  &:hover:not(:disabled) {
-    color: var(--ink-secondary);
-    background: var(--canvas-tertiary);
+  @media (max-width: 768px) {
+    width: 35px;
+    height: 35px;
+  }
+
+  &:hover:not(.floatingTabActive):not(:disabled) {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 
   &:disabled {
-    opacity: 0.4;
+    opacity: 0.2;
     cursor: not-allowed;
   }
 }
 
 .floatingTabActive {
-  color: var(--brand-default);
-  background: var(--brand-soft);
+  color: var(--accent);
 
-  &:hover {
-    background: var(--brand-soft);
+  svg {
+    filter: drop-shadow(0 0 10px var(--accent-soft));
+  }
+}
+
+.floatingTabIndicator {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  // background: var(--accent-soft);
+  // border-radius: inherit;
+  // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  // Эффект "всплытия"
+  &::after {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 0 10px var(--accent);
   }
 }
 
@@ -68,51 +116,28 @@
   align-items: center;
   justify-content: center;
 
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
+
+  @media (max-width: 768px) {
+    width: 25px;
+    height: 25px;
+  }
 
   svg {
     width: 100%;
     height: 100%;
-    stroke-width: 2;
-  }
-}
-
-.floatingTabIndicator {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.floatingTabAvatar {
-  overflow: hidden;
-
-  width: 36px;
-  height: 36px;
-  margin-top: var(--space-xs);
-  border: 2px solid var(--border-default);
-  border-radius: var(--radius-full);
-
-  cursor: pointer;
-  transition: all var(--transition-fast);
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  &:hover {
-    border-color: var(--brand-default);
-    transform: scale(1.05);
+    stroke-width: 1.8;
   }
 }
 
 .floatingContent {
+  flex: 1;
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  background: transparent;
 }
 
 .floatingPanel {
@@ -121,12 +146,12 @@
   flex-direction: column;
   min-height: 0;
 
-  padding: var(--space-lg);
-  border: 1px solid var(--border-default);
-  border-top: none;
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-  background: var(--canvas-secondary);
+  padding: var(--space-md);
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: var(--tabs-gap);
+  }
 }
 
 .content_list {
@@ -134,11 +159,11 @@
   min-height: 0;
   overflow-y: auto;
 
-  @include scrollbar(6px, 6px, var(--canvas-tertiary), var(--ink-quaternary));
+  @include scrollbar(6px, 6px, var(--bg-elevated), var(--text-muted));
 }
 
 // ============================================
-// HORIZONTAL TABS
+// HORIZONTAL TABS (Pill style)
 // ============================================
 
 .wrapper {
@@ -147,32 +172,37 @@
     flex-direction: column;
     height: 100%;
     overflow: hidden;
-    padding: var(--space-sm);
+    padding: 0;
   }
 }
 
 .list {
   &Horizontal {
     flex-shrink: 0;
-    display: flex;
-    flex-direction: row;
-    gap: var(--space-lg);
-    width: 100%;
-    padding-bottom: var(--space-md);
-    border-bottom: 1px solid var(--border-default);
+    display: inline-flex;
+    align-self: flex-start;
+
+    background: var(--bg-elevated);
+    padding: 4px;
+    border-radius: var(--radius-full);
+    gap: 4px;
+
+    margin-bottom: var(--tabs-gap);
   }
 }
 
 .tab {
   position: relative;
+  z-index: 1;
 
   display: flex;
   align-items: center;
+  justify-content: center;
 
   margin: 0;
   border: none;
 
-  text-align: left;
+  text-align: center;
   background: transparent;
 
   cursor: pointer;
@@ -184,51 +214,68 @@
 
   &:focus-visible {
     outline: none;
-    border-radius: var(--radius-sm);
-    box-shadow: 0 0 0 2px var(--brand-soft);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-glow);
   }
 
   &Horizontal {
-    gap: var(--space-sm);
-    padding: var(--space-xs) 0;
+    padding: 8px 20px;
+    border-radius: var(--radius-full);
 
-    @include h5;
-    color: var(--ink-tertiary);
+    font-size: var(--font-size-meta);
+    font-weight: 600;
+    color: var(--text-secondary);
 
     transition: color var(--transition-fast);
-
+    @media (max-width: 768px) {
+      padding: 4px;
+      font-size: var(--font-size-mini);
+    }
     &:hover:not(:disabled) {
-      color: var(--ink-secondary);
+      color: var(--text-primary);
     }
   }
 
   &Active {
-    color: var(--brand-default);
+    color: var(--accent);
   }
 }
 
+.tabIndicator {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent-soft);
+  border-radius: inherit;
+}
+
+.tabLabel {
+  position: relative;
+  z-index: 2;
+}
+
 .tabIcon {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
 
   width: 18px;
   height: 18px;
+  margin-right: 8px;
 }
 
 .content {
   &Horizontal {
     flex: 1;
     min-height: 0;
-    margin-top: var(--space-md);
     overflow-y: auto;
 
-    @include scrollbar(6px, 6px, var(--canvas-tertiary), var(--ink-quaternary));
+    @include scrollbar(6px, 6px, var(--bg-elevated), var(--text-muted));
   }
 }
 
 .panel {
   height: 100%;
-  border-radius: var(--radius-md);
-  background-color: var(--canvas-secondary);
 }

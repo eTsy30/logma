@@ -26,6 +26,8 @@
     "@ariakit/react": "^0.4.21",
     "@hookform/resolvers": "^5.2.2",
     "@reduxjs/toolkit": "^2.11.2",
+    "@types/animejs": "^3.1.13",
+    "animejs": "^4.3.6",
     "async-mutex": "^0.5.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.34.0",

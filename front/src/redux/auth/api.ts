@@ -1,5 +1,5 @@
 import { api } from 'redux/api';
-import { setAccessToken, logout } from './slice';
+import { setAccessToken, logout as authSliceLogout } from './slice';
 
 export type RegisterRequest = {
   name: string;
@@ -86,6 +86,14 @@ export const authApi = api.injectEndpoints({
       }),
       providesTags: ['Auth'],
     }),
+
+    // ================= LOGOUT =================
+    logout: builder.mutation<{ success: boolean }, void>({
+      query: () => ({
+        url: '/auth/logout',
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -96,4 +104,5 @@ export const {
   useLazyGetMeQuery,
   useForgotPasswordMutation,
   useResetPasswordMutation,
+  useLogoutMutation,
 } = authApi;

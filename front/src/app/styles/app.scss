@@ -24,10 +24,13 @@ body {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #1a1f3e 0%, #2d1f4e 50%, #1a1f3e 100%);
-  min-height: 100vh;
-  // background-color: var(--brand-soft);
-  color: var(--ink-primary);
+
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 body {
