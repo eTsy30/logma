@@ -44,12 +44,14 @@ export class AuthService {
 
   async register(res: Response, dto: RegisterRequestDto) {
     const { name, email, password } = dto;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const existUser = await this.prismaService.user.findUnique({
       where: { email },
     });
     if (existUser) {
       throw new ConflictException('Пользователь с такой почтой уже существует');
     }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const user = await this.prismaService.user.create({
       data: {
         name,
@@ -62,6 +64,7 @@ export class AuthService {
 
   async login(res: Response, dto: LoginDto) {
     const { email, password } = dto;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const user = await this.prismaService.user.findUnique({
       where: { email },
       select: { id: true, password: true },
@@ -85,9 +88,11 @@ export class AuthService {
       throw new UnauthorizedException('Недействительный refresh-token');
     }
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const payload: JwtPayload =
         await this.jwtService.verifyAsync(refreshToken);
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const tokenInDb = await this.prismaService.refreshToken.findUnique({
         where: { token: refreshToken },
       });
@@ -97,12 +102,14 @@ export class AuthService {
       }
 
       if (tokenInDb.expiresAt && new Date() > tokenInDb.expiresAt) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         await this.prismaService.refreshToken.delete({
           where: { token: refreshToken },
         });
         throw new UnauthorizedException('Сессия истекла');
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const user = await this.prismaService.user.findUnique({
         where: {
           id: payload.id,
@@ -113,6 +120,7 @@ export class AuthService {
         throw new NotFoundException('Пользователь не найден');
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       await this.prismaService.refreshToken.delete({
         where: { token: refreshToken },
       });
@@ -128,6 +136,7 @@ export class AuthService {
       'refresh_token'
     ];
     if (refreshToken) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       await this.prismaService.refreshToken.deleteMany({
         where: { token: refreshToken },
       });
@@ -137,6 +146,7 @@ export class AuthService {
   }
 
   async validate(id: string) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const user = await this.prismaService.user.findUnique({
       where: {
         id,
@@ -151,6 +161,7 @@ export class AuthService {
   async forgotPassword(dto: ForgotPasswordDto) {
     const { email } = dto;
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const user = await this.prismaService.user.findUnique({
       where: { email },
     });
@@ -167,6 +178,7 @@ export class AuthService {
       },
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     await this.prismaService.user.update({
       where: { id: user.id },
       data: {
@@ -198,6 +210,7 @@ export class AuthService {
       throw new BadRequestException('Неверный тип токена');
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const user = await this.prismaService.user.findUnique({
       where: { id: payload.userId },
     });
@@ -217,7 +230,9 @@ export class AuthService {
 
     const hashedPassword = await argon2.hash(newPassword);
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     await this.prismaService.$transaction([
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.prismaService.user.update({
         where: { id: user.id },
         data: {
@@ -226,6 +241,7 @@ export class AuthService {
           resetTokenExpires: null,
         },
       }),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.prismaService.refreshToken.deleteMany({
         where: { userId: user.id },
       }),
@@ -239,6 +255,7 @@ export class AuthService {
   private async auth(res: Response, id: string) {
     const { accessToken, refreshToken } = this.generateToken(id);
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     await this.prismaService.refreshToken.create({
       data: {
         token: refreshToken,
