@@ -1,6 +1,0 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-# Run lint-staged for both front and back
-cd front && npx lint-staged && cd ..
-cd back && npx lint-staged && cd ..

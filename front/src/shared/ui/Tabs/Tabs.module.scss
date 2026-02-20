@@ -1,0 +1,269 @@
+@use 'styles/index' as *;
+
+// ============================================
+// VERTICAL TABS (Modern Floating Dock)
+// ============================================
+
+.floatingTabs {
+  display: none; /// временно
+  position: fixed;
+  z-index: 1000;
+  top: 50%;
+  left: 30px;
+  transform: translateY(-50%);
+
+  // display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px;
+
+  width: 35px;
+  align-items: center;
+  flex-shrink: 0;
+
+  @media (max-width: 1200px) {
+    left: 35px;
+  }
+
+  @media (max-width: 768px) {
+    left: 12px;
+    padding: 8px;
+    gap: 8px;
+  }
+}
+
+.floatingTab {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  @media (max-width: 768px) {
+    width: 35px;
+    height: 35px;
+  }
+
+  &:hover:not(.floatingTabActive):not(:disabled) {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+}
+
+.floatingTabActive {
+  color: var(--accent);
+
+  svg {
+    filter: drop-shadow(0 0 10px var(--accent-soft));
+  }
+}
+
+.floatingTabIndicator {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  // Эффект "всплытия"
+  &::after {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 0 10px var(--accent);
+  }
+}
+
+.floatingTabIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+
+  @media (max-width: 768px) {
+    width: 25px;
+    height: 25px;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    stroke-width: 1.8;
+  }
+}
+
+.floatingContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+}
+
+.floatingPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  padding: var(--space-md);
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: var(--tabs-gap);
+  }
+}
+
+.content_list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+
+  @include scrollbar(6px, 6px, var(--bg-elevated), var(--text-muted));
+}
+
+// ============================================
+// HORIZONTAL TABS (Pill style)
+// ============================================
+
+.wrapper {
+  &Horizontal {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    padding: 0;
+  }
+}
+
+.list {
+  &Horizontal {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-self: flex-start;
+
+    background: var(--bg-elevated);
+    padding: 4px;
+    border-radius: var(--radius-full);
+    gap: 4px;
+
+    margin-bottom: var(--tabs-gap);
+  }
+}
+
+.tab {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+  border: none;
+
+  text-align: center;
+  background: transparent;
+
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-glow);
+  }
+
+  &Horizontal {
+    padding: 8px 20px;
+    border-radius: var(--radius-full);
+
+    font-size: var(--font-size-meta);
+    font-weight: 600;
+    color: var(--text-secondary);
+
+    transition: color var(--transition-fast);
+    @media (max-width: 768px) {
+      padding: 4px;
+      font-size: var(--font-size-mini);
+    }
+    &:hover:not(:disabled) {
+      color: var(--text-primary);
+    }
+  }
+
+  &Active {
+    color: var(--accent);
+  }
+}
+
+.tabIndicator {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent-soft);
+  border-radius: inherit;
+}
+
+.tabLabel {
+  position: relative;
+  z-index: 2;
+}
+
+.tabIcon {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+.content {
+  &Horizontal {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+
+    @include scrollbar(6px, 6px, var(--bg-elevated), var(--text-muted));
+  }
+}
+
+.panel {
+  height: 100%;
+}

@@ -1,0 +1,7 @@
+@use 'styles/index' as *;
+.main {
+  margin: 100px;
+  border-radius: 24px;
+  min-height: calc(100vh - 200px);
+  @include glow-window($intensity: 0.2, $spread: 200px);
+}

@@ -1,81 +1,105 @@
-@use './mixins' as *;
+:root,
+[data-theme='light'] {
+  /* ========== 1️⃣ БАЗОВАЯ ДИЗАЙН-СИСТЕМА ========== */
 
+  /* Цвета (Light) */
+  --bg-main: #f5f7fb;
+  --bg-surface: rgba(255, 255, 255, 0.9);
+  --bg-card: #ffffff;
+  --bg-elevated: #f1f4f9;
+  --bg-hover: #f3f6fc;
+
+  --border-subtle: #e6eaf2;
+  --border-strong: #d3dae6;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+
+  --accent: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.12);
+
+  --rating: #f59e0b;
+  --header-bg: rgba(255, 255, 255, 0.7);
+
+ --error: #ef4444;
+  --warning: #f59e0b;
+  --success: #10b981;
+  --info: #3b82f6;
+
+  /* ========== 2️⃣ ГРАДИЕНТЫ (Light) ========== */
+  --bg-gradient:
+    radial-gradient(
+      1000px 600px at 10% 0%,
+      rgba(79, 70, 229, 0.08),
+      transparent 70%
+    ),
+    radial-gradient(
+      800px 500px at 90% 100%,
+      rgba(59, 130, 246, 0.05),
+      transparent 70%
+    ),
+    #f5f7fb;
+
+  /* ========== 3️⃣ BOX-SHADOW (Light) ========== */
+  --shadow-container:
+    0 20px 50px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(15, 23, 42, 0.02);
+  --shadow-card: 0 4px 16px rgba(15, 23, 42, 0.06);
+  --shadow-hover: 0 8px 28px rgba(15, 23, 42, 0.12);
+  --shadow-glow: 0 0 10px rgba(79, 70, 229, 0.2);
+
+  /* ========== 4️⃣ РАДИУСЫ ========== */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  /* ========== 5️⃣ ОТСТУПЫ ========== */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 40px;
+
+  --container-padding: 40px;
+  --header-padding: 24px 32px;
+  --header-gap: 24px;
+  --tabs-margin-top: 24px;
+  --tabs-margin-bottom: 32px;
+  --tabs-gap: 16px;
+  --card-padding: 20px 24px;
+  --card-gap: 16px;
+  --card-margin-bottom: 20px;
+  --cards-gap: 20px;
+
+  /* ========== ТИПОГРАФИКА ========== */
+  --font-size-logo: 20px;
+  --font-size-title: 18px;
+  --font-size-meta: 14px;
+  --font-size-mini: 12px;
+  --font-size-rating: 14px;
+
+  --font-weight-logo: 600;
+  --font-weight-title: 600;
+  --font-weight-meta: 400;
+  --font-weight-rating: 500;
+
+  /* Legacy Fallbacks */
+  --ink-primary: var(--text-primary);
+  --ink-secondary: var(--text-secondary);
+  --ink-tertiary: var(--text-muted);
+  --canvas-primary: var(--bg-main);
+  --canvas-secondary: var(--bg-surface);
+  --canvas-tertiary: var(--bg-elevated);
+  --brand-default: var(--accent);
+  --brand-soft: var(--accent-soft);
+  --border-default: var(--border-subtle);
+}
+
+/* Transitions */
 :root {
-  /* ========== Layout ========== */
-  --site-max-width: 1430px;
-  --header-height: 98px;
-  --root-content-padding: 24px;
-
-  /* ========== Spacing ========== */
-  --space-1: 0.4rem;
-  --space-2: 0.8rem;
-  --space-3: 1.2rem;
-  --space-4: 1.6rem;
-  --space-5: 2rem;
-
-  /* ========== Radius ========== */
-  --radius-sm: 0.6rem;
-  --radius-md: 0.8rem;
-  --radius-lg: 1rem;
-  --radius-full: 9999px;
-
-  /* ========== Transitions ========== */
-  --transition-fast: 0.15s ease;
-  --transition-base: 0.2s ease;
-
-  /* ========== Shadows ========== */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-accent: 0 4px 12px rgba(58, 92, 204, 0.25);
-
-  /* ========== Button ========== */
-  --btn-height-sm: 3.2rem;
-  --btn-height-md: 4rem;
-  --btn-height-lg: 4.8rem;
-
-  --btn-padding-sm: 1.2rem;
-  --btn-padding-md: 1.6rem;
-  --btn-padding-lg: 2rem;
-
-  --btn-font-sm: 1.3rem;
-  --btn-font-md: 1.4rem;
-  --btn-font-lg: 1.6rem;
-
-  --btn-radius: var(--radius-md);
-  --btn-gap: 0.8rem;
-  --btn-icon-size: 1.8rem;
-
-  /* ========== Colors (Light) ========== */
-  --color-bg: #f7f6f4;
-  --color-surface: #ffffff;
-  --color-surfaceAlt: #f0efec;
-
-  --color-text: #1c1d20;
-  --color-textMuted: #6e7076;
-  --color-textInverse: #ffffff;
-
-  --color-border: #e2e1dd;
-  --color-borderHover: #d1d0cc;
-
-  --color-accent: #3a5ccc;
-  --color-accentHover: #2f4aa3;
-  --color-accentActive: #243d8a;
-  --color-accentSoft: #e9edff;
-
-  --focus-ring: 0 0 0 3px rgba(58, 92, 204, 0.25);
-
-  /* ========== Status Colors ========== */
-  --color-error: #dc2626;
-  --color-error-light: #fecaca;
-  --color-warning: #ca8a04;
-  --color-warning-light: #fef9c3;
-  --color-success: #16a34a;
-  --color-success-light: #dcfce7;
-
-  /* ========== Password Strength Colors ========== */
-  --color-strength-0: #dc2626;
-  --color-strength-1: #ea580c;
-  --color-strength-2: #ca8a04;
-  --color-strength-3: #16a34a;
-  --color-strength-4: #15803d;
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-card: 0.25s ease;
 }

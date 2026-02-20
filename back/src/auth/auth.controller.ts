@@ -25,13 +25,14 @@ import { AuthResponse } from './dto/auth.dto';
 import { Authorization } from './decorators/Authorization.decorator';
 import { Authorized } from './decorators/authorized.decorator';
 import type { User } from '@prisma/client';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  // ========================= REGISTER =========================
   @Post('register')
   @ApiConflictResponse({
     description: 'Пользователь с такой почтой уже существует',
@@ -61,7 +62,6 @@ export class AuthController {
     return this.authService.register(res, dto);
   }
 
-  // ========================= LOGIN =========================
   @Post('login')
   @ApiOkResponse({ type: AuthResponse })
   @ApiConflictResponse({
@@ -82,8 +82,6 @@ export class AuthController {
   ) {
     return this.authService.login(res, dto);
   }
-
-  // ========================= REFRESH =========================
 
   @Post('refresh')
   @ApiOkResponse({ type: AuthResponse })
@@ -112,8 +110,6 @@ export class AuthController {
     return this.authService.refresh(req, res);
   }
 
-  // ========================= LOGOUT =========================
-
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
@@ -124,14 +120,45 @@ export class AuthController {
   @ApiOkResponse({
     description: 'Пользователь успешно вышел из системы',
   })
-  logout(@Res({ passthrough: true }) res: Response) {
-    this.authService.logout(res);
+  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    return await this.authService.logout(res, req);
+  }
+  @Post('forgot-password')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Запрос на восстановление пароля',
+    description: 'Отправляет email со ссылкой для сброса пароля (15 мин)',
+  })
+  @ApiOkResponse({
+    description: 'Если email существует, письмо отправлено',
+  })
+  async forgotPassword(@Body() dto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(dto);
+  }
+
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Сброс пароля',
+    description: 'Принимает токен и новый пароль, инвалидирует все сессии',
+  })
+  @ApiOkResponse({
+    description: 'Пароль успешно изменён',
+  })
+  @ApiBadRequestResponse({
+    description: 'Токен просрочен или недействителен',
+  })
+  async resetPassword(
+    @Body() dto: ResetPasswordDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.resetPassword(dto, res);
   }
 
   @Authorization()
   @Get('@me')
   @HttpCode(HttpStatus.OK)
   me(@Authorized() user: User) {
-    return user; // без await
+    return user;
   }
 }

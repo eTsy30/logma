@@ -1,0 +1,295 @@
+@use 'styles/index' as *;
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+// === ПОИСК ===
+.searchWrapper {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+
+  height: 44px;
+  padding: 0 16px;
+
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  background: var(--bg-elevated);
+
+  transition: all var(--transition-fast);
+
+  &:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+    background: var(--bg-surface);
+  }
+}
+
+.searchIcon {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-right: 4px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+
+  &:hover {
+    background: var(--bg-elevated);
+  }
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  font-size: var(--font-size-meta);
+  color: var(--text-primary);
+  background: transparent;
+  outline: none;
+  width: 100%;
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}
+
+.loader {
+  flex-shrink: 0;
+  color: var(--accent);
+  animation: spin 1s linear infinite;
+}
+
+.clearBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+
+  &:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+  }
+}
+
+// === ДРОПДАУН ===
+.dropdown {
+  position: absolute;
+  z-index: 100;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  padding: 12px;
+
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--bg-main);
+  box-shadow: var(--shadow-container);
+
+  @include scrollbar(6px, 6px, var(--bg-elevated), var(--text-muted));
+  @media (max-width: 420px) {
+    z-index: 999;
+    border-radius: 0;
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    padding: 9px;
+    position: fixed;
+    inset: 0;
+    top: 65px; // поверх всего
+  }
+}
+
+.dropdownMessage {
+  padding: var(--space-md);
+  font-size: var(--font-size-meta);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.dropdownMessageError {
+  padding: var(--space-md);
+  font-size: var(--font-size-meta);
+  color: #ef4444;
+  text-align: center;
+}
+
+.movieItem {
+  position: relative;
+}
+
+.savedBadge {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  background: #10b981;
+}
+
+// === ВЫБРАННЫЙ ФИЛЬМ ===
+.selectedMovie {
+  margin-top: var(--space-lg);
+}
+
+.actions {
+  margin-top: var(--space-md);
+}
+
+.alreadySaved {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.choiceButtons {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+}
+
+// === ФОРМА ПРОСМОТРА ===
+.watchedForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+
+  label {
+    font-size: var(--font-size-meta);
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+}
+
+.ratingInput {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  span {
+    margin-left: var(--space-sm);
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+}
+
+.star {
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: var(--rating);
+  }
+}
+
+.starActive {
+  color: var(--rating);
+}
+
+.dateInput,
+.textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-meta);
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+
+  &:focus {
+    border-color: var(--accent);
+    background: var(--bg-surface);
+    outline: none;
+  }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.checkbox {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  font-size: var(--font-size-meta);
+  cursor: pointer;
+
+  input {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.formButtons {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: flex-end;
+  margin-top: var(--space-sm);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

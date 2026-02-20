@@ -1,0 +1,23 @@
+@use 'styles/mixins' as *;
+
+.registration-view {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 1000px;
+
+  @include screen-size(desktop) {
+    width: unset;
+  }
+
+  @include screen-size(mobile) {
+    justify-content: space-between;
+    height: 100vh;
+  }
+}
+
+.logo{
+  @include screen-size(mobile) {
+    margin: 31px 15px 15px;
+  }
+}

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -13,34 +14,41 @@ import type { JwtPayload } from './interfaces/jwt.interfaces';
 import { LoginDto } from './dto/login.dto';
 import type { Request, Response } from 'express';
 import { isDev } from 'src/utils/is-dev.util';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class AuthService {
-  private readonly JWT_ACCESS_TOKEN_TTL: string | number;
-  private readonly JWT_REFRESH_TOKEN_TTL: string | number;
-
+  private readonly JWT_ACCESS_TOKEN_TTL: string;
+  private readonly JWT_REFRESH_TOKEN_TTL: string;
+  private readonly JWT_RESET_TOKEN_TTL = '15m';
+  private readonly RESET_TOKEN_SECRET: string;
   private readonly COOKIE_DOMAIN: string;
 
   constructor(
     private readonly prismaService: PrismaService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
+    private readonly emailService: EmailService,
   ) {
-    this.JWT_ACCESS_TOKEN_TTL = configService.getOrThrow<string | number>(
+    this.RESET_TOKEN_SECRET = configService.getOrThrow('JWT_RESET_SECRET');
+    this.JWT_ACCESS_TOKEN_TTL = configService.getOrThrow<string>(
       'JWT_ACCESS_TOKEN_TTL',
     );
-    this.JWT_REFRESH_TOKEN_TTL = configService.getOrThrow<string | number>(
+    this.JWT_REFRESH_TOKEN_TTL = configService.getOrThrow<string>(
       'JWT_REFRESH_TOKEN_TTL',
     );
     this.COOKIE_DOMAIN = configService.getOrThrow<string>('COOKIE_DOMAIN');
   }
+
   async register(res: Response, dto: RegisterRequestDto) {
     const { name, email, password } = dto;
     const existUser = await this.prismaService.user.findUnique({
       where: { email },
     });
     if (existUser) {
-      throw new ConflictException('Пользователь с такой почной уже существует');
+      throw new ConflictException('Пользователь с такой почтой уже существует');
     }
     const user = await this.prismaService.user.create({
       data: {
@@ -49,7 +57,7 @@ export class AuthService {
         password: await argon2.hash(password),
       },
     });
-    return this.auth(res, user.id);
+    return await this.auth(res, user.id);
   }
 
   async login(res: Response, dto: LoginDto) {
@@ -66,7 +74,7 @@ export class AuthService {
     if (!isValidPassword) {
       throw new NotFoundException('Пользователь не найден');
     }
-    return this.auth(res, user.id);
+    return await this.auth(res, user.id);
   }
 
   async refresh(req: Request, res: Response) {
@@ -76,8 +84,25 @@ export class AuthService {
     if (!refreshToken) {
       throw new UnauthorizedException('Недействительный refresh-token');
     }
-    const payload: JwtPayload = await this.jwtService.verifyAsync(refreshToken);
-    if (payload) {
+    try {
+      const payload: JwtPayload =
+        await this.jwtService.verifyAsync(refreshToken);
+
+      const tokenInDb = await this.prismaService.refreshToken.findUnique({
+        where: { token: refreshToken },
+      });
+
+      if (!tokenInDb) {
+        throw new UnauthorizedException('Сессия истекла или недействительна');
+      }
+
+      if (tokenInDb.expiresAt && new Date() > tokenInDb.expiresAt) {
+        await this.prismaService.refreshToken.delete({
+          where: { token: refreshToken },
+        });
+        throw new UnauthorizedException('Сессия истекла');
+      }
+
       const user = await this.prismaService.user.findUnique({
         where: {
           id: payload.id,
@@ -87,14 +112,30 @@ export class AuthService {
       if (!user) {
         throw new NotFoundException('Пользователь не найден');
       }
-      return this.auth(res, user.id);
+
+      await this.prismaService.refreshToken.delete({
+        where: { token: refreshToken },
+      });
+
+      return await this.auth(res, user.id);
+    } catch {
+      throw new UnauthorizedException('Недействительный refresh-token');
     }
   }
 
-  logout(res: Response) {
+  async logout(res: Response, req: Request) {
+    const refreshToken = (req.cookies as Record<string, string> | undefined)?.[
+      'refresh_token'
+    ];
+    if (refreshToken) {
+      await this.prismaService.refreshToken.deleteMany({
+        where: { token: refreshToken },
+      });
+    }
     this.setCookies(res, '', new Date(0));
     return true;
   }
+
   async validate(id: string) {
     const user = await this.prismaService.user.findUnique({
       where: {
@@ -107,24 +148,119 @@ export class AuthService {
     return user;
   }
 
-  private auth(res: Response, id: string) {
+  async forgotPassword(dto: ForgotPasswordDto) {
+    const { email } = dto;
+
+    const user = await this.prismaService.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return { message: 'Если email существует, письмо отправлено' };
+    }
+
+    const resetToken = this.jwtService.sign(
+      { userId: user.id, email: user.email, type: 'password-reset' },
+      {
+        secret: this.RESET_TOKEN_SECRET,
+        expiresIn: this.JWT_RESET_TOKEN_TTL,
+      },
+    );
+
+    await this.prismaService.user.update({
+      where: { id: user.id },
+      data: {
+        resetTokenHash: await argon2.hash(resetToken),
+        resetTokenExpires: new Date(Date.now() + 15 * 60 * 1000),
+      },
+    });
+
+    const resetUrl = `${this.configService.get('FRONTEND_URL')}/reset-password?token=${resetToken}`;
+
+    await this.emailService.sendPasswordReset(user.email, resetUrl);
+
+    return { message: 'Если email существует, письмо отправлено' };
+  }
+
+  async resetPassword(dto: ResetPasswordDto, res: Response) {
+    const { token, newPassword } = dto;
+
+    let payload: { userId: string; email: string; type: string };
+    try {
+      payload = this.jwtService.verify(token, {
+        secret: this.RESET_TOKEN_SECRET,
+      });
+    } catch {
+      throw new BadRequestException('Токен просрочен или недействителен');
+    }
+
+    if (payload.type !== 'password-reset') {
+      throw new BadRequestException('Неверный тип токена');
+    }
+
+    const user = await this.prismaService.user.findUnique({
+      where: { id: payload.userId },
+    });
+
+    if (!user || !user.resetTokenHash || !user.resetTokenExpires) {
+      throw new BadRequestException('Токен уже использован');
+    }
+
+    if (new Date() > user.resetTokenExpires) {
+      throw new BadRequestException('Токен просрочен');
+    }
+
+    const isValidToken = await argon2.verify(user.resetTokenHash, token);
+    if (!isValidToken) {
+      throw new BadRequestException('Недействительный токен');
+    }
+
+    const hashedPassword = await argon2.hash(newPassword);
+
+    await this.prismaService.$transaction([
+      this.prismaService.user.update({
+        where: { id: user.id },
+        data: {
+          password: hashedPassword,
+          resetTokenHash: null,
+          resetTokenExpires: null,
+        },
+      }),
+      this.prismaService.refreshToken.deleteMany({
+        where: { userId: user.id },
+      }),
+    ]);
+
+    this.setCookies(res, '', new Date(0));
+
+    return { message: 'Пароль успешно изменён' };
+  }
+
+  private async auth(res: Response, id: string) {
     const { accessToken, refreshToken } = this.generateToken(id);
+
+    await this.prismaService.refreshToken.create({
+      data: {
+        token: refreshToken,
+        userId: id,
+        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+      },
+    });
+
     this.setCookies(
       res,
       refreshToken,
       new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     );
-    return accessToken;
+    return { accessToken };
   }
 
   private generateToken(id: string) {
     const payload: JwtPayload = { id };
     const accessToken = this.jwtService.sign(payload, {
-      // eslint-disable-next-line
       expiresIn: this.JWT_ACCESS_TOKEN_TTL as any,
     });
     const refreshToken = this.jwtService.sign(payload, {
-      // eslint-disable-next-line
       expiresIn: this.JWT_REFRESH_TOKEN_TTL as any,
     });
     return { accessToken, refreshToken };

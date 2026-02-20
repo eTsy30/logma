@@ -1,4 +1,7 @@
-export function calculateStrength(password: string): { level: number; label: string } {
+export function calculateStrength(password: string): {
+  level: number;
+  label: string;
+} {
   let score = 0;
   if (password.length > 6) score++;
   if (password.length > 10) score++;
@@ -7,11 +10,11 @@ export function calculateStrength(password: string): { level: number; label: str
   if (/[^A-Za-z0-9]/.test(password)) score++;
 
   const levels = [
-    { label: 'Too weak' },
-    { label: 'Weak' },
-    { label: 'Fair' },
-    { label: 'Good' },
-    { label: 'Strong' },
+    { label: 'Очень слабый' },
+    { label: 'Слабый' },
+    { label: 'Средний' },
+    { label: 'Хороший' },
+    { label: 'Сильный' },
   ];
 
   const level = Math.min(score, 4);
