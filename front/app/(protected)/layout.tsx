@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAppSelector } from 'redux/store';
+import Loading from '../loading';
 
 export default function ProtectedLayout({
   children,
@@ -25,7 +26,7 @@ export default function ProtectedLayout({
   }, [isInitialized, isAuthenticated, router, pathname]);
 
   if (!isInitialized) {
-    return <div>Загрузка...</div>;
+    return <Loading />;
   }
 
   if (!isAuthenticated) {
