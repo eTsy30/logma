@@ -4,7 +4,7 @@ import {
   KinopoiskSearchResponse,
   KinopoiskMovie,
 } from './kinopoisk.service';
-import { Authorization } from 'src/auth/decorators/Authorization.decorator';
+import { Authorization } from '../auth/decorators/Authorization.decorator';
 
 @Controller('kinopoisk')
 @Authorization()

@@ -13,7 +13,7 @@ import { JwtService } from '@nestjs/jwt';
 import type { JwtPayload } from './interfaces/jwt.interfaces';
 import { LoginDto } from './dto/login.dto';
 import type { Request, Response } from 'express';
-import { isDev } from 'src/utils/is-dev.util';
+import { isDev } from '../utils/is-dev.util';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { EmailService } from '../email/email.service';
