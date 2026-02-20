@@ -9,6 +9,7 @@ import {
 
 import s from './MovieList.module.scss';
 import { MovieFormData } from 'shared/ui/MovieForm/MovieForm';
+import Loading from '@/app/loading';
 
 interface MovieListProps {
   movies: UserMovie[];
@@ -20,7 +21,12 @@ export const MovieList = ({ movies, isLoading, mode }: MovieListProps) => {
   const [updateMovie, { isLoading: isUpdating }] = useUpdateMovieMutation();
   const [deleteMovie, { isLoading: isDeleting }] = useDeleteMovieMutation();
 
-  if (isLoading) return <div className={s.loading}>Загрузка...</div>;
+  if (isLoading)
+    return (
+      <div className={s.loading}>
+        <Loading />
+      </div>
+    );
   if (movies.length === 0) return <div className={s.empty}>Нет фильмов</div>;
 
   const handleSaveWatched = async (movie: UserMovie, data: MovieFormData) => {

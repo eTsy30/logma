@@ -86,6 +86,7 @@ export function RegistrationForm() {
             <PasswordInput
               name="password"
               label="Пароль"
+              placeholder="Введите пароль"
               size="md"
               showStrength
             />

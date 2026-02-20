@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from 'redux/store';
+import Loading from '../loading';
 
 export default function AuthLayout({
   children,
@@ -21,7 +22,7 @@ export default function AuthLayout({
   }, [isInitialized, isAuthenticated, router]);
 
   if (!isInitialized) {
-    return <div>Загрузка...</div>;
+    return <Loading/>;
   }
 
   if (isAuthenticated) {
