@@ -22,7 +22,7 @@
     "prisma:studio": "prisma studio",
     "db:reset": "NODE_ENV=local prisma migrate reset",
     "migrate:local": "export LOCAL_DATABASE_URL=$(grep LOCAL_DATABASE_URL .env.local | cut -d '=' -f2) && npx prisma migrate dev --name init",
-    "migrate:neon": "export NEON_DATABASE_URL=$(grep NEON_DATABASE_URL .env.production | cut -d '=' -f2) && npx prisma migrate dev --name init",
+    "migrate:neon": "NODE_ENV=production NEON_DATABASE_URL=$(grep NEON_DATABASE_URL .env.production | cut -d '=' -f2 | tr -d '\"') npx prisma migrate deploy",
     "generate": "npx prisma generate",
     "prebuild": "prisma generate",
     "lint": "eslint .",
