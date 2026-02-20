@@ -38,7 +38,6 @@ export function Tabs({
   onSelect,
   storageKey,
   orientation = 'horizontal',
-  tabType = 'default',
   lazy = false,
   tabsClassName,
   tabClassName,
@@ -119,7 +118,6 @@ export function Tabs({
     }
   }, [lazy, tabs]);
 
-  const activeTab = tabs.find((t) => t.id === currentSelectedId);
   const isVertical = orientation === 'vertical';
 
   // === ВЕРТИКАЛЬНЫЕ ТАБЫ КАК НА КАРТИНКЕ ===

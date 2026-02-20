@@ -14,7 +14,6 @@ export class AppController {
   @Get('/health-db')
   async checkDb() {
     try {
-      // Попробуем найти хоть одного пользователя в таблице User
       const user = await this.prisma.user.findFirst();
       return { status: 'ok', user };
     } catch (error) {

@@ -9,7 +9,6 @@ import { Mutex } from 'async-mutex';
 import { API_URL } from 'shared/config/env';
 import { setAccessToken, logout } from 'redux/auth/slice';
 import { RootState } from './store';
-import { authApi } from './auth/api';
 
 export type QueryWithMeta = {
   meta?: {
@@ -24,8 +23,8 @@ const mutex = new Mutex();
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
-  credentials: 'include', // ВАЖНО для cookie
-  prepareHeaders: (headers, { getState, arg }) => {
+  credentials: 'include',
+  prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
 
     if (token) {
@@ -57,16 +56,16 @@ export const baseQueryWithReauth: BaseQueryFn<
           {
             url: '/auth/refresh',
             method: 'POST',
-          },
+          } as CustomFetchArgs,
           api,
-          extraOptions,
+          { ...extraOptions, skipReauth: true },
         );
 
         if (refreshResult.data) {
           const { accessToken } = refreshResult.data as { accessToken: string };
 
           api.dispatch(setAccessToken(accessToken));
-          api.dispatch(authApi.endpoints.getMe.initiate());
+
           result = await baseQuery(args, api, extraOptions);
         } else {
           api.dispatch(logout());

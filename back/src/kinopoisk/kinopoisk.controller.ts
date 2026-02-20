@@ -1,14 +1,13 @@
-// src/kinopoisk/kinopoisk.controller.ts
 import { Controller, Get, Query, Param, ParseIntPipe } from '@nestjs/common';
 import {
   KinopoiskService,
   KinopoiskSearchResponse,
   KinopoiskMovie,
-} from './kinopoisk.service'; // ваш guard
+} from './kinopoisk.service';
 import { Authorization } from 'src/auth/decorators/Authorization.decorator';
 
 @Controller('kinopoisk')
-@Authorization() // защита авторизацией (опционально)
+@Authorization()
 export class KinopoiskController {
   constructor(private readonly kinopoiskService: KinopoiskService) {}
 

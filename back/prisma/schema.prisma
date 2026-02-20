@@ -28,7 +28,7 @@ model UserMovie {
   genre        String
   posterUrl    String   @map("poster_url")
   userRating   Float    @default(0) @map("user_rating")
-  status       String   @default("want_to_watch") // watched | want_to_watch | watching
+  status       String   @default("want_to_watch")
   wouldRewatch Boolean  @default(false) @map("would_rewatch")
   userComment  String?  @map("user_comment")
   watchDate    String?  @map("watch_date")

@@ -1,5 +1,3 @@
-// components/MovieSearch/utils.ts
-
 import { KinopoiskMovie } from 'redux/search/kinopoiskApi';
 import { Movie } from 'shared/ui/MovieCard/MovieCard';
 
@@ -16,7 +14,7 @@ export function transformKinopoiskToMovie(kpMovie: KinopoiskMovie): Movie {
     genre: kpMovie.genres?.[0]?.name || 'Неизвестно',
     posterUrl: kpMovie.poster?.url || '/placeholder-movie.jpg',
     rating: normalizedRating,
-    wouldRewatch: false, // Пользователь установит позже
+    wouldRewatch: false,
     watchDate: new Date().toISOString().split('T')[0]!,
     note: kpMovie.shortDescription || kpMovie.description || '',
   };

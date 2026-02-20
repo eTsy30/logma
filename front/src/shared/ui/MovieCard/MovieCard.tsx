@@ -1,18 +1,9 @@
-// shared/ui/MovieCard/MovieCard.tsx
 'use client';
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import cx from 'clsx';
-import {
-  Star,
-  Calendar,
-  RotateCcw,
-  X,
-  Bookmark,
-  Check,
-  ChevronDown,
-} from 'lucide-react';
+import { Star, Calendar, X, Bookmark, Check, ChevronDown } from 'lucide-react';
 import s from './MovieCard.module.scss';
 import { Button } from '../Button';
 import { MovieFormData, MovieForm } from '../MovieForm/MovieForm';

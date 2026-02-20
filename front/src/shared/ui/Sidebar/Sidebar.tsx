@@ -1,7 +1,6 @@
-// widgets/Header/ui/Header.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import cx from 'clsx';

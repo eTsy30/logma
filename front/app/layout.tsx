@@ -9,7 +9,6 @@ import { routes } from 'shared/router/paths';
 import { Providers } from 'app/providers/Providers';
 import { inter } from 'app/fonts';
 import { AuthGuard } from 'shared/providers/AuthGuard';
-import { Sidebar } from 'shared/ui/Sidebar';
 
 export async function generateMetadata(): Promise<Metadata> {
   return getMetadata({ url: routes.homepage });

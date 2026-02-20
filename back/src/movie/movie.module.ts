@@ -1,4 +1,3 @@
-// src/movie/movie.module.ts
 import { Module } from '@nestjs/common';
 
 import { MoviesController } from './movie.controller';

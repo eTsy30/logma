@@ -21,7 +21,6 @@ export type AuthUser = {
   name: string;
 };
 
-// Фильтрую свойства, начинающиеся с '@' что бы не тянуть тех. поля
 const filterMetaFields = (payload: Record<string, unknown>): AuthUser =>
   Object.fromEntries(
     Object.entries(payload).filter(([key]) => !key.startsWith('@')),

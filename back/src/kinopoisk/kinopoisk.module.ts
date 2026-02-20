@@ -12,6 +12,6 @@ import { KinopoiskService } from './kinopoisk.service';
 })
 export class KinopoiskModule {
   constructor() {
-    console.log('✅ KinopoiskModule loaded!'); // Добавьте это
+    console.log('✅ KinopoiskModule loaded!');
   }
 }

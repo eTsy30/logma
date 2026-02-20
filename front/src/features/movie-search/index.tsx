@@ -50,14 +50,6 @@ export function MovieSearch({ onBack }: { onBack?: () => void }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [setIsOpen]);
 
-  // const handleInputChange = (value: string) => {
-  //   setQuery(value);
-  //   setIsOpen(true);
-  //   if (selectedMovie) {
-  //     setSelectedMovie(null);
-  //   }
-  // };
-
   const handleSelect = (movie: Movie) => {
     setSelectedMovie(movie);
     setQuery(movie.title);
@@ -103,9 +95,9 @@ export function MovieSearch({ onBack }: { onBack?: () => void }) {
         posterUrl: selectedMovie.posterUrl,
         userRating: data.rating,
         status: 'watched',
-        wouldRewatch: data.wouldRewatch,
         userComment: data.comment,
         watchDate: data.watchDate,
+        wouldRewatch: false,
       }).unwrap();
       refetch();
       handleClear();

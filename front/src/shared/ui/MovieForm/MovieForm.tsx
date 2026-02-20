@@ -1,10 +1,9 @@
-// components/MovieForm/MovieForm.tsx
 'use client';
 
 import { useState } from 'react';
 import cx from 'clsx';
 import { motion } from 'framer-motion';
-import { Star, X, RotateCcw } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { Button } from 'shared/ui/Button';
 import { useUpdateMovieMutation } from 'redux/search/moviesApi';
 import type { UserMovie } from 'redux/search/moviesApi';
@@ -14,7 +13,6 @@ export interface MovieFormData {
   rating: number;
   watchDate: string;
   comment: string;
-  wouldRewatch: boolean;
 }
 
 interface MovieFormProps {
@@ -52,9 +50,6 @@ export function MovieForm(props: MovieFormProps) {
   const [comment, setComment] = useState(
     (movie?.userComment ?? initialData?.comment) || '',
   );
-  const [wouldRewatch, setWouldRewatch] = useState(
-    movie?.wouldRewatch ?? initialData?.wouldRewatch ?? false,
-  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,7 +59,6 @@ export function MovieForm(props: MovieFormProps) {
       rating,
       watchDate,
       comment,
-      wouldRewatch,
     };
 
     if (isEditMode && movie) {
@@ -73,7 +67,6 @@ export function MovieForm(props: MovieFormProps) {
         data: {
           userRating: formData.rating,
           watchDate: formData.watchDate,
-          wouldRewatch: formData.wouldRewatch,
           userComment: formData.comment || undefined,
         },
       });

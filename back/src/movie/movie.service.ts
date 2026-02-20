@@ -4,14 +4,11 @@ import { PrismaService } from '../prismas/prisma.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UserMovie } from './entities/movie.entity';
 
-// cSpell:ignore kinopoisk
-
 @Injectable()
 export class MoviesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(userId: string, dto: CreateMovieDto): Promise<UserMovie> {
-    // Проверяем, нет ли уже такого фильма у пользователя
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const existing = await this.prisma.userMovie.findFirst({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -19,7 +16,6 @@ export class MoviesService {
     });
 
     if (existing) {
-      // Обновляем существующий
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const updated = await this.prisma.userMovie.update({
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -35,7 +31,6 @@ export class MoviesService {
       return updated as unknown as UserMovie;
     }
 
-    // Создаем новый
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const created = await this.prisma.userMovie.create({
       data: {
@@ -82,10 +77,8 @@ export class MoviesService {
     userId: string,
     dto: Partial<CreateMovieDto>,
   ): Promise<UserMovie> {
-    // Сначала проверяем, что фильм принадлежит пользователю
     await this.findOne(id, userId);
 
-    // Формируем данные для обновления
     const updateData: Record<string, unknown> = {};
 
     if (dto.userRating !== undefined) updateData.userRating = dto.userRating;
@@ -104,7 +97,6 @@ export class MoviesService {
   }
 
   async remove(id: string, userId: string): Promise<void> {
-    // Сначала проверяем, что фильм принадлежит пользователю
     await this.findOne(id, userId);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

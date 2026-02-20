@@ -1,4 +1,3 @@
-// features/movie-list/ui/MovieList.tsx — добавить note
 'use client';
 
 import { MovieCard } from 'shared/ui/MovieCard';
@@ -32,7 +31,6 @@ export const MovieList = ({ movies, isLoading, mode }: MovieListProps) => {
           status: 'watched',
           userRating: data.rating,
           watchDate: data.watchDate,
-          wouldRewatch: data.wouldRewatch,
           userComment: data.comment,
         },
       }).unwrap();
@@ -55,7 +53,7 @@ export const MovieList = ({ movies, isLoading, mode }: MovieListProps) => {
             posterUrl: movie.posterUrl,
             rating: movie.userRating ?? 0,
             wouldRewatch: movie.wouldRewatch,
-            note: movie.userComment ?? undefined, // ВОТ ЭТО ДОБАВИТЬ
+            note: movie.userComment ?? undefined,
             watchDate: movie.watchDate ?? '',
           }}
           onSaveWatched={(data) => handleSaveWatched(movie, data)}

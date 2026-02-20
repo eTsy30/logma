@@ -7,13 +7,9 @@ export const authMiddleware = createListenerMiddleware();
 authMiddleware.startListening({
   actionCreator: logout,
   effect: async (_, api) => {
-    // Вызываем logout на сервере для очистки куков
     try {
       await api.dispatch(authApi.endpoints.logout.initiate()).unwrap();
-    } catch {
-      // Продолжаем очистку даже при ошибке
-    }
-    // Сбрасываем состояние API
+    } catch {}
     api.dispatch(authApi.util.resetApiState());
   },
 });

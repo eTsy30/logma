@@ -1,12 +1,9 @@
-// app.scss — только использование, не forward!
-
 @use 'variables' as *;
 @use 'breakpoints' as *;
 @use 'mixins' as *;
 @use 'typography' as *;
 @use 'theme' as *;
 
-// Сначала сбрасываем базовый размер (ВАЖНО: до использования rem!)
 html {
   min-height: 0;
   font-size: 10px !important;

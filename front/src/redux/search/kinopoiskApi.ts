@@ -32,7 +32,7 @@ export interface KinopoiskSearchResponse {
 export const kinopoiskApi = createApi({
   reducerPath: 'kinopoiskApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/kinopoisk`, // ваш backend URL
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/kinopoisk`,
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.accessToken;
       if (token) {

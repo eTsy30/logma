@@ -24,28 +24,28 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   const isPublicPath = PUBLIC_PATHS.some((path) => pathname?.startsWith(path));
   const isResetPassword = pathname?.startsWith('/reset-password');
 
-  // Инициализация
+
   useEffect(() => {
-    // На публичных путях (кроме reset-password) сразу готовы
+  
     if (isPublicPath && !isResetPassword) {
       setIsReady(true);
       return;
     }
 
-    // Для приватных путей и reset-password ждем Redux
+   
     if (isInitialized) {
       setIsReady(true);
     }
   }, [isInitialized, isPublicPath, isResetPassword]);
 
-  // Запрос пользователя (только если есть токен)
+ 
   useEffect(() => {
     if (!isInitialized) {
       getMe();
     }
   }, [isInitialized, getMe]);
 
-  // Редиректы
+
   useEffect(() => {
     if (!isReady) return;
 
@@ -56,7 +56,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     }
   }, [isReady, isAuthenticated, isPublicPath, isResetPassword, router]);
 
-  // Лоадер только для приватных путей
+
   if (!isReady && !isPublicPath) {
     return (
       <div

@@ -33,7 +33,6 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  // ========================= REGISTER =========================
   @Post('register')
   @ApiConflictResponse({
     description: 'Пользователь с такой почтой уже существует',
@@ -63,7 +62,6 @@ export class AuthController {
     return this.authService.register(res, dto);
   }
 
-  // ========================= LOGIN =========================
   @Post('login')
   @ApiOkResponse({ type: AuthResponse })
   @ApiConflictResponse({
@@ -84,8 +82,6 @@ export class AuthController {
   ) {
     return this.authService.login(res, dto);
   }
-
-  // ========================= REFRESH =========================
 
   @Post('refresh')
   @ApiOkResponse({ type: AuthResponse })
@@ -114,8 +110,6 @@ export class AuthController {
     return this.authService.refresh(req, res);
   }
 
-  // ========================= LOGOUT =========================
-
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
@@ -129,7 +123,6 @@ export class AuthController {
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     return await this.authService.logout(res, req);
   }
-  // ========================= FORGOT PASSWORD =========================
   @Post('forgot-password')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
@@ -143,7 +136,6 @@ export class AuthController {
     return this.authService.forgotPassword(dto);
   }
 
-  // ========================= RESET PASSWORD =========================
   @Post('reset-password')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
@@ -167,6 +159,6 @@ export class AuthController {
   @Get('@me')
   @HttpCode(HttpStatus.OK)
   me(@Authorized() user: User) {
-    return user; // без await
+    return user;
   }
 }

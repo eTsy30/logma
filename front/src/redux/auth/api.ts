@@ -1,5 +1,5 @@
 import { api } from 'redux/api';
-import { setAccessToken, logout as authSliceLogout } from './slice';
+import { setAccessToken } from './slice';
 
 export type RegisterRequest = {
   name: string;
@@ -24,7 +24,6 @@ export type User = {
 
 export const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    // ================= REGISTER =================
     register: builder.mutation<AuthResponse, RegisterRequest>({
       query: (body) => ({
         url: '/auth/register',
@@ -36,13 +35,10 @@ export const authApi = api.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(setAccessToken(data.accessToken));
-        } catch {
-          // dispatch(logout());
-        }
+        } catch {}
       },
     }),
 
-    // ================= LOGIN =================
     login: builder.mutation<AuthResponse, LoginRequest>({
       query: (body) => ({
         url: '/auth/login',
@@ -54,11 +50,10 @@ export const authApi = api.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           dispatch(setAccessToken(data.accessToken));
-        } catch {
-          // dispatch(logout());
-        }
+        } catch {}
       },
     }),
+
     forgotPassword: builder.mutation<{ message: string }, { email: string }>({
       query: (body) => ({
         url: '/auth/forgot-password',
@@ -78,7 +73,6 @@ export const authApi = api.injectEndpoints({
       }),
     }),
 
-    // ================= GET ME =================
     getMe: builder.query<User, void>({
       query: () => ({
         url: '/auth/@me',
@@ -87,7 +81,6 @@ export const authApi = api.injectEndpoints({
       providesTags: ['Auth'],
     }),
 
-    // ================= LOGOUT =================
     logout: builder.mutation<{ success: boolean }, void>({
       query: () => ({
         url: '/auth/logout',
