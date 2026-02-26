@@ -6,7 +6,6 @@ export const RandomMovieButton = () => {
   const handleClick = () => {
     getRandomMovie();
   };
-  console.log(data, isLoading);
   return (
     <div>
       <button onClick={handleClick} disabled={isLoading}>
@@ -16,7 +15,7 @@ export const RandomMovieButton = () => {
       {data && (
         <div>
           <h3>{data.name || data.alternativeName}</h3>
-          <img src={data.poster?.url} alt={data.name} />
+          <img src={data.poster?.url} alt={data.name || 'Постер'} />
           <p>Рейтинг: {data.rating?.kp}</p>
         </div>
       )}

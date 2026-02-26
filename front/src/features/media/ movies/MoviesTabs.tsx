@@ -46,7 +46,7 @@ export const MoviesTabs = () => {
       },
       {
         id: 'random',
-        label: `Мне повезет`,
+        label: `Фильм дня`,
         content: <MovieOfTheDay />,
       },
     ],

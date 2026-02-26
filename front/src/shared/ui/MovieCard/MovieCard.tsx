@@ -122,7 +122,7 @@ export function MovieCard({
             {!imageLoaded && <div className={s.skeleton} />}
             <img
               src={movie.posterUrl}
-              alt={movie.title}
+              alt={movie.title || 'Постер'}
               className={cx(s.poster, imageLoaded && s.loaded)}
               onLoad={() => setImageLoaded(true)}
             />

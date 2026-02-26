@@ -1,78 +1,133 @@
+'use client';
+import { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+
 import {
-  KinopoiskMovie,
   useGetMovieOfTheDayQuery,
+  KinopoiskMovie,
 } from 'redux/search/kinopoiskApi';
+import {
+  useAddMovieMutation,
+  useCheckMovieByKinopoiskIdQuery,
+} from 'redux/search/moviesApi';
+
 import { DayCard } from 'shared/ui/DayCard/DayCard';
 import { RandomMovieButton } from 'shared/ui/RandomMovieButton/RandomMovieButton';
+import { MovieForm, MovieFormData } from 'shared/ui/MovieForm/MovieForm';
 import s from './MovieOfTheDay.module.scss';
+
 export const MovieOfTheDay = () => {
-  // const { data, isLoading, error } = useGetMovieOfTheDayQuery();
+  const { data } = useGetMovieOfTheDayQuery();
+  const movie = data?.data?.movie ?? null;
 
-  // if (isLoading) return <div>Загрузка...</div>;
-  // if (error) return <div>Ошибка загрузки</div>;
-  // if (!data) return null;
+  const { data: movieCheck } = useCheckMovieByKinopoiskIdQuery(movie?.id ?? 0, {
+    skip: !movie,
+  });
+  const [addMovie, { isLoading: isSaving }] = useAddMovieMutation();
+  const [actionStatus, setActionStatus] = useState<
+    'idle' | 'want_to_watch' | 'watched'
+  >('idle');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState<KinopoiskMovie | null>(
+    null,
+  );
+  useEffect(() => {
+    if (!movieCheck) return;
 
-  // const { movie, facts, expiresAt } = data.data;
-  // const expiresIn = Math.floor(
-  //   (new Date(expiresAt).getTime() - Date.now()) / 1000 / 60,
-  // );
+    if (!movieCheck.exists) setActionStatus('idle');
+    else setActionStatus(movieCheck.status!);
+  }, [movieCheck]);
+  if (!movie) return null;
+  const handleWantToWatch = async (movie: KinopoiskMovie) => {
+    try {
+      await addMovie({
+        kinopoiskId: Number(movie.id),
+        title: movie.name ?? movie.enName ?? 'Без названия',
+        year: movie.year ?? new Date().getFullYear(),
+        genre: movie.genres?.map((g) => g.name).join(', ') || '',
+        posterUrl: movie.poster?.url ?? '',
+        userRating: 0,
+        status: 'want_to_watch',
+        wouldRewatch: false,
+        userComment: '',
+      }).unwrap();
 
-  const mockMovie: KinopoiskMovie = {
-    id: 999001,
-    name: 'Охотники в ночи',
-    alternativeName: 'Night Hunters',
-    enName: 'Hunters in the Night',
-    year: 2023,
-    description:
-      'Группа наёмников отправляется в глухие леса, чтобы выследить опасного серийного убийцу. Но охота быстро превращается в борьбу за выживание.',
-    shortDescription:
-      'Наёмники охотятся за серийным убийцей в мрачной ночной глуши.',
-    rating: {
-      kp: 7.8,
-      imdb: 8.1,
-    },
-    movieLength: 112,
-    ageRating: 16,
-    poster: {
-      url: 'https://placehold.co/600x900',
-      previewUrl: 'https://placehold.co/300x450',
-    },
-    genres: [{ name: 'Драма' }, { name: 'Триллер' }, { name: 'Боевик' }],
-    countries: [{ name: 'Россия' }, { name: 'США' }],
-    persons: [
-      {
-        id: 1,
-        name: 'Иван Петров',
-        enName: 'Ivan Petrov',
-        photo: 'https://placehold.co/200x300',
-        profession: 'Актёр',
-        enProfession: 'Actor',
-      },
-      {
-        id: 2,
-        name: 'Анна Смирнова',
-        enName: 'Anna Smirnova',
-        photo: 'https://placehold.co/200x300',
-        profession: 'Актриса',
-        enProfession: 'Actress',
-      },
-    ],
-    premiere: {
-      russia: '2023-10-12',
-    },
-    facts: [
-      {
-        value: 'Съёмки проходили в Карелии в условиях реальной ночной тайги.',
-        type: 'FACT',
-        spoiler: false,
-      },
-    ],
+      setActionStatus('want_to_watch');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleWatched = (movie: KinopoiskMovie) => {
+    setSelectedMovie(movie);
+    setIsModalOpen(true);
+  };
+
+  const handleSubmitWatched = async (formData: MovieFormData) => {
+    if (!selectedMovie) return;
+
+    try {
+      await addMovie({
+        kinopoiskId: Number(selectedMovie.id),
+        title: selectedMovie.name ?? selectedMovie.enName ?? 'Без названия',
+        year: selectedMovie.year ?? new Date().getFullYear(),
+        genre: selectedMovie.genres?.map((g) => g.name).join(', ') || '',
+        posterUrl: selectedMovie.poster?.url ?? '',
+        userRating: formData.rating,
+        status: 'watched',
+        wouldRewatch: false,
+        userComment: formData.comment,
+        watchDate: formData.watchDate,
+      }).unwrap();
+
+      setActionStatus('watched');
+      setIsModalOpen(false);
+      setSelectedMovie(null);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
-    <div className={s.movie}>
-      <DayCard movie={mockMovie} />
-      {/* <RandomMovieButton /> */}
-    </div>
+    <>
+      <div className={s.movie}>
+        <DayCard
+          movie={movie}
+          onWantToWatch={handleWantToWatch}
+          onWatched={handleWatched}
+          isSaving={isSaving}
+          actionStatus={actionStatus}
+        />
+        {/* <RandomMovieButton /> */}
+      </div>
+
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            className={s.modalOverlay}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsModalOpen(false)}
+          >
+            <motion.div
+              className={s.modalContent}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <MovieForm
+                mode="create"
+                onCancel={() => setIsModalOpen(false)}
+                onSubmit={handleSubmitWatched}
+                isLoading={isSaving}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };

@@ -67,6 +67,13 @@ export const moviesApi = createApi({
       }),
       invalidatesTags: ['Movies'],
     }),
+
+    checkMovieByKinopoiskId: builder.query<
+      { exists: boolean; status?: 'watched' | 'want_to_watch' },
+      number
+    >({
+      query: (kinopoiskId) => `/movies/by-kinopoisk/${kinopoiskId}/check`,
+    }),
   }),
 });
 
@@ -75,4 +82,5 @@ export const {
   useAddMovieMutation,
   useUpdateMovieMutation,
   useDeleteMovieMutation,
+  useCheckMovieByKinopoiskIdQuery,
 } = moviesApi;

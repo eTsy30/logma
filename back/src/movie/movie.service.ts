@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { PrismaService } from '../prismas/prisma.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
-import { UserMovie } from './entities/movie.entity';
+import { MovieStatus, UserMovie } from './entities/movie.entity';
 
 @Injectable()
 export class MoviesService {
@@ -103,5 +103,19 @@ export class MoviesService {
     await this.prisma.userMovie.delete({
       where: { id },
     });
+  }
+
+  async checkByKinopoiskId(
+    kinopoiskId: number,
+    userId: string,
+  ): Promise<{ exists: boolean; status?: MovieStatus }> {
+    const movie = await this.prisma.userMovie.findFirst({
+      where: { userId, kinopoiskId },
+      select: { status: true },
+    });
+
+    if (!movie) return { exists: false };
+
+    return { exists: true, status: movie.status as MovieStatus };
   }
 }

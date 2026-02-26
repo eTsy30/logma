@@ -7,6 +7,7 @@ import {
   Body,
   Param,
   Req,
+  ParseIntPipe,
 } from '@nestjs/common';
 import type { Request } from 'express';
 
@@ -31,6 +32,13 @@ export class MoviesController {
   @Get()
   findAll(@Req() req: Request & AuthenticatedRequest) {
     return this.moviesService.findAllByUser(req.user.id);
+  }
+  @Get('by-kinopoisk/:kinopoiskId/check')
+  checkByKinopoiskId(
+    @Param('kinopoiskId', ParseIntPipe) kinopoiskId: number,
+    @Req() req: Request & AuthenticatedRequest,
+  ) {
+    return this.moviesService.checkByKinopoiskId(kinopoiskId, req.user.id);
   }
 
   @Get(':id')
