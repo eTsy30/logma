@@ -1,6 +1,6 @@
 import { memo, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bookmark, Check } from 'lucide-react';
+import { Bookmark, Check, ChevronDown } from 'lucide-react';
 
 import { KinopoiskMovie } from 'redux/search/kinopoiskApi';
 import { Button } from '../Button';
@@ -18,6 +18,7 @@ interface Props {
 export const DayCard = memo(
   ({ movie, onWantToWatch, onWatched, isSaving, actionStatus }: Props) => {
     const [imgLoaded, setImgLoaded] = useState(false);
+    const [factsOpen, setFactsOpen] = useState(false);
 
     const title =
       movie.name || movie.alternativeName || movie.enName || 'Без названия';
@@ -106,10 +107,46 @@ export const DayCard = memo(
           )}
 
           <div className={s.footer}>
-            {movie.premiere?.russia && (
-              <span>Премьера: {formatDate(movie.premiere.russia)}</span>
+            {!!movie.facts?.length && (
+              <div className={s.factsWrapper}>
+                <button
+                  className={s.factsToggle}
+                  onClick={() => setFactsOpen(!factsOpen)}
+                  type="button"
+                >
+                  <span>Интересные факты ({movie.facts.length})</span>
+                  <motion.span
+                    animate={{ rotate: factsOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDown size={16} />
+                  </motion.span>
+                </button>
+
+                <AnimatePresence>
+                  {factsOpen && (
+                    <motion.ul
+                      className={s.factsList}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    >
+                      {movie.facts.map((fact, idx) => (
+                        <motion.li
+                          key={idx}
+                          initial={{ x: -10, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          transition={{ delay: idx * 0.05 }}
+                        >
+                          {fact.value}
+                        </motion.li>
+                      ))}
+                    </motion.ul>
+                  )}
+                </AnimatePresence>
+              </div>
             )}
-            {!!movie.facts?.length && <span>Фактов: {movie.facts.length}</span>}
           </div>
 
           {/* Actions */}

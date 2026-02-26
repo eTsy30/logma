@@ -15,10 +15,10 @@ import {
   KinopoiskMovie,
   MovieOfTheDay,
 } from './kinopoisk.service';
-//import { Authorization } from '../auth/decorators/Authorization.decorator';
+import { Authorization } from '../auth/decorators/Authorization.decorator';
 
 @Controller('kinopoisk')
-// @Authorization()
+@Authorization()
 export class KinopoiskController {
   constructor(private readonly kinopoiskService: KinopoiskService) {}
 
