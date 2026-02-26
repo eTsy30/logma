@@ -1,0 +1,71 @@
+[data-theme='dark'] {
+  /* ========== 1️⃣ БАЗОВАЯ ДИЗАЙН-СИСТЕМА ========== */
+
+  /* Цвета (Dark) - Делаем более прозрачными и светлыми */
+  --bg-main: #0f172a;
+  --bg-surface: rgba(30, 41, 59, 0.4); // Намного светлее и прозрачнее
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-elevated: rgba(255, 255, 255, 0.05);
+  --bg-hover: rgba(255, 255, 255, 0.08);
+
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --accent: #818cf8; // Более светлый индиго
+  --accent-soft: rgba(129, 140, 248, 0.15);
+
+  --rating: #fbbf24;
+  --avatar-bg: #fde68a;
+  --header-bg: rgba(15, 23, 42, 0.3);
+
+  --error: #f87171;
+  --warning: #fbbf24;
+  --success: #34d399;
+  --info: #60a5fa;
+
+  --tabs-gradient: linear-gradient(
+    90deg,
+    #3d7a8a 0%,
+    #5a7fb4 50%,
+    #7a6fc6 100%
+  );
+
+  /* ========== 2️⃣ ГРАДИЕНТЫ (Dark) - Светлые размытия ========== */
+  --bg-gradient:
+    radial-gradient(
+      circle at 50% -20%,
+      rgba(129, 140, 248, 0.15),
+      transparent 80%
+    ),
+    radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.1), transparent 50%),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(139, 92, 246, 0.1),
+      transparent 50%
+    ),
+    #0f172a;
+  --logo-warm: #f59e0b; // основной тёплый янтарь
+  --logo-warm-glow: #ffb347; // мягкий ореол
+
+  /* ========== 3️⃣ BOX-SHADOW (Dark) ========== */
+  --shadow-container:
+    0 20px 50px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.2);
+  --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 20px rgba(129, 140, 248, 0.2);
+
+  /* Legacy Fallbacks */
+  --ink-primary: var(--text-primary);
+  --ink-secondary: var(--text-secondary);
+  --ink-tertiary: var(--text-muted);
+  --canvas-primary: var(--bg-main);
+  --canvas-secondary: var(--bg-surface);
+  --canvas-tertiary: var(--bg-elevated);
+  --brand-default: var(--accent);
+  --brand-soft: var(--accent-soft);
+  --border-default: var(--border-subtle);
+}

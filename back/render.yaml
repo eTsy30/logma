@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: back
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npx prisma migrate deploy && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false # Задайте вручную в Dashboard
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: JWT_RESET_SECRET
+        generateValue: true
+      - key: JWT_ACCESS_TOKEN_TTL
+        value: 15m
+      - key: JWT_REFRESH_TOKEN_TTL
+        value: 7d
+      - key: COOKIE_DOMAIN
+        value: .onrender.com
+      - key: FRONTEND_URL
+        value: https://logma.vercel.app
+      - key: CORS_ORIGIN
+        value: https://logma.vercel.app
+      # Gmail SMTP (опционально)
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 200 200">
+  <defs>
+    <filter id="neonGlow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="6" result="blur1"/>
+      <feGaussianBlur stdDeviation="14" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0a"/>
+      <stop offset="100%" stop-color="#1a1a2e"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Фон (уберите если нужен прозрачный PNG) -->
+  <rect width="200" height="200" fill="url(#bgGrad)" rx="40"/>
+  
+  <!-- Бирюзовый неон -->
+  <g fill="#ffffff">
+    <path d="M 65 130 A 50 50 0 1 1 130 130" 
+          fill="none" 
+          stroke="#ffffff" 
+          stroke-width="14" 
+          stroke-linecap="round"
+          filter="url(#neonGlow)"/>
+    
+    <rect x="74" y="145" width="48" height="12" rx="6"/>
+    <rect x="80" y="160" width="36" height="10" rx="5"/>
+    <rect x="89" y="173" width="18" height="8" rx="4"/>
+  </g>
+</svg>

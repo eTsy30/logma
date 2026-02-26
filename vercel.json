@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "projects": [
+    {
+      "name": "logma-front",
+      "rootDirectory": "front",
+      "buildCommand": "npm install && npm run build",
+      "outputDirectory": ".next"
+    },
+    {
+      "name": "logma-back",
+      "rootDirectory": "back",
+      "buildCommand": "npm install && npm run vercel-build",
+      "functions": {
+        "dist/src/main.js": {
+          "runtime": "nodejs20.x"
+        }
+      },
+      "routes": [
+        {
+          "src": "/(.*)",
+          "dest": "dist/src/main.js"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+'use client';
+
+import { useForm, FormProvider } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Input, PasswordInput } from 'shared/ui/Inputs';
+import { AuthCard } from '../AuthCard/AuthCard';
+import { LoginFormData, LoginSchema } from 'features/auth/model/login.types';
+import s from './LoginForm.module.scss';
+import { Button } from 'shared/ui/Button';
+import Link from 'next/link';
+import { routes } from 'shared/router/paths';
+import { useLazyGetMeQuery, useLoginMutation } from 'redux/auth/api';
+import { useRouter } from 'next/navigation';
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+
+// Тип для ошибки API
+interface ApiError {
+  message?: string;
+  error?: string;
+  statusCode?: number;
+}
+
+export const LoginForm = () => {
+  const [login] = useLoginMutation();
+  const [getMe] = useLazyGetMeQuery();
+  const router = useRouter();
+
+  const methods = useForm<LoginFormData>({
+    mode: 'onTouched',
+    resolver: zodResolver(LoginSchema),
+  });
+
+  const {
+    formState: { isSubmitting },
+  } = methods;
+
+  // Функция для извлечения сообщения об ошибке
+  const getErrorMessage = (
+    error: FetchBaseQueryError | SerializedError | undefined,
+  ): string => {
+    if (!error) return 'Неверный email или пароль';
+
+    // FetchBaseQueryError (ошибка от сервера)
+    if ('data' in error) {
+      const data = error.data as ApiError;
+      return data?.message || data?.error || 'Неверный email или пароль';
+    }
+
+    // SerializedError (сетевая ошибка)
+    if ('message' in error) {
+      return error.message || 'Ошибка сети';
+    }
+
+    return 'Неверный email или пароль';
+  };
+
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      await login({ email: data.email, password: data.password }).unwrap();
+      await getMe().unwrap();
+      router.push(routes.dashboard);
+    } catch (error) {
+      const message = getErrorMessage(
+        error as FetchBaseQueryError | SerializedError,
+      );
+      methods.setError('root', { message });
+    }
+  };
+
+  return (
+    <div className={s.wrapper}>
+      <AuthCard>
+        <div className={s.header}>
+          <h2 className={s.title}>Добро пожаловать!</h2>
+          <p className={s.subTitle}>Продолжите вести свой кинодневник</p>
+        </div>
+
+        <FormProvider {...methods}>
+          <form className={s.form} onSubmit={methods.handleSubmit(onSubmit)}>
+            <Input
+              name="email"
+              type="email"
+              label="Email"
+              placeholder="user@example.com"
+              size="md"
+            />
+
+            <PasswordInput name="password" label="Пароль" size="md" />
+
+            {/* Показываем ошибку формы */}
+            {methods.formState.errors.root && (
+              <div className={s.errorMessage}>
+                {methods.formState.errors.root.message}
+              </div>
+            )}
+
+            <Button
+              type="submit"
+              className={s.button}
+              fullWidth
+              size="lg"
+              disabled={isSubmitting}
+              loading={isSubmitting}
+              theme="ghost"
+            >
+              {isSubmitting ? 'Входим...' : 'Войти'}
+            </Button>
+
+            <div className={s.footer}>
+              <span className={s.footerText}>Ещё нет аккаунта?</span>
+              <Link className={s.link} href={routes.registration}>
+                Регистрация
+              </Link>
+            </div>
+          </form>
+        </FormProvider>
+        <div className={s.linksRow}>
+          <Link href={routes.forgotPassword} className={s.forgotLink}>
+            Забыли пароль?
+          </Link>
+        </div>
+      </AuthCard>
+    </div>
+  );
+};

@@ -1,0 +1,103 @@
+.logo {
+  --logo-color: #fff;
+  --duration: 2000ms;
+  filter: drop-shadow(0 0 6px var(--logo-warm-glow))
+    drop-shadow(0 0 14px var(--logo-warm-glow));
+  .arc {
+    stroke-dasharray: 314;
+    stroke-dashoffset: 0;
+  }
+
+  .base {
+    fill: var(--logo-color);
+    opacity: 1;
+  }
+}
+
+/* ================= STARTUP (лампа загорается) ================= */
+
+.startup {
+  animation: startupFlicker 1.8s ease forwards;
+}
+
+/* ================= NEON MERCING ================= */
+
+.neon {
+  animation: neonFlicker 3s infinite;
+}
+
+/* ================= AUTO LOADER ================= */
+
+.autoLoader {
+  animation:
+    startupFlicker 1.6s ease forwards,
+    neonFlicker 2.4s 1.6s ease 2,
+    settle 800ms 6.4s ease forwards;
+}
+
+/* ================= STATIC ================= */
+
+.static {
+  opacity: 1;
+}
+
+/* ================= KEYFRAMES ================= */
+
+@keyframes startupFlicker {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.2;
+  }
+  15% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  45% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes neonFlicker {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    opacity: 1;
+  }
+  20%,
+  24%,
+  55% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes settle {
+  from {
+    filter: brightness(1.2);
+  }
+  to {
+    filter: brightness(1);
+  }
+}
+
+/* ================= REDUCED MOTION ================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .logo {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}

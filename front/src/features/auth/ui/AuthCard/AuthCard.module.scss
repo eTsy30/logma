@@ -1,0 +1,19 @@
+@use 'styles/index' as *;
+
+.wrapper {
+  width: 100%;
+  max-width: 420px;
+  padding: var(--space-xl);
+
+  background: var(--bg-surface);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-container);
+
+  @include screen-size(mobile) {
+    padding: var(--space-lg);
+    max-width: 100%;
+    border-radius: var(--radius-md);
+  }
+}

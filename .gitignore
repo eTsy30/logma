@@ -1,0 +1,15 @@
+# node
+node_modules
+dist
+.next
+
+# env
+.env
+
+# logs
+*.log
+
+# os
+.DS_Store
+.vercel
+.env*.local

@@ -1,0 +1,278 @@
+@use 'styles/index' as *;
+
+// ============================================
+// FLOATING TABS (закладки как на фото — иконка + текст + закрытие)
+// ============================================
+
+.floatingTabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 44px;
+  padding: 4px 8px;
+  width: -webkit-fill-available;
+
+  background: var(--tabs-gradient);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  align-self: flex-start;
+  margin: 0 12px;
+
+  @media (max-width: 768px) {
+    height: 40px;
+    padding: 4px 6px;
+    border-radius: 10px;
+    margin: 0 12px;
+  }
+}
+
+.floatingTab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  @media (max-width: 768px) {
+    padding: 6px 10px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  &:hover:not(.floatingTabActive):not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.floatingTabActive {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+.floatingTabIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+
+  @media (max-width: 768px) {
+    width: 16px;
+    height: 16px;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    stroke-width: 1.5;
+    fill: none;
+  }
+}
+
+.floatingTabLabel {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.floatingTabClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-left: 4px;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+}
+
+.floatingTabDivider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.25);
+  margin: 0 2px;
+
+  @media (max-width: 768px) {
+    height: 16px;
+  }
+}
+
+// ============================================
+// FLOATING CONTENT & PANEL
+// ============================================
+
+.floatingContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+}
+
+.floatingPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  padding: var(--space-md);
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: var(--tabs-gap);
+  }
+}
+
+// ============================================
+// HORIZONTAL TABS (пилюли) — БЕЗ ИЗМЕНЕНИЙ
+// ============================================
+
+.wrapper {
+  &Horizontal {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    padding: 0;
+  }
+}
+
+.list {
+  &Horizontal {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-self: flex-start;
+
+    background: var(--bg-elevated);
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    gap: 4px;
+
+    margin-bottom: var(--tabs-gap);
+  }
+}
+
+.tab {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+  border: none;
+
+  text-align: center;
+  background: transparent;
+
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-glow);
+  }
+
+  &Horizontal {
+    padding: 8px 20px;
+    border-radius: var(--radius-full);
+
+    font-size: var(--font-size-meta);
+    font-weight: 600;
+    color: var(--text-secondary);
+
+    transition: color var(--transition-fast);
+    @media (max-width: 768px) {
+      padding: 4px;
+      font-size: var(--font-size-mini);
+    }
+    &:hover:not(:disabled) {
+      color: var(--text-primary);
+    }
+  }
+
+  &Active {
+    color: var(--accent);
+  }
+}
+
+.tabIndicator {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent-soft);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+}
+
+.tabLabel {
+  position: relative;
+  z-index: 2;
+}
+
+.tabIcon {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+.content {
+  &Horizontal {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+
+    @include scrollbar(6px, 6px, var(--bg-elevated), var(--text-muted));
+  }
+}
+
+.panel {
+  height: 100%;
+}
+
+// Общее
+.content_list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+
+  @include scrollbar(6px, 6px, var(--bg-elevated), var(--text-muted));
+}

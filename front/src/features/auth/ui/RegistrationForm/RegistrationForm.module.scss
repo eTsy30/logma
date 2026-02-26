@@ -1,0 +1,76 @@
+@use 'styles/index' as *;
+
+.wrapper {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: var(--space-lg);
+}
+
+// === ХЕДЕР ===
+.header {
+  margin-bottom: var(--space-lg);
+  text-align: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+
+.subTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+// === ФОРМА ===
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.button {
+  margin-top: var(--space-sm);
+}
+
+// === ФУТЕР ===
+.footer {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  justify-content: center;
+  padding-top: var(--space-md);
+}
+
+.footerText {
+  font-size: 14px;
+  color: var(--text-muted);
+
+  @include screen-size(mobile) {
+    font-size: 12px;
+  }
+}
+
+.link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.errorMessage {
+  padding: 12px 16px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  color: #ef4444;
+  font-size: 14px;
+  text-align: center;
+}

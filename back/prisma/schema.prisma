@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  password  String
+  name      String
+  movies    UserMovie[]
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  resetTokenHash    String?
+  resetTokenExpires DateTime?
+  
+  refreshTokens     RefreshToken[]
+}
+
+model UserMovie {
+  id           String   @id @default(uuid())
+  kinopoiskId  Int
+  title        String
+  year         Int
+  genre        String
+  posterUrl    String   @map("poster_url")
+  userRating   Float    @default(0) @map("user_rating")
+  status       String   @default("want_to_watch")
+  wouldRewatch Boolean  @default(false) @map("would_rewatch")
+  userComment  String?  @map("user_comment")
+  watchDate    String?  @map("watch_date")
+  userId       String   @map("user_id")
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("movies")
+}
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

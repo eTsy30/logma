@@ -1,0 +1,79 @@
+{
+  "name": "back",
+  "version": "0.0.1",
+  "private": true,
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml}": [
+      "prettier --write"
+    ],
+    "prisma/schema.prisma": [
+      "prisma format"
+    ]
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "start": "node dist/src/main.js",
+    "dev": "nest start --watch",
+    "prisma:generate": "prisma generate",
+    "prisma:studio": "prisma studio",
+    "db:reset": "NODE_ENV=local prisma migrate reset",
+    "migrate:local": "export LOCAL_DATABASE_URL=$(grep LOCAL_DATABASE_URL .env.local | cut -d '=' -f2) && npx prisma migrate dev --name init",
+    "migrate:neon": "NODE_ENV=production NEON_DATABASE_URL=$(grep NEON_DATABASE_URL .env.production | cut -d '=' -f2 | tr -d '\"') npx prisma migrate deploy",
+    "generate": "npx prisma generate",
+    "prebuild": "prisma generate",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write . && prisma format",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@nestjs-modules/mailer": "^2.0.2",
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/core": "^11.0.1",
+    "@nestjs/jwt": "^11.0.2",
+    "@nestjs/passport": "^11.0.5",
+    "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/schedule": "^6.1.1",
+    "@nestjs/swagger": "^11.2.6",
+    "@prisma/adapter-pg": "^7.3.0",
+    "@prisma/client": "^7.3.0",
+    "argon2": "^0.44.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
+    "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "helmet": "^8.1.0",
+    "nodemailer": "^8.0.1",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "pg": "^8.18.0",
+    "reflect-metadata": "^0.2.2",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/schematics": "^11.0.0",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cron": "^2.0.1",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.7",
+    "@types/nodemailer": "^7.0.10",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/web-push": "^3.6.4",
+    "eslint-config-prettier": "^10.1.8",
+    "prisma": "^7.3.0",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.54.0"
+  }
+}
