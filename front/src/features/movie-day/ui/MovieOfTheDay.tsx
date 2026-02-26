@@ -12,7 +12,6 @@ import {
 } from 'redux/search/moviesApi';
 
 import { DayCard } from 'shared/ui/DayCard/DayCard';
-import { RandomMovieButton } from 'shared/ui/RandomMovieButton/RandomMovieButton';
 import { MovieForm, MovieFormData } from 'shared/ui/MovieForm/MovieForm';
 import s from './MovieOfTheDay.module.scss';
 
