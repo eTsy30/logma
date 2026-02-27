@@ -4,7 +4,7 @@ import { Bookmark, Check, ChevronDown } from 'lucide-react';
 
 import { KinopoiskMovie } from 'redux/search/kinopoiskApi';
 import { Button } from '../Button';
-import { formatRating, getAgeBadge, truncate } from './utils';
+import { formatRating, getAgeBadge } from './utils';
 import s from './DayCard.module.scss';
 
 interface Props {
