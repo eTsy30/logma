@@ -23,12 +23,6 @@ export const DayCard = memo(
 
     const title =
       movie.name || movie.alternativeName || movie.enName || 'Без названия';
-    const subtitle =
-      movie.alternativeName && movie.name !== movie.alternativeName
-        ? `${movie.alternativeName} • ${movie.year ?? ''}`
-        : movie.enName
-          ? `${movie.enName} • ${movie.year ?? ''}`
-          : '';
 
     const cast = useMemo(
       () =>
