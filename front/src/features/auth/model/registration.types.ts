@@ -6,7 +6,7 @@ export const RegistrationSchema = z.object({
     .min(2, 'Имя должно содержать минимум 2 символа'),
   password: z
     .string({ message: 'Введите пароль' })
-    .min(8, 'Пароль должен содержать минимум 8 символов'),
+    .min(6, 'Пароль должен содержать минимум 6 символов'),
   email: z.string().email('Введите корректный email'),
 });
 

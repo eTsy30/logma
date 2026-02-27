@@ -8,7 +8,7 @@ import s from './Tabs.module.scss';
 
 type TabItem = {
   id: string;
-  label: string;
+  label: ReactNode;
   icon?: ReactNode;
   content: ReactNode;
   disabled?: boolean;
@@ -135,10 +135,13 @@ export function Tabs({
                     isActive && s.floatingTabActive,
                     tabClassName,
                   )}
-                  title={tab.label}
                 >
                   {tab.icon && (
                     <span className={s.floatingTabIcon}>{tab.icon}</span>
+                  )}
+
+                  {tab.label && (
+                    <span className={s.floatingTabLabel}>{tab.label}</span>
                   )}
                 </Ariakit.Tab>
               </div>

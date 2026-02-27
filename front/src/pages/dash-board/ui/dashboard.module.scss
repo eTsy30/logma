@@ -6,7 +6,7 @@
   overflow: hidden;
 
   height: calc(100vh - 100px);
-  margin: 50px;
+  margin: 25px;
   padding: 0;
 
   background: var(--bg-surface);
@@ -15,11 +15,6 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-container);
   height: auto;
-  @media (max-width: 1024px) {
-    margin: 30px;
-    margin-right: 16px;
-    // height: calc(100vh - 80px);
-  }
 
   @media (max-width: 768px) {
     margin: 10px;

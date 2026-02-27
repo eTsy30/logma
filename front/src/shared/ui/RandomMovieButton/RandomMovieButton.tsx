@@ -1,24 +1,23 @@
 import { useLazyGetRandomMovieQuery } from 'redux/search/kinopoiskApi';
-
+import { MovieCardContainer } from '../MovieCardContainer/MovieCardContainer';
+import { Button } from '../Button';
+import s from './RandomMovieButton.module.scss';
 export const RandomMovieButton = () => {
   const [getRandomMovie, { data, isLoading }] = useLazyGetRandomMovieQuery();
 
-  const handleClick = () => {
-    getRandomMovie();
-  };
   return (
-    <div>
-      <button onClick={handleClick} disabled={isLoading}>
-        {isLoading ? 'Загрузка...' : '🎲 Случайный фильм'}
-      </button>
+    <div className={s.container}>
+      <Button
+        size="md"
+        theme="primary"
+        onClick={() => getRandomMovie()}
+        disabled={isLoading}
+        loading={isLoading}
+      >
+        Найти фильм
+      </Button>
 
-      {data && (
-        <div>
-          <h3>{data.name || data.alternativeName}</h3>
-          <img src={data.poster?.url} alt={data.name || 'Постер'} />
-          <p>Рейтинг: {data.rating?.kp}</p>
-        </div>
-      )}
+      <MovieCardContainer movie={data?.data ?? null} />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { Tabs } from 'shared/ui/Tabs';
 import { MovieList } from 'features/movie-list';
 import { useGetMyMoviesQuery } from 'redux/search/moviesApi';
 import { MovieOfTheDay } from 'features/movie-day';
+import { RandomMovieButton } from 'shared/ui/RandomMovieButton/RandomMovieButton';
 
 export const MoviesTabs = () => {
   const { data: myMovies = [], isLoading } = useGetMyMoviesQuery();
@@ -45,9 +46,14 @@ export const MoviesTabs = () => {
         ),
       },
       {
-        id: 'random',
+        id: 'film-of-day',
         label: `Фильм дня`,
         content: <MovieOfTheDay />,
+      },
+      {
+        id: 'random',
+        label: `Случайный фильм`,
+        content: <RandomMovieButton />,
       },
     ],
     [watchedMovies, willWatchMovies, isLoading],

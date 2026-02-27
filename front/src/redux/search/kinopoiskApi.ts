@@ -69,6 +69,10 @@ export interface MovieOfTheDayResponse {
     expiresIn: number;
   };
 }
+export interface RandomMovieResponse {
+  success: boolean;
+  data: KinopoiskMovie;
+}
 
 export const kinopoiskApi = createApi({
   reducerPath: 'kinopoiskApi',
@@ -97,8 +101,7 @@ export const kinopoiskApi = createApi({
       query: (id) => `/movie/${id}`,
     }),
 
-    // НОВЫЙ: Получить случайный фильм напрямую
-    getRandomMovie: builder.query<KinopoiskMovie, void>({
+    getRandomMovie: builder.query<RandomMovieResponse, void>({
       query: () => '/random',
     }),
 

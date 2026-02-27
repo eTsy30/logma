@@ -240,6 +240,7 @@
 .tabLabel {
   position: relative;
   z-index: 2;
+  @include body-bold;
 }
 
 .tabIcon {

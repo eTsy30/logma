@@ -19,6 +19,7 @@ export const DayCard = memo(
   ({ movie, onWantToWatch, onWatched, isSaving, actionStatus }: Props) => {
     const [imgLoaded, setImgLoaded] = useState(false);
     const [factsOpen, setFactsOpen] = useState(false);
+    const [descriptionOpen, setDescriptionOpen] = useState(false);
 
     const title =
       movie.name || movie.alternativeName || movie.enName || 'Без названия';
@@ -38,7 +39,7 @@ export const DayCard = memo(
                 p.profession?.toLowerCase() ?? '',
               ) || p.enProfession?.toLowerCase() === 'actor',
           )
-          ?.slice(0, 5) ?? [],
+          ?.slice(0, 4) ?? [],
       [movie.persons],
     );
 
@@ -51,7 +52,7 @@ export const DayCard = memo(
       >
         <div className={s.posterWrapper}>
           {!imgLoaded && <div className={s.skeleton} />}
-          {movie.poster?.url && (
+          {movie.poster?.url && movie.poster.url !== '' && (
             <img
               className={`${s.poster} ${imgLoaded ? s.loaded : ''}`}
               src={movie.poster.url}
@@ -67,8 +68,9 @@ export const DayCard = memo(
 
         <div className={s.content}>
           <header>
-            <h1 className={s.title}>{title}</h1>
-            {subtitle && <div className={s.subtitle}>{subtitle}</div>}
+            <h1 className={s.title}>
+              {`${title}${movie.year ? ` (${movie.year})` : ''}`}
+            </h1>
           </header>
 
           <div className={s.meta}>
@@ -87,7 +89,42 @@ export const DayCard = memo(
           </div>
 
           {movie.description && (
-            <p className={s.description}>{truncate(movie.description, 200)}</p>
+            <div className={s.factsWrapper}>
+              <button
+                className={s.factsToggle}
+                onClick={() => setDescriptionOpen(!descriptionOpen)}
+                type="button"
+              >
+                <span>О фильме</span>
+                <motion.span
+                  animate={{ rotate: descriptionOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown size={16} />
+                </motion.span>
+              </button>
+
+              <AnimatePresence>
+                {descriptionOpen && (
+                  <motion.ul
+                    className={s.factsList}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                  >
+                    <motion.li
+                      initial={{ x: -10, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 1 * 0.05 }}
+                    >
+                      {movie.description}
+                    </motion.li>
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+            </div>
+            // <p className={s.description}>{truncate(movie.description, 200)}</p>
           )}
 
           {!!cast.length && (
@@ -96,7 +133,7 @@ export const DayCard = memo(
               <div className={s.castList}>
                 {cast.map((actor) => (
                   <div key={actor.id} className={s.actor}>
-                    {actor.photo && (
+                    {actor.photo && actor.photo !== '' && (
                       <img src={actor.photo} alt={actor.name || 'Актёр'} />
                     )}
                     <span>{actor.name || 'Неизвестно'}</span>

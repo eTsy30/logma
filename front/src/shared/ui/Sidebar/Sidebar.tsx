@@ -32,11 +32,7 @@ export const Sidebar = () => {
         {!isSearchOpen && (
           <div className={s.left}>
             <Link href="/dashboard" className={s.logo}>
-              <MiniLogo
-                mode="startup"
-                size={40}
-                color="var(--logo-warm-glow)"
-              />
+              <MiniLogo mode="startup" size={40} />
             </Link>
           </div>
         )}

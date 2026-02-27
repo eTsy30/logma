@@ -16,6 +16,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { getRussianErrorMessage } from 'shared/lib/errorMessages';
 
 interface ApiError {
   message?: string;
@@ -41,11 +42,15 @@ export function RegistrationForm() {
 
     if ('data' in error) {
       const data = error.data as ApiError;
-      return data?.message || data?.error || 'Произошла ошибка при регистрации';
+      const serverMessage = data?.message || data?.error;
+      return (
+        getRussianErrorMessage(serverMessage) ||
+        'Произошла ошибка при регистрации'
+      );
     }
 
     if ('message' in error) {
-      return error.message || 'Ошибка сети';
+      return getRussianErrorMessage(error.message) || 'Ошибка сети';
     }
 
     return 'Произошла ошибка при регистрации';
@@ -106,7 +111,6 @@ export function RegistrationForm() {
               label="Пароль"
               placeholder="Введите пароль"
               size="md"
-              showStrength
             />
 
             {/* Показываем ошибку формы */}

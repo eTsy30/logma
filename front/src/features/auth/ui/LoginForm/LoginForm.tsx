@@ -13,8 +13,8 @@ import { useLazyGetMeQuery, useLoginMutation } from 'redux/auth/api';
 import { useRouter } from 'next/navigation';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { getRussianErrorMessage } from 'shared/lib/errorMessages';
 
-// Тип для ошибки API
 interface ApiError {
   message?: string;
   error?: string;
@@ -41,15 +41,16 @@ export const LoginForm = () => {
   ): string => {
     if (!error) return 'Неверный email или пароль';
 
-    // FetchBaseQueryError (ошибка от сервера)
     if ('data' in error) {
       const data = error.data as ApiError;
-      return data?.message || data?.error || 'Неверный email или пароль';
+      const serverMessage = data?.message || data?.error;
+      return (
+        getRussianErrorMessage(serverMessage) || 'Неверный email или пароль'
+      );
     }
 
-    // SerializedError (сетевая ошибка)
     if ('message' in error) {
-      return error.message || 'Ошибка сети';
+      return getRussianErrorMessage(error.message) || 'Ошибка сети';
     }
 
     return 'Неверный email или пароль';

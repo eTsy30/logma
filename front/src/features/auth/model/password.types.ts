@@ -19,8 +19,8 @@ export const PasswordResetSchema = z
       .string({
         message: 'Обязательное поле',
       })
-      .min(8, 'Минимум 8 символов'),
-    confirmPassword: z.string().min(8, 'Минимум 8 символов'),
+      .min(6, 'Минимум 6 символов'),
+    confirmPassword: z.string().min(6, 'Минимум 6 символов'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ['confirmPassword'],
