@@ -1,6 +1,7 @@
 {
   "name": "Logma",
   "short_name": "Logma",
+  "start_url": "/dashboard",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

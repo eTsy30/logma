@@ -8,7 +8,7 @@ import s from './Tabs.module.scss';
 
 type TabItem = {
   id: string;
-  label: ReactNode;
+  label?: ReactNode;
   icon?: ReactNode;
   content: ReactNode;
   disabled?: boolean;
