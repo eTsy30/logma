@@ -25,7 +25,12 @@ const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.accessToken;
+    // 🔥 Сначала Redux, потом localStorage
+    const token =
+      (getState() as RootState).auth.accessToken ||
+      (typeof window !== 'undefined'
+        ? localStorage.getItem('accessToken')
+        : null);
 
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
@@ -34,6 +39,7 @@ const baseQuery = fetchBaseQuery({
     return headers;
   },
 });
+
 export const baseQueryWithReauth: BaseQueryFn<
   CustomFetchArgs,
   unknown,

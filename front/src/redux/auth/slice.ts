@@ -1,5 +1,4 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-
 import { authApi } from 'redux/auth/api';
 
 type AuthState = {
@@ -9,12 +8,18 @@ type AuthState = {
   isInitialized: boolean;
 };
 
+const getStoredToken = (): string | null => {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem('accessToken');
+};
+
 const initialState: AuthState = {
-  accessToken: null,
-  isAuthenticated: false,
+  accessToken: getStoredToken(), // ← восстанавливаем
+  isAuthenticated: !!getStoredToken(),
   user: null,
   isInitialized: false,
 };
+
 export type AuthUser = {
   id: string;
   email: string;
@@ -32,11 +37,27 @@ export const authSlice = createSlice({
   reducers: {
     setAccessToken(state, action: PayloadAction<string>) {
       state.accessToken = action.payload;
+      state.isAuthenticated = true;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('accessToken', action.payload);
+      }
     },
+
     logout(state) {
       state.accessToken = null;
       state.isAuthenticated = false;
       state.user = null;
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('accessToken');
+      }
+    },
+
+    hydrateAuth(state) {
+      const token = getStoredToken();
+      if (token) {
+        state.accessToken = token;
+        state.isAuthenticated = true;
+      }
     },
   },
 
@@ -51,8 +72,11 @@ export const authSlice = createSlice({
         state.user = null;
         state.isAuthenticated = false;
         state.isInitialized = true;
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('accessToken');
+        }
       });
   },
 });
 
-export const { setAccessToken, logout } = authSlice.actions;
+export const { setAccessToken, logout, hydrateAuth } = authSlice.actions;
