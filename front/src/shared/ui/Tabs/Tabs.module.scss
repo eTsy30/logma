@@ -241,6 +241,9 @@
   position: relative;
   z-index: 2;
   @include body-bold;
+  @media (max-width: 768px) {
+    @include body-sm;
+  }
 }
 
 .tabIcon {

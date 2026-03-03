@@ -286,7 +286,7 @@ export class AuthService {
   private setCookies(res: Response, value: string, expires: Date) {
     res.cookie('refresh_token', value, {
       httpOnly: true,
-      domain: this.COOKIE_DOMAIN,
+      // domain: this.COOKIE_DOMAIN,
       expires,
       secure: !isDev(this.configService),
       sameSite: !isDev(this.configService) ? 'none' : 'lax',

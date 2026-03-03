@@ -52,7 +52,7 @@ export const MoviesTabs = () => {
       },
       {
         id: 'random',
-        label: `Случайный фильм`,
+        label: `Случайный`,
         content: <RandomMovieButton />,
       },
     ],
