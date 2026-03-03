@@ -31,8 +31,12 @@ export function RegistrationForm() {
   const router = useRouter();
 
   const methods = useForm<RegistrationData>({
-    mode: 'onTouched',
+    mode: 'onChange',
     resolver: zodResolver(RegistrationSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   const getErrorMessage = (

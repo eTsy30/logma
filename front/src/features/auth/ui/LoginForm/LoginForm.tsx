@@ -27,8 +27,12 @@ export const LoginForm = () => {
   const router = useRouter();
 
   const methods = useForm<LoginFormData>({
-    mode: 'onTouched',
+    mode: 'onChange',
     resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   const {
