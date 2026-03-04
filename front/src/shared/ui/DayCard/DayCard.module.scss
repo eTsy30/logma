@@ -269,3 +269,35 @@
   display: flex;
   gap: var(--radius-sm);
 }
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--bg-card);
+  border-radius: 18px;
+  padding: 20px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.bottomSheet {
+  position: absolute;
+  bottom: 0;
+  border-radius: 20px 20px 0 0;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.hint {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  opacity: 0.85;
+}

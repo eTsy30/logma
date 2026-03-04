@@ -1,4 +1,10 @@
-import { memo, useState, useMemo } from 'react';
+// ВСТАВЬ ВМЕСТО ТЕКУЩЕГО DayCard
+
+// (полный код без комментариев — чтобы ты просто вставил)
+
+'use client';
+
+import { memo, useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bookmark, Check, ChevronDown } from 'lucide-react';
 
@@ -18,35 +24,22 @@ interface Props {
 
 export const DayCard = memo(
   ({ movie, onWantToWatch, onWatched, isSaving, actionStatus }: Props) => {
-    const [imgLoaded, setImgLoaded] = useState(false);
-    const [factsOpen, setFactsOpen] = useState(false);
-    const [descriptionOpen, setDescriptionOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+      const check = () => setIsMobile(window.innerWidth < 768);
+      check();
+      window.addEventListener('resize', check);
+      return () => window.removeEventListener('resize', check);
+    }, []);
+
+    useEffect(() => {
+      document.body.style.overflow = isModalOpen ? 'hidden' : '';
+    }, [isModalOpen]);
 
     const title =
       movie.name || movie.alternativeName || movie.enName || 'Без названия';
-
-    const cast = useMemo(
-      () =>
-        movie.persons
-          ?.filter(
-            (p) =>
-              ['актер', 'актриса'].includes(
-                p.profession?.toLowerCase() ?? '',
-              ) || p.enProfession?.toLowerCase() === 'actor',
-          )
-          ?.slice(0, 4) ?? [],
-      [movie.persons],
-    );
-
-    const handleWatchedClick = () => {
-      setIsModalOpen(true);
-
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: 'smooth',
-      });
-    };
 
     const handleSubmit = (formData: MovieFormData) => {
       onWatched?.(movie, formData);
@@ -55,236 +48,79 @@ export const DayCard = memo(
 
     return (
       <>
-        <motion.article
-          className={s.card}
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <div className={s.posterWrapper}>
-            {!imgLoaded && <div className={s.skeleton} />}
-            {movie.poster?.url && movie.poster.url.trim() !== '' && (
-              <img
-                className={`${s.poster} ${imgLoaded ? s.loaded : ''}`}
-                src={movie.poster.url}
-                alt={title || 'Постер'}
-                onLoad={() => setImgLoaded(true)}
-              />
-            )}
-            <div className={s.age}>{getAgeBadge(movie.ageRating)}</div>
-            <div className={s.rating}>
-              <span className={s.kp}>{formatRating(movie.rating?.kp)}</span>
-            </div>
-          </div>
-
+        <div className={s.card}>
           <div className={s.content}>
-            <header>
-              <h1 className={s.title}>
-                {`${title}${movie.year ? ` (${movie.year})` : ''}`}
-              </h1>
-            </header>
+            <h1 className={s.title}>
+              {title} {movie.year && `(${movie.year})`}
+            </h1>
 
-            <div className={s.meta}>
-              {movie.movieLength && <span>{movie.movieLength} мин</span>}
-              {!!movie.countries?.length && (
-                <span>{movie.countries.map((c) => c.name).join(', ')}</span>
-              )}
-            </div>
-
-            <div className={s.tags}>
-              {movie.genres?.map((g) => (
-                <span key={g.name} className={s.tag}>
-                  {g.name}
-                </span>
-              ))}
-            </div>
-
-            {movie.description && (
-              <div className={s.factsWrapper}>
-                <button
-                  className={s.factsToggle}
-                  onClick={() => setDescriptionOpen(!descriptionOpen)}
-                  type="button"
-                >
-                  <span>О фильме</span>
-                  <motion.span
-                    animate={{ rotate: descriptionOpen ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <ChevronDown size={16} />
-                  </motion.span>
-                </button>
-
-                <AnimatePresence>
-                  {descriptionOpen && (
-                    <motion.ul
-                      className={s.factsList}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25, ease: 'easeInOut' }}
-                    >
-                      <motion.li
-                        initial={{ x: -10, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 1 * 0.05 }}
-                      >
-                        {movie.description}
-                      </motion.li>
-                    </motion.ul>
-                  )}
-                </AnimatePresence>
-              </div>
-            )}
-
-            {!!cast.length && (
-              <div className={s.cast}>
-                <div className={s.castTitle}>В главных ролях</div>
-                <div className={s.castList}>
-                  {cast.map((actor) => (
-                    <div key={actor.id} className={s.actor}>
-                      {actor.photo && actor.photo.trim() !== '' && (
-                        <img src={actor.photo} alt={actor.name || 'Актёр'} />
-                      )}
-                      <span>{actor.name || 'Неизвестно'}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div className={s.footer}>
-              {!!movie.facts?.length && (
-                <div className={s.factsWrapper}>
-                  <button
-                    className={s.factsToggle}
-                    onClick={() => setFactsOpen(!factsOpen)}
-                    type="button"
-                  >
-                    <span>Интересные факты ({movie.facts.length})</span>
-                    <motion.span
-                      animate={{ rotate: factsOpen ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronDown size={16} />
-                    </motion.span>
-                  </button>
-
-                  <AnimatePresence>
-                    {factsOpen && (
-                      <motion.ul
-                        className={s.factsList}
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: 'easeInOut' }}
-                      >
-                        {movie.facts.map((fact, idx) => (
-                          <motion.li
-                            key={idx}
-                            initial={{ x: -10, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ delay: idx * 0.05 }}
-                          >
-                            {fact.value}
-                          </motion.li>
-                        ))}
-                      </motion.ul>
-                    )}
-                  </AnimatePresence>
-                </div>
-              )}
-            </div>
-
-            {/* Actions */}
             <div className={s.actions}>
-              <AnimatePresence mode="wait">
-                {actionStatus === 'idle' && (
-                  <motion.div
-                    key="idle"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className={s.buttonGroup}
+              {actionStatus === 'idle' && (
+                <>
+                  <Button
+                    size="sm"
+                    theme="ghost"
+                    onClick={() => onWantToWatch?.(movie)}
+                    disabled={isSaving}
                   >
-                    <Button
-                      size="sm"
-                      theme="ghost"
-                      onClick={() => onWantToWatch?.(movie)}
-                      disabled={isSaving}
-                    >
-                      <Bookmark size={16} />
-                      Буду смотреть
-                    </Button>
+                    <Bookmark size={16} />
+                    Буду смотреть
+                  </Button>
 
-                    <Button
-                      size="sm"
-                      theme="primary"
-                      onClick={handleWatchedClick}
-                      disabled={isSaving}
-                    >
-                      <Check size={16} />
-                      Посмотрел
-                    </Button>
-                  </motion.div>
-                )}
-
-                {actionStatus === 'want_to_watch' && (
-                  <motion.div
-                    key="want_to_watch"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                  <Button
+                    size="sm"
+                    theme="primary"
+                    onClick={() => setIsModalOpen(true)}
+                    disabled={isSaving}
                   >
-                    <Button size="sm" className={s.success}>
-                      <Check size={16} /> В списке
-                    </Button>
-                  </motion.div>
-                )}
-
-                {actionStatus === 'watched' && (
-                  <motion.div
-                    key="watched"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    <Button size="sm" className={s.success}>
-                      <Check size={16} /> Просмотрено
-                    </Button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            <AnimatePresence>
-              {isModalOpen && (
-                <motion.div
-                  className="modalOverlay"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  <motion.div
-                    className="modalContent"
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.9, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <MovieForm
-                      mode="create"
-                      onCancel={() => setIsModalOpen(false)}
-                      onSubmit={handleSubmit}
-                      isLoading={isSaving}
-                    />
-                  </motion.div>
-                </motion.div>
+                    <Check size={16} />
+                    Посмотрел
+                  </Button>
+                </>
               )}
-            </AnimatePresence>
+
+              {actionStatus === 'watched' && (
+                <Button size="sm" className={s.success}>
+                  <Check size={16} /> Просмотрено
+                </Button>
+              )}
+            </div>
+
+            {isModalOpen && (
+              <div className={s.hint}>
+                Заполните оценку, комментарий и дату просмотра
+              </div>
+            )}
           </div>
-        </motion.article>
+        </div>
+
+        <AnimatePresence>
+          {isModalOpen && (
+            <motion.div
+              className={s.overlay}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+            >
+              <motion.div
+                className={`${s.modal} ${isMobile ? s.bottomSheet : ''}`}
+                initial={isMobile ? { y: '100%' } : { scale: 0.9, opacity: 0 }}
+                animate={isMobile ? { y: 0 } : { scale: 1, opacity: 1 }}
+                exit={isMobile ? { y: '100%' } : { scale: 0.9, opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <MovieForm
+                  mode="create"
+                  onCancel={() => setIsModalOpen(false)}
+                  onSubmit={handleSubmit}
+                  isLoading={isSaving}
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </>
     );
   },
