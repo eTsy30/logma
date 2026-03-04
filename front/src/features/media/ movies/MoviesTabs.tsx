@@ -6,7 +6,7 @@ import { MovieList } from 'features/movie-list';
 import { useGetMyMoviesQuery } from 'redux/search/moviesApi';
 import { MovieOfTheDay } from 'features/movie-day';
 import { RandomMovieButton } from 'shared/ui/RandomMovieButton/RandomMovieButton';
-import { Popcorn, Projector } from 'lucide-react';
+import { Projector } from 'lucide-react';
 export const MoviesTabs = () => {
   const { data: myMovies = [], isLoading } = useGetMyMoviesQuery();
 
@@ -47,7 +47,7 @@ export const MoviesTabs = () => {
       },
       {
         id: 'film-of-day',
-        icon: <Popcorn />,
+        label: `Фильм дня`,
         content: <MovieOfTheDay />,
       },
       {

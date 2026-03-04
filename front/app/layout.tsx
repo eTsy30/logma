@@ -32,16 +32,12 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: '#181829', // ← добавь
+  themeColor: '#0f172a', // ← добавь
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html
-      suppressHydrationWarning // ← должен быть здесь
-      lang="en"
-      data-scroll-behavior="smooth"
-    >
+    <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth">
       <body className={inter.variable}>
         <ServiceWorkerProvider />
         <Providers>
