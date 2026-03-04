@@ -119,13 +119,15 @@ export function MovieCard({
         {/* Row 1: Poster + Title/Year/Genre */}
         <div className={s.row1}>
           <div className={cx(s.posterWrap, isSearch && s.posterLarge)}>
-            {!imageLoaded && <div className={s.skeleton} />}
-            <img
-              src={movie.posterUrl}
-              alt={movie.title || 'Постер'}
-              className={cx(s.poster, imageLoaded && s.loaded)}
-              onLoad={() => setImageLoaded(true)}
-            />
+            {!imageLoaded && movie.posterUrl && <div className={s.skeleton} />}
+            {movie.posterUrl && (
+              <img
+                src={movie.posterUrl}
+                alt={movie.title || 'Постер'}
+                className={cx(s.poster, imageLoaded && s.loaded)}
+                onLoad={() => setImageLoaded(true)}
+              />
+            )}
             {isSearch && <div className={s.glow} />}
           </div>
 

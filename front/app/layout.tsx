@@ -9,24 +9,41 @@ import { routes } from 'shared/router/paths';
 import { Providers } from 'app/providers/Providers';
 import { inter } from 'app/fonts';
 import { AuthGuard } from 'shared/providers/AuthGuard';
+import { ServiceWorkerProvider } from 'shared/providers/ServiceWorkerProvider';
 
 export async function generateMetadata(): Promise<Metadata> {
-  return getMetadata({ url: routes.homepage });
+  return {
+    ...getMetadata({ url: routes.homepage }),
+    manifest: '/favicon/site.webmanifest',
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: 'black-translucent',
+      title: 'Logma',
+    },
+    icons: {
+      icon: '/web-app-manifest-192x192.png',
+      apple: '/web-app-manifest-192x192.png',
+    },
+  };
 }
-
-export const manifest = '/favicon/site.webmanifest';
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
+  themeColor: '#181829', // ← добавь
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html suppressHydrationWarning lang="en" data-scroll-behavior="smooth">
+    <html
+      suppressHydrationWarning // ← должен быть здесь
+      lang="en"
+      data-scroll-behavior="smooth"
+    >
       <body className={inter.variable}>
+        <ServiceWorkerProvider />
         <Providers>
           <AuthGuard>{children}</AuthGuard>
         </Providers>

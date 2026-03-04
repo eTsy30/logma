@@ -46,7 +46,7 @@ export const DayCard = memo(
       >
         <div className={s.posterWrapper}>
           {!imgLoaded && <div className={s.skeleton} />}
-          {movie.poster?.url && movie.poster.url !== '' && (
+          {movie.poster?.url && movie.poster.url.trim() !== '' && (
             <img
               className={`${s.poster} ${imgLoaded ? s.loaded : ''}`}
               src={movie.poster.url}
@@ -127,7 +127,7 @@ export const DayCard = memo(
               <div className={s.castList}>
                 {cast.map((actor) => (
                   <div key={actor.id} className={s.actor}>
-                    {actor.photo && actor.photo !== '' && (
+                    {actor.photo && actor.photo.trim() !== '' && (
                       <img src={actor.photo} alt={actor.name || 'Актёр'} />
                     )}
                     <span>{actor.name || 'Неизвестно'}</span>

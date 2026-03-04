@@ -13,7 +13,11 @@ export function Providers({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <ThemeProvider attribute="data-theme" defaultTheme="light" enableSystem>
+    <ThemeProvider
+      attribute="data-theme"
+      defaultTheme="light"
+      enableSystem={true}
+    >
       <Provider store={store}>{children}</Provider>
     </ThemeProvider>
   );
