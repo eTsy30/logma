@@ -34,6 +34,9 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     setHydrationDone(true);
   }, [dispatch]);
 
+  // Принудительно рендерим children на сервере, чтобы избежать Hydration Mismatch
+  // AuthGuard работает как обёртка для редиректов, а не для блокировки контента
+
   useEffect(() => {
     if (isPublicPath && !isResetPassword) {
       setIsReady(true);
@@ -83,6 +86,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   if (!isReady && !isPublicPath) {
     return (
       <div
+        suppressHydrationWarning
         style={{
           display: 'flex',
           justifyContent: 'center',

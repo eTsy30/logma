@@ -12,6 +12,7 @@
     ]
   },
   "scripts": {
+    "dev:clean": "rm -rf .next && npm run dev",
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",

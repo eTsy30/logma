@@ -6,7 +6,8 @@ import { MovieList } from 'features/movie-list';
 import { useGetMyMoviesQuery } from 'redux/search/moviesApi';
 import { MovieOfTheDay } from 'features/movie-day';
 import { RandomMovieButton } from 'shared/ui/RandomMovieButton/RandomMovieButton';
-import { Projector } from 'lucide-react';
+import { Projector } from 'lucide-react'; // ← Убедись, что импорт корректный
+
 export const MoviesTabs = () => {
   const { data: myMovies = [], isLoading } = useGetMyMoviesQuery();
 
@@ -33,7 +34,6 @@ export const MoviesTabs = () => {
           />
         ),
       },
-
       {
         id: 'will-watch',
         label: `Буду смотреть (${willWatchMovies.length})`,

@@ -1,4 +1,3 @@
-'use client';
 import s from './dashboard.module.scss';
 import { Tabs } from 'shared/ui/Tabs';
 

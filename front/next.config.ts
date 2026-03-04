@@ -8,7 +8,11 @@ const nextConfig: NextConfig = {
         as: '*.jsx',
       },
     },
+    resolveAlias: {
+      'lucide-react': 'lucide-react',
+    },
   },
+
   images: {
     remotePatterns: [
       {

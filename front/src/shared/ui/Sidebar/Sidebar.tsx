@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // ← добавь useEffect
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import cx from 'clsx';
@@ -13,17 +13,47 @@ import { logout } from 'redux/auth/slice';
 
 import s from './Sidebar.module.scss';
 import { MovieSearch } from 'features/movie-search';
-
 import { MiniLogo } from '../MiniLogo/MiniLogo';
 
 export const Sidebar = () => {
   const dispatch = useAppDispatch();
-  const { theme, setTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
   const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const isDashboard = pathname === '/dashboard';
   const showSearch = isDashboard;
+
+  if (!mounted) {
+    return (
+      <header className={s.header}>
+        <div className={s.container}>
+          <div className={s.left}>
+            <Link href="/dashboard" className={s.logo}>
+              <MiniLogo mode="startup" size={40} />
+            </Link>
+          </div>
+          {showSearch && (
+            <div className={s.center}>
+              <div className={s.searchDesktop}>
+                <MovieSearch />
+              </div>
+            </div>
+          )}
+          <div className={s.right}>
+            {/* Плейсхолдеры для кнопок */}
+            <div className={s.themeToggle} style={{ width: 22, height: 22 }} />
+            <div className={s.logoutBtn} style={{ width: 22, height: 22 }} />
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className={s.header}>
@@ -68,8 +98,10 @@ export const Sidebar = () => {
         {!isSearchOpen && (
           <div className={s.right}>
             <button
-              className={cx(theme === 'dark' && s.light, s.themeToggle)}
-              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+              className={cx(resolvedTheme === 'dark' && s.light, s.themeToggle)}
+              onClick={() =>
+                setTheme(resolvedTheme === 'light' ? 'dark' : 'light')
+              }
               aria-label="Сменить тему"
             >
               <OffIcon width={22} height={22} />
