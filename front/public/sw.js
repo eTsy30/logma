@@ -24,7 +24,6 @@ self.addEventListener('install', (event) => {
           const response = await fetch(url);
           if (response.ok) {
             await cache.put(url, response);
-            console.log('[SW] Cached:', url);
           } else {
             console.warn('[SW] Failed to cache (404):', url);
           }

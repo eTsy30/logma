@@ -80,7 +80,7 @@ export function MovieSearch({ onBack }: { onBack?: () => void }) {
       refetch();
       handleClear();
     } catch (err) {
-      console.error('Failed to save movie:', err);
+      // Silent fail - error handling done by RTK Query
     }
   };
 
@@ -102,7 +102,7 @@ export function MovieSearch({ onBack }: { onBack?: () => void }) {
       refetch();
       handleClear();
     } catch (err) {
-      console.error('Failed to save movie:', err);
+      // Silent fail - error handling done by RTK Query
     }
   };
 

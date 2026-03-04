@@ -12,7 +12,5 @@ import { MovieOfTheDayCron } from './movie-of-day.cache';
   exports: [KinopoiskService],
 })
 export class KinopoiskModule {
-  constructor() {
-    console.log('✅ KinopoiskModule loaded!');
-  }
+  constructor() {}
 }

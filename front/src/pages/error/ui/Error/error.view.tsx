@@ -27,13 +27,9 @@ const STATUS_CONTENT = {
 
 export type ErrorPageProps = { statusCode?: 404 | 501 | 502; error?: Error };
 
-export function ErrorView({ statusCode = 404, error }: ErrorPageProps) {
+export function ErrorView({ statusCode = 404, error: _error }: ErrorPageProps) {
   const router = useRouter();
   const controls = useAnimation();
-
-  useEffect(() => {
-    if (error) console.error(error);
-  }, [error]);
 
   useEffect(() => {
     const animateLoop = async () => {

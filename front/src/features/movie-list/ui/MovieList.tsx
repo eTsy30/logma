@@ -41,7 +41,7 @@ export const MovieList = ({ movies, isLoading, mode }: MovieListProps) => {
         },
       }).unwrap();
     } catch (err) {
-      console.error('Failed to mark as watched:', err);
+      // Silent fail - error handling done by RTK Query
     }
   };
 
