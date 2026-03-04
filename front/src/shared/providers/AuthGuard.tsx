@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useLazyGetMeQuery } from 'redux/auth/api';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { hydrateAuth, setInitialized } from 'redux/auth/slice';
+import { hydrateAuth } from 'redux/auth/slice';
 import Loading from '@/app/loading';
 
 const PUBLIC_PATHS = [
