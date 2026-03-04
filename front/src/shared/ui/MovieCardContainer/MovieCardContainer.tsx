@@ -85,14 +85,6 @@ export const MovieCardContainer = ({ movie }: Props) => {
 
   return (
     <>
-      <DayCard
-        movie={movie}
-        onWantToWatch={handleWantToWatch}
-        onWatched={handleWatched}
-        isSaving={isSaving}
-        actionStatus={actionStatus}
-      />
-
       <AnimatePresence>
         {isModalOpen && (
           <motion.div
@@ -120,6 +112,13 @@ export const MovieCardContainer = ({ movie }: Props) => {
           </motion.div>
         )}
       </AnimatePresence>
+      <DayCard
+        movie={movie}
+        onWantToWatch={handleWantToWatch}
+        onWatched={handleWatched}
+        isSaving={isSaving}
+        actionStatus={actionStatus}
+      />
     </>
   );
 };
