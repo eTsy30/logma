@@ -41,6 +41,11 @@ export const DayCard = memo(
 
     const handleWatchedClick = () => {
       setIsModalOpen(true);
+
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
     };
 
     const handleSubmit = (formData: MovieFormData) => {
