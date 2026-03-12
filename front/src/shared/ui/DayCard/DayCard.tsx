@@ -1,10 +1,6 @@
-// ВСТАВЬ ВМЕСТО ТЕКУЩЕГО DayCard
-
-// (полный код без комментариев — чтобы ты просто вставил)
-
 'use client';
 
-import { memo, useState, useMemo, useEffect } from 'react';
+import { memo, useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bookmark, Check, ChevronDown } from 'lucide-react';
 
@@ -26,6 +22,7 @@ export const DayCard = memo(
   ({ movie, onWantToWatch, onWatched, isSaving, actionStatus }: Props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const modalRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       const check = () => setIsMobile(window.innerWidth < 768);
@@ -37,6 +34,20 @@ export const DayCard = memo(
     useEffect(() => {
       document.body.style.overflow = isModalOpen ? 'hidden' : '';
     }, [isModalOpen]);
+
+    // Прокрутка к форме при открытии на мобильном
+    useEffect(() => {
+      if (isModalOpen && isMobile) {
+        // Небольшая задержка для завершения анимации открытия
+        const timer = setTimeout(() => {
+          modalRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'end',
+          });
+        }, 100);
+        return () => clearTimeout(timer);
+      }
+    }, [isModalOpen, isMobile]);
 
     const title =
       movie.name || movie.alternativeName || movie.enName || 'Без названия';
@@ -104,6 +115,7 @@ export const DayCard = memo(
               onClick={() => setIsModalOpen(false)}
             >
               <motion.div
+                ref={modalRef}
                 className={`${s.modal} ${isMobile ? s.bottomSheet : ''}`}
                 initial={isMobile ? { y: '100%' } : { scale: 0.9, opacity: 0 }}
                 animate={isMobile ? { y: 0 } : { scale: 1, opacity: 1 }}

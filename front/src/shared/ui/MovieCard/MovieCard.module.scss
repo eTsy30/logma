@@ -285,3 +285,11 @@
   border-color: var(--accent);
   box-shadow: var(--shadow-glow);
 }
+
+.quickActions {
+  gap: 10px;
+  margin: 0 auto;
+  display: flex;
+  padding: 0 0 10px;
+  justify-content: center;
+}

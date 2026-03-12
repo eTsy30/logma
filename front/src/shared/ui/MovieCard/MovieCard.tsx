@@ -98,6 +98,8 @@ export function MovieCard({
   const showActions =
     isSearch && !isAlreadySaved && onWantToWatch && onSaveWatched;
 
+  console.log('SCSS Module keys:', Object.keys(s));
+  console.log('quickActions exists:', 'quickActions' in s);
   return (
     <motion.div
       className={cx(
