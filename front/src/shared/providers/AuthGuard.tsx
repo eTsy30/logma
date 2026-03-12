@@ -24,18 +24,16 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [isReady, setIsReady] = useState(false);
   const [hydrationDone, setHydrationDone] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const isPublicPath = PUBLIC_PATHS.some((path) => pathname?.startsWith(path));
   const isResetPassword = pathname?.startsWith('/reset-password');
 
-  // Гидратация при монтировании (только на клиенте)
   useEffect(() => {
     dispatch(hydrateAuth());
     setHydrationDone(true);
+    setMounted(true);
   }, [dispatch]);
-
-  // Принудительно рендерим children на сервере, чтобы избежать Hydration Mismatch
-  // AuthGuard работает как обёртка для редиректов, а не для блокировки контента
 
   useEffect(() => {
     if (isPublicPath && !isResetPassword) {
@@ -49,7 +47,6 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   }, [isInitialized, isPublicPath, isResetPassword, hydrationDone]);
 
   useEffect(() => {
-    // Вызываем getMe только после гидратации и если не инициализированы
     if (!isInitialized && hydrationDone && !isGetMeLoading) {
       const lsToken =
         typeof window !== 'undefined'
@@ -82,6 +79,10 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     router,
     pathname,
   ]);
+
+  if (!mounted) {
+    return children;
+  }
 
   if (!isReady && !isPublicPath) {
     return (

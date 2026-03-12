@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAppSelector } from 'redux/store';
 import Loading from '../loading';
@@ -12,10 +12,15 @@ export default function ProtectedLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
 
   const { isAuthenticated, isInitialized } = useAppSelector(
     (state) => state.auth,
   );
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (isInitialized && !isAuthenticated) {
@@ -24,6 +29,10 @@ export default function ProtectedLayout({
       );
     }
   }, [isInitialized, isAuthenticated, router, pathname]);
+
+  if (!mounted) {
+    return children;
+  }
 
   if (!isInitialized) {
     return <Loading />;

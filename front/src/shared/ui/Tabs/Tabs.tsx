@@ -44,23 +44,25 @@ export function Tabs({
   const [mountedTabs, setMountedTabs] = useState<Set<string>>(
     new Set<string>(),
   );
-
   const getInitialSelectedId = useCallback(() => {
     if (controlledSelectedId) return controlledSelectedId;
-    if (storageKey && typeof window !== 'undefined') {
-      try {
-        const saved = localStorage.getItem(storageKey);
-        if (saved && tabs.some((t) => t.id === saved)) {
-          return saved;
-        }
-      } catch {}
-    }
     return defaultId || tabs[0]?.id;
-  }, [controlledSelectedId, storageKey, defaultId, tabs]);
+  }, [controlledSelectedId, defaultId, tabs]);
 
   const [internalSelectedId, setInternalSelectedId] = useState<
     string | undefined
   >(getInitialSelectedId);
+
+  useEffect(() => {
+    if (storageKey && typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem(storageKey);
+        if (saved && tabs.some((t) => t.id === saved)) {
+          setInternalSelectedId(saved);
+        }
+      } catch {}
+    }
+  }, [storageKey, tabs]);
 
   useEffect(() => {
     if (controlledSelectedId !== undefined) {
@@ -109,7 +111,6 @@ export function Tabs({
     }
   }, [lazy, tabs]);
 
-  // === FLOATING TABS (как на картинке — иконки в голубой панели) ===
   if (variant === 'floating') {
     return (
       <Ariakit.TabProvider
@@ -119,7 +120,7 @@ export function Tabs({
         <div className={cx(s.floatingTabs, tabsClassName)}>
           {tabs.map((tab, index) => {
             const isActive = tab.id === currentSelectedId;
-            const showDivider = index > 0; // Разделитель перед всеми кроме первой
+            const showDivider = index > 0;
 
             return (
               <div
