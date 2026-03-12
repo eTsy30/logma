@@ -34,10 +34,9 @@ export const DayCard = memo(
       document.body.style.overflow = isModalOpen ? 'hidden' : '';
     }, [isModalOpen]);
 
-    // Прокрутка к форме при открытии на мобильном
+    // Исправленный useEffect с явным return undefined
     useEffect(() => {
       if (isModalOpen && isMobile) {
-        // Небольшая задержка для завершения анимации открытия
         const timer = setTimeout(() => {
           modalRef.current?.scrollIntoView({
             behavior: 'smooth',
@@ -46,6 +45,7 @@ export const DayCard = memo(
         }, 100);
         return () => clearTimeout(timer);
       }
+      return undefined;
     }, [isModalOpen, isMobile]);
 
     const title =
