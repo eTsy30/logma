@@ -1,12 +1,11 @@
 'use client';
 
-import { memo, useState, useMemo, useEffect, useRef } from 'react';
+import { memo, useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bookmark, Check, ChevronDown } from 'lucide-react';
+import { Bookmark, Check } from 'lucide-react';
 
 import { KinopoiskMovie } from 'redux/search/kinopoiskApi';
 import { Button } from '../Button';
-import { formatRating, getAgeBadge } from './utils';
 import s from './DayCard.module.scss';
 import { MovieFormData, MovieForm } from '../MovieForm/MovieForm';
 
