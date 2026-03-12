@@ -34,7 +34,6 @@ export const DayCard = memo(
       document.body.style.overflow = isModalOpen ? 'hidden' : '';
     }, [isModalOpen]);
 
-    // Исправленный useEffect с явным return undefined
     useEffect(() => {
       if (isModalOpen && isMobile) {
         const timer = setTimeout(() => {
