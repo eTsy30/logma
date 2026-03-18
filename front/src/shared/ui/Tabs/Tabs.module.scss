@@ -173,8 +173,8 @@
     padding: 4px;
     border-radius: var(--radius-sm);
     gap: 4px;
-
-    margin-bottom: var(--tabs-gap);
+    width: calc(100% - 24px);
+    margin: 5px 12px;
   }
 }
 

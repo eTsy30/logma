@@ -2,7 +2,7 @@
 import { type ReactNode, useEffect, useState, useCallback } from 'react';
 import * as Ariakit from '@ariakit/react';
 import cx from 'clsx';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 import s from './Tabs.module.scss';
 
@@ -20,7 +20,7 @@ type TabsProps = {
   selectedId?: string;
   onSelect?: (id: string | null | undefined) => void;
   storageKey?: string;
-  variant?: 'horizontal' | 'floating'; // 'floating' = новый вид как на картинке
+  variant?: 'horizontal' | 'floating';
   lazy?: boolean;
   tabsClassName?: string;
   tabClassName?: string;
@@ -41,9 +41,8 @@ export function Tabs({
   contentClassName,
   panelClassName,
 }: TabsProps) {
-  const [mountedTabs, setMountedTabs] = useState<Set<string>>(
-    new Set<string>(),
-  );
+  const [mountedTabs, setMountedTabs] = useState<Set<string>>(new Set());
+
   const getInitialSelectedId = useCallback(() => {
     if (controlledSelectedId) return controlledSelectedId;
     return defaultId || tabs[0]?.id;
@@ -72,7 +71,7 @@ export function Tabs({
 
   const handleSelect = useCallback(
     (id: string | null | undefined) => {
-      if (id === null || id === undefined) return;
+      if (!id) return;
       if (controlledSelectedId === undefined) {
         setInternalSelectedId(id);
       }
@@ -121,7 +120,6 @@ export function Tabs({
           {tabs.map((tab, index) => {
             const isActive = tab.id === currentSelectedId;
             const showDivider = index > 0;
-
             return (
               <div
                 key={tab.id}
@@ -140,7 +138,6 @@ export function Tabs({
                   {tab.icon && (
                     <span className={s.floatingTabIcon}>{tab.icon}</span>
                   )}
-
                   {tab.label && (
                     <span className={s.floatingTabLabel}>{tab.label}</span>
                   )}
@@ -162,6 +159,7 @@ export function Tabs({
                 opacity: tab.id === currentSelectedId ? 1 : 0,
                 pointerEvents: tab.id === currentSelectedId ? 'auto' : 'none',
               }}
+              data-random-id={Math.random().toFixed(4)} // для отладки рендера
             >
               {shouldRenderTab(tab.id) && tab.content}
             </Ariakit.TabPanel>
@@ -213,28 +211,22 @@ export function Tabs({
         </Ariakit.TabList>
 
         <div className={cx(s.content, s.contentHorizontal, contentClassName)}>
-          <AnimatePresence mode="wait">
-            {tabs.map(
-              (tab) =>
-                tab.id === currentSelectedId && (
-                  <Ariakit.TabPanel
-                    key={tab.id}
-                    tabId={tab.id}
-                    className={cx(s.panel, panelClassName)}
-                  >
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className={s.content_list}
-                    >
-                      {shouldRenderTab(tab.id) && tab.content}
-                    </motion.div>
-                  </Ariakit.TabPanel>
-                ),
-            )}
-          </AnimatePresence>
+          {tabs.map((tab) => (
+            <Ariakit.TabPanel
+              key={tab.id}
+              tabId={tab.id}
+              className={cx(s.panel, panelClassName)}
+              style={{
+                position:
+                  tab.id === currentSelectedId ? 'relative' : 'absolute',
+                opacity: tab.id === currentSelectedId ? 1 : 0,
+                pointerEvents: tab.id === currentSelectedId ? 'auto' : 'none',
+              }}
+              data-random-id={Math.random().toFixed(4)} // для отладки рендера
+            >
+              {shouldRenderTab(tab.id) && tab.content}
+            </Ariakit.TabPanel>
+          ))}
         </div>
       </div>
     </Ariakit.TabProvider>
