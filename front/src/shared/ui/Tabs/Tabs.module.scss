@@ -279,3 +279,8 @@
 
   @include scrollbar(6px, 6px, var(--bg-elevated), var(--text-muted));
 }
+
+.panel {
+  width: 100%;
+  transition: opacity 0.2s ease;
+}

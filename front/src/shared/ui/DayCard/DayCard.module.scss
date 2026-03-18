@@ -351,10 +351,10 @@
 
 .closeButton {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 40px;
-  height: 40px;
+  top: 7px;
+  right: 7px;
+  width: 25px;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -381,7 +381,7 @@
   overflow-y: auto;
   max-height: calc(90vh - 48px);
   -webkit-overflow-scrolling: touch;
-
+  background-color: var(--bg-main);
   scrollbar-width: none;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {

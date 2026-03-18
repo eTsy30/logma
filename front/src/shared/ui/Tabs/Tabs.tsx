@@ -151,28 +151,21 @@ export function Tabs({
         </div>
 
         <div className={cx(s.floatingContent, contentClassName)}>
-          <AnimatePresence mode="wait">
-            {tabs.map(
-              (tab) =>
-                tab.id === currentSelectedId && (
-                  <Ariakit.TabPanel
-                    key={tab.id}
-                    tabId={tab.id}
-                    className={cx(s.floatingPanel, panelClassName)}
-                  >
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
-                      className={s.content_list}
-                    >
-                      {shouldRenderTab(tab.id) && tab.content}
-                    </motion.div>
-                  </Ariakit.TabPanel>
-                ),
-            )}
-          </AnimatePresence>
+          {tabs.map((tab) => (
+            <Ariakit.TabPanel
+              key={tab.id}
+              tabId={tab.id}
+              className={cx(s.panel, panelClassName)}
+              style={{
+                position:
+                  tab.id === currentSelectedId ? 'relative' : 'absolute',
+                opacity: tab.id === currentSelectedId ? 1 : 0,
+                pointerEvents: tab.id === currentSelectedId ? 'auto' : 'none',
+              }}
+            >
+              {shouldRenderTab(tab.id) && tab.content}
+            </Ariakit.TabPanel>
+          ))}
         </div>
       </Ariakit.TabProvider>
     );

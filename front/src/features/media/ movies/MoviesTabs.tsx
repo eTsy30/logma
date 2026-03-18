@@ -22,10 +22,6 @@ export const MoviesTabs = () => {
     [myMovies],
   );
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   const tabs = useMemo(
     () => [
       {
@@ -53,5 +49,9 @@ export const MoviesTabs = () => {
     [watchedMovies, willWatchMovies],
   );
 
-  return <Tabs storageKey="films-subcategory" tabs={tabs} />;
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <Tabs storageKey="films-subcategory" tabs={tabs} />
+  );
 };
