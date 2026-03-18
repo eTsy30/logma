@@ -9,25 +9,19 @@ import {
 
 import s from './MovieList.module.scss';
 import { MovieFormData } from 'shared/ui/MovieForm/MovieForm';
-import Loading from '@/app/loading';
 
 interface MovieListProps {
   movies: UserMovie[];
-  isLoading?: boolean;
   mode: 'watched' | 'want_to_watch';
 }
 
-export const MovieList = ({ movies, isLoading, mode }: MovieListProps) => {
+export const MovieList = ({ movies, mode }: MovieListProps) => {
   const [updateMovie, { isLoading: isUpdating }] = useUpdateMovieMutation();
   const [deleteMovie, { isLoading: isDeleting }] = useDeleteMovieMutation();
 
-  if (isLoading)
-    return (
-      <div className={s.loading}>
-        <Loading />
-      </div>
-    );
-  if (movies.length === 0) return <div className={s.empty}>Нет фильмов</div>;
+  if (movies.length === 0) {
+    return <div className={s.empty}>Нет фильмов</div>;
+  }
 
   const handleSaveWatched = async (movie: UserMovie, data: MovieFormData) => {
     try {
@@ -40,9 +34,7 @@ export const MovieList = ({ movies, isLoading, mode }: MovieListProps) => {
           userComment: data.comment,
         },
       }).unwrap();
-    } catch (err) {
-      // Silent fail - error handling done by RTK Query
-    }
+    } catch (err) {}
   };
 
   return (

@@ -6,7 +6,8 @@ import { MovieList } from 'features/movie-list';
 import { useGetMyMoviesQuery } from 'redux/search/moviesApi';
 import { MovieOfTheDay } from 'features/movie-day';
 import { RandomMovieButton } from 'shared/ui/RandomMovieButton/RandomMovieButton';
-import { Projector } from 'lucide-react'; // ← Убедись, что импорт корректный
+import { Projector } from 'lucide-react';
+import Loading from '@/app/loading';
 
 export const MoviesTabs = () => {
   const { data: myMovies = [], isLoading } = useGetMyMoviesQuery();
@@ -21,29 +22,21 @@ export const MoviesTabs = () => {
     [myMovies],
   );
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   const tabs = useMemo(
     () => [
       {
         id: 'watched',
         label: `Смотрел (${watchedMovies.length})`,
-        content: (
-          <MovieList
-            movies={watchedMovies}
-            isLoading={isLoading}
-            mode="watched"
-          />
-        ),
+        content: <MovieList movies={watchedMovies} mode="watched" />,
       },
       {
         id: 'will-watch',
         label: `Буду смотреть (${willWatchMovies.length})`,
-        content: (
-          <MovieList
-            movies={willWatchMovies}
-            isLoading={isLoading}
-            mode="want_to_watch"
-          />
-        ),
+        content: <MovieList movies={willWatchMovies} mode="want_to_watch" />,
       },
       {
         id: 'film-of-day',
@@ -56,7 +49,8 @@ export const MoviesTabs = () => {
         content: <RandomMovieButton />,
       },
     ],
-    [watchedMovies, willWatchMovies, isLoading],
+
+    [watchedMovies, willWatchMovies],
   );
 
   return <Tabs storageKey="films-subcategory" tabs={tabs} />;
