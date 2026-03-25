@@ -18,7 +18,8 @@ import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
 function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const token = searchParams?.get('token');
+  const queryToken = searchParams?.get('token');
+  const [token, setToken] = useState<string | null>(queryToken);
 
   const [isSuccess, setIsSuccess] = useState(false);
   const [isExpired, setIsExpired] = useState(false);
@@ -28,6 +29,19 @@ function ResetPasswordForm() {
     mode: 'onTouched',
     resolver: zodResolver(ResetSchema),
   });
+
+  useEffect(() => {
+    if (queryToken) {
+      setToken(queryToken);
+      return;
+    }
+
+    if (typeof window === 'undefined') return;
+    const hash = window.location.hash || '';
+    const params = new URLSearchParams(hash.startsWith('#') ? hash.slice(1) : hash);
+    const hashToken = params.get('token');
+    setToken(hashToken);
+  }, [queryToken]);
 
   useEffect(() => {
     if (!token) {

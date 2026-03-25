@@ -8,16 +8,9 @@ type AuthState = {
   isInitialized: boolean;
 };
 
-const getStoredToken = (): string | null => {
-  if (typeof window === 'undefined') {
-    return null;
-  }
-  return localStorage.getItem('accessToken');
-};
-
 const initialState: AuthState = {
-  accessToken: getStoredToken(),
-  isAuthenticated: !!getStoredToken(),
+  accessToken: null,
+  isAuthenticated: false,
   user: null,
   isInitialized: false,
 };
@@ -40,28 +33,16 @@ export const authSlice = createSlice({
     setAccessToken(state, action: PayloadAction<string>) {
       state.accessToken = action.payload;
       state.isAuthenticated = true;
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('accessToken', action.payload);
-      }
     },
 
     logout(state) {
       state.accessToken = null;
       state.isAuthenticated = false;
       state.user = null;
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('accessToken');
-      }
     },
 
     hydrateAuth(state) {
-      const token = getStoredToken();
-      if (token) {
-        state.accessToken = token;
-        state.isAuthenticated = true;
-      } else {
-        state.isInitialized = true;
-      }
+      state.isInitialized = true;
     },
 
     setInitialized(state) {
@@ -80,9 +61,6 @@ export const authSlice = createSlice({
         state.user = null;
         state.isAuthenticated = false;
         state.isInitialized = true;
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('accessToken');
-        }
       });
   },
 });

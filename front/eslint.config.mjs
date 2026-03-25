@@ -1,1 +1,1 @@
-export { ForgotPasswordView } from './ForgotPasswordView';
+export { default } from '../eslint.config.mjs';

@@ -25,6 +25,7 @@ export class AuthService {
   private readonly JWT_RESET_TOKEN_TTL = '15m';
   private readonly RESET_TOKEN_SECRET: string;
   private readonly COOKIE_DOMAIN: string;
+  private readonly REFRESH_COOKIE_NAME = 'refresh_token';
 
   constructor(
     private readonly prismaService: PrismaService,
@@ -81,8 +82,10 @@ export class AuthService {
   }
 
   async refresh(req: Request, res: Response) {
+    this.assertRequestFromFrontend(req);
+
     const refreshToken = (req.cookies as Record<string, string> | undefined)?.[
-      'refresh_token'
+      this.REFRESH_COOKIE_NAME
     ];
     if (!refreshToken) {
       throw new UnauthorizedException('Недействительный refresh-token');
@@ -132,8 +135,10 @@ export class AuthService {
   }
 
   async logout(res: Response, req: Request) {
+    this.assertRequestFromFrontend(req);
+
     const refreshToken = (req.cookies as Record<string, string> | undefined)?.[
-      'refresh_token'
+      this.REFRESH_COOKIE_NAME
     ];
     if (refreshToken) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -141,7 +146,7 @@ export class AuthService {
         where: { token: refreshToken },
       });
     }
-    this.setCookies(res, '', new Date(0));
+    this.clearRefreshCookies(res);
     return true;
   }
 
@@ -151,6 +156,7 @@ export class AuthService {
       where: {
         id,
       },
+      select: { id: true, email: true, name: true },
     });
     if (!user) {
       throw new NotFoundException('Пользователь не найден');
@@ -187,7 +193,7 @@ export class AuthService {
       },
     });
 
-    const resetUrl = `${this.configService.get('FRONTEND_URL')}/reset-password?token=${resetToken}`;
+    const resetUrl = `${this.configService.get('FRONTEND_URL')}/reset-password#token=${encodeURIComponent(resetToken)}`;
 
     await this.emailService.sendPasswordReset(user.email, resetUrl);
 
@@ -247,28 +253,25 @@ export class AuthService {
       }),
     ]);
 
-    this.setCookies(res, '', new Date(0));
+    this.clearRefreshCookies(res);
 
     return { message: 'Пароль успешно изменён' };
   }
 
   private async auth(res: Response, id: string) {
     const { accessToken, refreshToken } = this.generateToken(id);
+    const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     await this.prismaService.refreshToken.create({
       data: {
         token: refreshToken,
         userId: id,
-        expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        expiresAt,
       },
     });
 
-    this.setCookies(
-      res,
-      refreshToken,
-      new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-    );
+    this.setRefreshCookies(res, refreshToken, expiresAt);
     return { accessToken };
   }
 
@@ -283,13 +286,51 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  private setCookies(res: Response, value: string, expires: Date) {
-    res.cookie('refresh_token', value, {
+  private setRefreshCookies(
+    res: Response,
+    refreshToken: string,
+    expires: Date,
+  ) {
+    res.cookie(this.REFRESH_COOKIE_NAME, refreshToken, {
       httpOnly: true,
       // domain: this.COOKIE_DOMAIN,
       expires,
       secure: !isDev(this.configService),
       sameSite: !isDev(this.configService) ? 'none' : 'lax',
     });
+  }
+
+  private clearRefreshCookies(res: Response) {
+    const expires = new Date(0);
+    res.cookie(this.REFRESH_COOKIE_NAME, '', {
+      httpOnly: true,
+      expires,
+      secure: !isDev(this.configService),
+      sameSite: !isDev(this.configService) ? 'none' : 'lax',
+    });
+  }
+
+  private assertRequestFromFrontend(req: Request) {
+    // CSRF для cookie-based auth закрываем проверкой Origin/Referer.
+    // Это работает и для cross-domain сценариев (когда фронт не может прочитать cookie).
+    if (isDev(this.configService)) return;
+
+    const frontendUrl = this.configService.getOrThrow('FRONTEND_URL');
+    const allowedOrigin = new URL(frontendUrl).origin;
+
+    const origin = req.headers.origin;
+    if (typeof origin === 'string' && origin === allowedOrigin) return;
+
+    const referer = req.headers.referer;
+    if (typeof referer === 'string') {
+      try {
+        const refererOrigin = new URL(referer).origin;
+        if (refererOrigin === allowedOrigin) return;
+      } catch {
+        // ignore
+      }
+    }
+
+    throw new UnauthorizedException('Invalid request origin');
   }
 }

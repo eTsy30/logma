@@ -115,12 +115,11 @@ export const kinopoiskApi = createApi({
     // НОВЫЙ: Принудительное обновление фильма дня (только для админов)
     refreshMovieOfTheDay: builder.mutation<
       MovieOfTheDayResponse,
-      { secret: string }
+      void
     >({
-      query: (body) => ({
+      query: () => ({
         url: '/movie-of-the-day/refresh',
         method: 'POST',
-        body,
       }),
     }),
   }),

@@ -26,14 +26,9 @@ const baseQuery = fetchBaseQuery({
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const reduxToken = (getState() as RootState).auth.accessToken;
-    const lsToken =
-      typeof window !== 'undefined'
-        ? localStorage.getItem('accessToken')
-        : null;
-    const token = reduxToken || lsToken;
 
-    if (token) {
-      headers.set('Authorization', `Bearer ${token}`);
+    if (reduxToken) {
+      headers.set('Authorization', `Bearer ${reduxToken}`);
     }
 
     return headers;

@@ -4,7 +4,6 @@ import {
   Post,
   Query,
   Param,
-  Body,
   ParseIntPipe,
   HttpException,
   HttpStatus,
@@ -16,6 +15,8 @@ import {
   MovieOfTheDay,
 } from './kinopoisk.service';
 import { Authorization } from '../auth/decorators/Authorization.decorator';
+import { Authorized } from '../auth/decorators/authorized.decorator';
+import type { User } from '@prisma/client';
 
 @Controller('kinopoisk')
 @Authorization()
@@ -27,13 +28,21 @@ export class KinopoiskController {
     @Query('query') query: string,
     @Query('limit') limit?: string,
   ): Promise<KinopoiskSearchResponse> {
-    if (!query || query.length < 2) {
+    const q = query?.trim();
+    if (!q || q.length < 2) {
       return { docs: [], total: 0, limit: 10, page: 1, pages: 0 };
     }
-    return this.kinopoiskService.searchMovies(
-      query,
-      parseInt(limit || '10') || 10,
-    );
+
+    if (q.length > 100) {
+      throw new HttpException('Query is too long', HttpStatus.BAD_REQUEST);
+    }
+
+    const parsedLimit = Number.parseInt(limit || '10', 10);
+    const safeLimit = Number.isFinite(parsedLimit)
+      ? Math.min(Math.max(parsedLimit, 1), 50)
+      : 10;
+
+    return this.kinopoiskService.searchMovies(q, safeLimit);
   }
 
   @Get('movie/:id')
@@ -48,7 +57,7 @@ export class KinopoiskController {
     status: string;
     apiKey: boolean;
     testMovie?: any;
-    error?: unknown;
+    error?: string;
   }> {
     try {
       const result = await this.kinopoiskService.searchMovies('начало', 1);
@@ -57,11 +66,11 @@ export class KinopoiskController {
         apiKey: true,
         testMovie: result.docs[0] || null,
       };
-    } catch (error) {
+    } catch {
       return {
         status: 'error',
         apiKey: !!process.env.KINOPOISK_API_KEY,
-        error,
+        error: 'Internal error',
       };
     }
   }
@@ -88,11 +97,21 @@ export class KinopoiskController {
   }
 
   @Post('movie-of-the-day/refresh')
-  async refreshMovieOfTheDay(@Body('secret') secret: string): Promise<{
+  async refreshMovieOfTheDay(
+    @Authorized() user: Pick<User, 'id' | 'email' | 'name'>,
+  ): Promise<{
     success: boolean;
     data: MovieOfTheDay;
   }> {
-    if (secret !== process.env.ADMIN_SECRET) {
+    const adminEmail = process.env.ADMIN_EMAIL;
+    if (!adminEmail) {
+      throw new HttpException(
+        'Admin configuration is missing',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    if (!user?.email || user.email !== adminEmail) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
 

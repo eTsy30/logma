@@ -17,7 +17,7 @@ const PUBLIC_PATHS = [
 ];
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isInitialized } = useAppSelector((s) => s.auth);
+  const { isAuthenticated } = useAppSelector((s) => s.auth);
   const [getMe, { isLoading: isGetMeLoading }] = useLazyGetMeQuery();
   const dispatch = useAppDispatch();
   const pathname = usePathname();
@@ -25,6 +25,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
   const [hydrationDone, setHydrationDone] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [didAttemptMe, setDidAttemptMe] = useState(false);
 
   const isPublicPath = PUBLIC_PATHS.some((path) => pathname?.startsWith(path));
   const isResetPassword = pathname?.startsWith('/reset-password');
@@ -41,25 +42,25 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    if (isInitialized) {
-      setIsReady(true);
-    }
-  }, [isInitialized, isPublicPath, isResetPassword, hydrationDone]);
+    if (!hydrationDone) return;
+    if (didAttemptMe) return;
+    if (isGetMeLoading) return;
 
-  useEffect(() => {
-    if (!isInitialized && hydrationDone && !isGetMeLoading) {
-      const lsToken =
-        typeof window !== 'undefined'
-          ? localStorage.getItem('accessToken')
-          : null;
-
-      if (lsToken) {
-        getMe()
-          .unwrap()
-          .catch(() => {});
-      }
-    }
-  }, [isInitialized, hydrationDone, getMe, isGetMeLoading]);
+    getMe()
+      .unwrap()
+      .catch(() => {})
+      .finally(() => {
+        setIsReady(true);
+        setDidAttemptMe(true);
+      });
+  }, [
+    didAttemptMe,
+    hydrationDone,
+    getMe,
+    isGetMeLoading,
+    isPublicPath,
+    isResetPassword,
+  ]);
 
   useEffect(() => {
     if (!isReady) {

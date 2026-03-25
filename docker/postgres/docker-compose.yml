@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: logma_user # убедись, что переменные определены в .env
-      POSTGRES_PASSWORD: logma_pass
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: logma_db # например, nest_course
     ports:
       - '5433:5432' # локально 5433, внутри контейнера 5432

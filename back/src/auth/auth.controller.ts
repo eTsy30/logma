@@ -158,7 +158,9 @@ export class AuthController {
   @Authorization()
   @Get('@me')
   @HttpCode(HttpStatus.OK)
-  me(@Authorized() user: User) {
+  me(
+    @Authorized() user: Pick<User, 'id' | 'email' | 'name'>,
+  ): Pick<User, 'id' | 'email' | 'name'> {
     return user;
   }
 }
