@@ -19,7 +19,7 @@ function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const queryToken = searchParams?.get('token');
-  const [token, setToken] = useState<string | null>(queryToken);
+  const [token, setToken] = useState<string | null>(queryToken ?? null);
 
   const [isSuccess, setIsSuccess] = useState(false);
   const [isExpired, setIsExpired] = useState(false);
@@ -38,7 +38,9 @@ function ResetPasswordForm() {
 
     if (typeof window === 'undefined') return;
     const hash = window.location.hash || '';
-    const params = new URLSearchParams(hash.startsWith('#') ? hash.slice(1) : hash);
+    const params = new URLSearchParams(
+      hash.startsWith('#') ? hash.slice(1) : hash,
+    );
     const hashToken = params.get('token');
     setToken(hashToken);
   }, [queryToken]);
