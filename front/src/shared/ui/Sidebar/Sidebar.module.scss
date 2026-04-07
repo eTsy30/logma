@@ -7,8 +7,6 @@
 
   padding: var(--header-padding);
   backdrop-filter: blur(16px);
-  background: var(--header-bg);
-
   transition: all 0.3s ease;
   @media (max-width: 768px) {
     padding: var(--tabs-gap) 5px;
