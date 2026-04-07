@@ -1,105 +1,73 @@
+// front/src/shared/providers/AuthGuard.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useSelector, useDispatch } from 'react-redux';
+import { routes } from 'shared/router/paths';
 import { useLazyGetMeQuery } from 'redux/auth/api';
-import { useAppDispatch, useAppSelector } from 'redux/store';
-import { hydrateAuth } from 'redux/auth/slice';
-import Loading from '@/app/loading';
+import {
+  restoreToken,
+  selectIsAuthenticated,
+  selectIsInitialized,
+} from 'redux/auth/slice';
+import { AppDispatch } from 'redux/store';
+import s from './AuthGuard.module.scss';
 
-const PUBLIC_PATHS = [
-  '/',
-  '/login',
-  '/color',
-  '/registration',
-  '/forgot-password',
-  '/reset-password',
+const publicRoutes = [
+  routes.login,
+  routes.registration,
+  routes.forgotPassword,
+  routes.resetPassword,
 ];
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAppSelector((s) => s.auth);
-  const [getMe, { isLoading: isGetMeLoading }] = useLazyGetMeQuery();
-  const dispatch = useAppDispatch();
-  const pathname = usePathname();
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  const [isReady, setIsReady] = useState(false);
-  const [hydrationDone, setHydrationDone] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const [didAttemptMe, setDidAttemptMe] = useState(false);
-
-  const isPublicPath = PUBLIC_PATHS.some((path) => pathname?.startsWith(path));
-  const isResetPassword = pathname?.startsWith('/reset-password');
+  const pathname = usePathname();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const isInitialized = useSelector(selectIsInitialized);
+  const [getMe] = useLazyGetMeQuery();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(hydrateAuth());
-    setHydrationDone(true);
-    setMounted(true);
+    // ← восстанавливаем токен из localStorage при старте
+    dispatch(restoreToken());
   }, [dispatch]);
 
   useEffect(() => {
-    if (isPublicPath && !isResetPassword) {
-      setIsReady(true);
-      return;
-    }
+    if (!isInitialized) return;
 
-    if (!hydrationDone) return;
-    if (didAttemptMe) return;
-    if (isGetMeLoading) return;
+    const initAuth = async () => {
+      const isPublicRoute = publicRoutes.some((route) =>
+        pathname?.startsWith(route),
+      );
 
-    getMe()
-      .unwrap()
-      .catch(() => {})
-      .finally(() => {
-        setIsReady(true);
-        setDidAttemptMe(true);
-      });
-  }, [
-    didAttemptMe,
-    hydrationDone,
-    getMe,
-    isGetMeLoading,
-    isPublicPath,
-    isResetPassword,
-  ]);
+      if (isAuthenticated && !isPublicRoute) {
+        // Проверяем валидность токена
+        try {
+          await getMe().unwrap();
+        } catch {
+          // Токен невалиден — редирект на логин
+          router.replace(routes.login);
+        }
+      } else if (isAuthenticated && isPublicRoute) {
+        // Уже авторизован, но на публичной странице — редирект на дашборд
+        router.replace(routes.dashboard);
+      } else if (!isAuthenticated && !isPublicRoute) {
+        // Не авторизован и на защищённой странице — редирект на логин
+        router.replace(routes.login);
+      }
 
-  useEffect(() => {
-    if (!isReady) {
-      return;
-    }
+      setIsLoading(false);
+    };
 
-    if (isAuthenticated && isPublicPath && !isResetPassword) {
-      router.replace('/dashboard');
-    } else if (!isAuthenticated && !isPublicPath) {
-      router.replace('/login');
-    }
-  }, [
-    isReady,
-    isAuthenticated,
-    isPublicPath,
-    isResetPassword,
-    router,
-    pathname,
-  ]);
+    initAuth();
+  }, [isAuthenticated, isInitialized, pathname, router, getMe]);
 
-  if (!mounted) {
-    return children;
+  if (!isInitialized || isLoading) {
+    return <div className={s.loader}>Загрузка...</div>;
   }
 
-  if (!isReady && !isPublicPath) {
-    return (
-      <div
-        suppressHydrationWarning
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-        }}
-      >
-        <Loading />
-      </div>
-    );
-  }
-
-  return children;
+  return <>{children}</>;
 }

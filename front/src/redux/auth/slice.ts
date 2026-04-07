@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { authApi } from 'redux/auth/api';
+import { tokenStorage } from 'shared/lib/tokenStorage';
 
 type AuthState = {
   accessToken: string | null;
@@ -33,12 +34,23 @@ export const authSlice = createSlice({
     setAccessToken(state, action: PayloadAction<string>) {
       state.accessToken = action.payload;
       state.isAuthenticated = true;
+      tokenStorage.setToken(action.payload);
     },
 
     logout(state) {
       state.accessToken = null;
       state.isAuthenticated = false;
       state.user = null;
+      tokenStorage.clear();
+    },
+
+    restoreToken(state) {
+      const token = tokenStorage.getToken();
+      if (token) {
+        state.accessToken = token;
+        state.isAuthenticated = true;
+      }
+      state.isInitialized = true;
     },
 
     hydrateAuth(state) {
@@ -61,9 +73,23 @@ export const authSlice = createSlice({
         state.user = null;
         state.isAuthenticated = false;
         state.isInitialized = true;
+        tokenStorage.clear(); // ← очищаем при ошибке
       });
   },
 });
 
-export const { setAccessToken, logout, hydrateAuth, setInitialized } =
-  authSlice.actions;
+export const {
+  setAccessToken,
+  logout,
+  hydrateAuth,
+  setInitialized,
+  restoreToken,
+} = authSlice.actions;
+
+export const selectIsAuthenticated = (state: { auth: AuthState }) =>
+  state.auth.isAuthenticated;
+export const selectIsInitialized = (state: { auth: AuthState }) =>
+  state.auth.isInitialized;
+export const selectAccessToken = (state: { auth: AuthState }) =>
+  state.auth.accessToken;
+export const selectUser = (state: { auth: AuthState }) => state.auth.user;
